@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ЛАЙМ — внедрение CRM, интеграции, ИИ-агенты и вайбкодинг</title>
+<meta name="description" content="Студия ЛАЙМ: внедрение amoCRM и Битрикс24, интеграции, ИИ-агенты, кастомная разработка на вайбкодинге, свои SaaS и MVP. Достраиваем бизнес до живого механизма.">
+<meta property="og:title" content="ЛАЙМ — цифровая архитектура продаж">
+<meta property="og:description" content="Внедрение CRM × вайбкодинг. Достраиваем бизнес до живого механизма.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23F3F5F6%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%277%27 fill=%27%23B8E020%27/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="image-slot.js"></script>
+<style>
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;}
+  html{overflow-x:clip;}
+  body{margin:0;background:#F3F5F6;color:#15181C;font-family:'Onest',sans-serif;overflow-x:clip;}
+  ::selection{background:var(--lime,#B8E020);color:#15181C;}
+  #lime-root h1,#lime-root h2,#lime-root h3,#lime-root p,#lime-root summary{text-shadow:0 0 16px rgba(243,245,246,0.92), 0 0 5px rgba(243,245,246,0.85);}
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;}
+  input,textarea{font-family:inherit;color:inherit;}
+  @keyframes lime-spin{to{transform:rotate(360deg);}}
+  @keyframes lime-marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+  @keyframes lime-letter{0%{opacity:0;transform:translateY(48px) scale(0.78);filter:blur(7px);}100%{opacity:1;transform:none;filter:none;}}
+  @keyframes lime-up{0%{opacity:0;transform:translateY(26px);}100%{opacity:1;transform:none;}}
+  details>summary{list-style:none;cursor:pointer;}
+  details>summary::-webkit-details-marker{display:none;}
+  image-slot{display:block;}
+</style>
+</head>
+<body>
+<div id="lime-root" style="position:relative;width:100%;">
+
+  <div id="lime-progress" style="position:fixed;top:0;left:0;height:2px;width:0%;background:var(--lime,#B8E020);z-index:300;"></div>
+
+  <!-- LIVING CITY BACKGROUND -->
+  <div id="lime-grid" style="position:fixed;inset:-12% -6%;z-index:0;background-image:radial-gradient(rgba(34,42,52,0.1) 1px, transparent 1.2px);background-size:34px 34px;pointer-events:none;"></div>
+  <canvas id="lime-city" style="position:fixed;inset:0;width:100vw;height:100vh;z-index:1;pointer-events:none;opacity:0.92;"></canvas>
+  <div style="position:fixed;inset:0;z-index:2;pointer-events:none;opacity:0.6;background:radial-gradient(55% 45% at 84% 16%, rgba(86,150,255,0.13), transparent 62%), radial-gradient(52% 52% at 10% 88%, rgba(184,224,32,0.13), transparent 60%), radial-gradient(45% 40% at 62% 104%, rgba(255,140,80,0.08), transparent 60%);"></div>
+  <div style="position:fixed;inset:0;z-index:2;pointer-events:none;background:linear-gradient(90deg, rgba(243,245,247,0.9) 0%, rgba(243,245,247,0.45) 30%, rgba(243,245,247,0) 58%), linear-gradient(0deg, rgba(243,245,247,0.6) 0%, rgba(243,245,247,0) 22%), radial-gradient(120% 70% at 40% 0%, rgba(243,245,247,0.5), rgba(243,245,247,0) 42%);"></div>
+
+  <!-- HUD CHAPTER RAIL -->
+  <div id="lime-rail" style="position:fixed;left:26px;bottom:26px;z-index:200;display:flex;flex-direction:column;gap:8px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.16em;color:#565C64;pointer-events:none;text-transform:uppercase;">
+    <span id="lime-rail-ch" style="color:#15181C;">00 / СТАРТ</span>
+    <span style="display:flex;align-items:center;gap:10px;">
+      <span style="position:relative;width:130px;height:2px;background:rgba(34,42,52,0.16);display:inline-block;"><span id="lime-rail-bar" style="position:absolute;left:0;top:0;height:100%;width:0%;background:var(--lime,#B8E020);"></span></span>
+      <span id="lime-rail-pct">0%</span>
+    </span>
+  </div>
+  <div id="lime-vlabel" style="position:fixed;right:20px;top:50%;transform:translateY(-50%);z-index:120;writing-mode:vertical-rl;text-orientation:mixed;font-weight:700;letter-spacing:0.14em;font-size:clamp(30px,4vw,68px);color:rgba(34,42,52,0.09);pointer-events:none;text-transform:uppercase;transition:color .5s;text-shadow:1.5px 0 rgba(255,40,90,0.14), -1.5px 0 rgba(0,200,255,0.14);">СТАРТ</div>
+
+  <!-- NAV -->
+  <header id="lime-nav" style="position:fixed;top:0;left:0;width:100%;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:22px 40px;border-bottom:1px solid rgba(34,42,52,0);transition:background .4s,backdrop-filter .4s,border-color .4s;">
+    <a href="#top" style="display:flex;align-items:center;gap:13px;">
+      <span style="position:relative;width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;">
+        <span style="position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg, #15181C 0 6deg, transparent 6deg 30deg, #15181C 30deg 36deg, transparent 36deg 60deg, #15181C 60deg 66deg, transparent 66deg 90deg, #15181C 90deg 96deg, transparent 96deg 120deg, #15181C 120deg 126deg, transparent 126deg 150deg, #15181C 150deg 156deg, transparent 156deg 180deg, #15181C 180deg 186deg, transparent 186deg 210deg, #15181C 210deg 216deg, transparent 216deg 240deg, #15181C 240deg 246deg, transparent 246deg 270deg, #15181C 270deg 276deg, transparent 276deg 300deg, #15181C 300deg 306deg, transparent 306deg 330deg, #15181C 330deg 336deg, transparent 336deg 360deg);-webkit-mask:radial-gradient(circle, transparent 6px, #000 7px);mask:radial-gradient(circle, transparent 6px, #000 7px);animation:lime-spin 18s linear infinite;"></span>
+        <span style="width:7px;height:7px;border-radius:50%;background:var(--lime,#B8E020);"></span>
+      </span>
+      <span style="font-size:19px;font-weight:700;letter-spacing:0.16em;">ЛАЙМ</span>
+    </a>
+    <nav style="display:flex;align-items:center;border:1px solid rgba(34,42,52,0.16);border-radius:3px;overflow:hidden;background:rgba(248,247,242,0.5);backdrop-filter:blur(6px);">
+      <a href="#services" style="padding:11px 18px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.02em;color:#565C64;border-right:1px solid rgba(34,42,52,0.1);transition:color .25s,background .25s;" onmouseover="this.style.color='#15181C';this.style.background='rgba(34,42,52,0.04)'" onmouseout="this.style.color='#565C64';this.style.background='transparent'">Услуги</a>
+      <a href="#process" style="padding:11px 18px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.02em;color:#565C64;border-right:1px solid rgba(34,42,52,0.1);transition:color .25s,background .25s;" onmouseover="this.style.color='#15181C';this.style.background='rgba(34,42,52,0.04)'" onmouseout="this.style.color='#565C64';this.style.background='transparent'">Процесс</a>
+      <a href="#cases" style="padding:11px 18px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.02em;color:#565C64;border-right:1px solid rgba(34,42,52,0.1);transition:color .25s,background .25s;" onmouseover="this.style.color='#15181C';this.style.background='rgba(34,42,52,0.04)'" onmouseout="this.style.color='#565C64';this.style.background='transparent'">Кейсы</a>
+      <a href="#contact" style="padding:11px 18px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.02em;color:#15181C;background:var(--lime,#B8E020);transition:filter .25s;" onmouseover="this.style.filter='brightness(1.05)'" onmouseout="this.style.filter=''">Заявка →</a>
+    </nav>
+  </header>
+
+  <!-- CONTENT -->
+  <main style="position:relative;z-index:5;">
+
+    <!-- HERO INTRO -->
+    <section id="top" data-chapter="00" data-chname="ЛАЙМ" style="position:relative;min-height:100vh;padding:118px 40px 48px;display:flex;flex-direction:column;justify-content:space-between;">
+      <div style="max-width:1280px;margin:0 auto;width:100%;">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.14em;color:#565C64;text-transform:uppercase;">
+          <span style="display:flex;align-items:center;gap:12px;"><span style="display:inline-flex;width:22px;height:22px;align-items:center;justify-content:center;border:1px solid rgba(34,42,52,0.2);font-size:13px;">⊹</span>CRM-внедрение × вайбкодинг</span>
+          <span style="display:flex;align-items:center;gap:20px;"><span style="display:flex;align-items:center;gap:7px;"><span style="width:7px;height:7px;border-radius:50%;background:var(--lime,#B8E020);"></span>система активна</span><span style="color:#969CA4;">v2026</span></span>
+        </div>
+      </div>
+      <div style="width:100%;display:flex;align-items:center;justify-content:space-between;font-family:'Onest',sans-serif;font-weight:300;letter-spacing:0.04em;line-height:0.9;font-size:clamp(74px,19vw,300px);text-shadow:0 0 26px rgba(243,245,246,0.92);">
+        <span style="">Л</span>
+        <span style="">А</span>
+        <span style="">Й</span>
+        <span style="">М<span style="display:inline-block;width:0.14em;height:0.14em;border-radius:50%;background:var(--lime,#B8E020);margin-left:0.05em;"></span></span>
+      </div>
+      <div style="max-width:1280px;margin:0 auto;width:100%;display:flex;align-items:flex-end;justify-content:space-between;gap:30px;flex-wrap:wrap;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.14em;color:#565C64;text-transform:uppercase;line-height:1.7;">Цифровая архитектура продаж<br><span style="color:#969CA4;">CRM · код · ИИ · SaaS</span></div>
+        <a href="#momentum" style="display:flex;align-items:center;gap:14px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.1em;color:#565C64;text-transform:uppercase;">
+          <span style="display:inline-block;width:1px;height:40px;background:linear-gradient(var(--lime,#B8E020),transparent);"></span>
+          Scroll
+        </a>
+      </div>
+    </section>
+
+    <!-- HERO IMAGE (full-bleed, user fills) -->
+    <section style="position:relative;width:100vw;margin-left:calc(50% - 50vw);height:100vh;overflow:hidden;background:#DEE3E8;">
+      <image-slot id="lime-hero-img" shape="rect" placeholder="Фото: офис · команда · продукт" style="width:100%;height:100%;display:block;"></image-slot>
+    </section>
+
+    <!-- SPLIT HEADLINE -->
+    <section id="momentum" style="max-width:1280px;margin:0 auto;padding:clamp(90px,18vh,200px) 40px;">
+      <h2 style="margin:0;font-weight:600;letter-spacing:-0.02em;line-height:0.98;font-size:clamp(34px,7vw,108px);display:flex;flex-direction:column;">
+        <span data-slide="left" style="align-self:flex-start;">Достраиваем бизнес</span>
+        <span data-slide="right" data-delay="120" style="align-self:flex-end;text-align:right;font-family:'Onest',sans-serif;font-weight:300;">до живого механизма</span>
+      </h2>
+    </section>
+
+    <!-- MANIFESTO -->
+    <section data-chapter="01" data-chname="ИДЕЯ" style="max-width:1280px;margin:0 auto;padding:clamp(86px,17vh,190px) 40px clamp(56px,9vh,96px);">
+      <div data-slide="up" style="text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.18em;color:#5e7a00;margin-bottom:36px;">(01) — ПОЧЕМУ МЫ</div>
+      <p data-slide="up" data-delay="80" style="margin:0 0 0 auto;max-width:860px;text-align:right;font-weight:500;letter-spacing:-0.018em;line-height:1.12;font-size:clamp(25px,4vw,54px);">
+        Большинство внедрений умирает в табличках и забытых сделках. <span style="color:#9aa1a9;">Мы строим</span> <span style="font-family:'Onest',sans-serif;font-weight:300;">систему, которая продаёт</span> <span style="color:#9aa1a9;">без вашего участия</span> — и доводим её кодом до конца.
+      </p>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);margin-top:clamp(54px,9vh,96px);border-top:1px solid rgba(34,42,52,0.18);">
+        <div data-slide="up" data-delay="0" style="padding:32px 30px 4px 0;border-right:1px solid rgba(34,42,52,0.12);">
+          <div style="font-size:clamp(42px,6.2vw,92px);font-weight:600;letter-spacing:-0.03em;line-height:0.95;"><span data-count="120" data-suffix="+">0</span></div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#7B828B;text-transform:uppercase;letter-spacing:0.12em;margin-top:14px;">внедрений и сборок</div>
+        </div>
+        <div data-slide="up" data-delay="110" style="padding:32px 30px 4px 30px;border-right:1px solid rgba(34,42,52,0.12);">
+          <div style="font-size:clamp(42px,6.2vw,92px);font-weight:600;letter-spacing:-0.03em;line-height:0.95;"><span data-count="14" data-suffix=" дн">0</span></div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#7B828B;text-transform:uppercase;letter-spacing:0.12em;margin-top:14px;">средний срок MVP</div>
+        </div>
+        <div data-slide="up" data-delay="220" style="padding:32px 0 4px 30px;">
+          <div style="font-size:clamp(42px,6.2vw,92px);font-weight:600;letter-spacing:-0.03em;line-height:0.95;color:#5e7a00;"><span data-count="2" data-prefix="×">0</span></div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#7B828B;text-transform:uppercase;letter-spacing:0.12em;margin-top:14px;">рост конверсии в продажу</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES INDEX -->
+    <section id="services" data-chapter="02" data-chname="ВОЗМОЖНОСТИ" style="max-width:1280px;margin:0 auto;padding:clamp(70px,11vh,150px) 40px;">
+      <div style="display:grid;grid-template-columns:minmax(220px,0.82fr) 2fr;gap:clamp(28px,5vw,80px);align-items:start;">
+        <div data-slide="up" style="position:sticky;top:118px;">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.18em;color:#5e7a00;margin-bottom:22px;">(02) — ЧТО ДЕЛАЕМ</div>
+          <h2 style="margin:0 0 22px;font-weight:600;letter-spacing:-0.012em;line-height:1.02;font-size:clamp(30px,4vw,60px);">Два цеха,<br><span style="font-family:'Onest',sans-serif;font-weight:300;">один результат</span></h2>
+          <p style="margin:0;max-width:300px;font-size:15px;line-height:1.55;color:#565C64;">Сначала наводим порядок на готовых CRM. Потом докручиваем кодом и ИИ то, чего в коробке не бывает.</p>
+        </div>
+        <div style="border-top:1px solid rgba(34,42,52,0.2);">
+          <div data-slide="right" data-delay="0" class="lime-idx" style="display:grid;grid-template-columns:56px 1fr;gap:24px;align-items:baseline;padding:30px 14px 30px 0;border-bottom:1px solid rgba(34,42,52,0.18);transition:padding-left .45s cubic-bezier(.16,1,.3,1),background .45s;" onmouseover="this.style.paddingLeft='18px';this.style.background='linear-gradient(90deg,rgba(184,224,32,0.1),transparent 70%)'" onmouseout="this.style.paddingLeft='';this.style.background=''">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#5e7a00;">01</span>
+            <div><h3 style="margin:0 0 9px;font-size:clamp(22px,2.7vw,34px);font-weight:600;letter-spacing:-0.015em;">Внедрение CRM</h3><p style="margin:0;font-size:15px;line-height:1.55;color:#565C64;max-width:560px;">amoCRM и Битрикс24 под ключ: воронки, поля, права, регламенты и обучение команды.</p></div>
+          </div>
+          <div data-slide="left" data-delay="0" class="lime-idx" style="display:grid;grid-template-columns:56px 1fr;gap:24px;align-items:baseline;padding:30px 14px 30px 0;border-bottom:1px solid rgba(34,42,52,0.18);transition:padding-left .45s cubic-bezier(.16,1,.3,1),background .45s;" onmouseover="this.style.paddingLeft='18px';this.style.background='linear-gradient(90deg,rgba(184,224,32,0.1),transparent 70%)'" onmouseout="this.style.paddingLeft='';this.style.background=''">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#5e7a00;">02</span>
+            <div><h3 style="margin:0 0 9px;font-size:clamp(22px,2.7vw,34px);font-weight:600;letter-spacing:-0.015em;">Интеграции</h3><p style="margin:0;font-size:15px;line-height:1.55;color:#565C64;max-width:560px;">Телефония, мессенджеры, сайты, 1С, сквозная аналитика — все источники лидов в одном окне.</p></div>
+          </div>
+          <div data-slide="right" data-delay="0" class="lime-idx" style="display:grid;grid-template-columns:56px 1fr;gap:24px;align-items:baseline;padding:30px 14px 30px 0;border-bottom:1px solid rgba(34,42,52,0.18);transition:padding-left .45s cubic-bezier(.16,1,.3,1),background .45s;" onmouseover="this.style.paddingLeft='18px';this.style.background='linear-gradient(90deg,rgba(184,224,32,0.1),transparent 70%)'" onmouseout="this.style.paddingLeft='';this.style.background=''">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#5e7a00;">03</span>
+            <div><h3 style="margin:0 0 9px;font-size:clamp(22px,2.7vw,34px);font-weight:600;letter-spacing:-0.015em;">ИИ-агенты</h3><p style="margin:0;font-size:15px;line-height:1.55;color:#565C64;max-width:560px;">Боты квалификации, авто-ответы, резюме звонков и скоринг лидов прямо внутри CRM.</p></div>
+          </div>
+          <div data-slide="left" data-delay="0" class="lime-idx" style="display:grid;grid-template-columns:56px 1fr;gap:24px;align-items:baseline;padding:30px 14px 30px 0;border-bottom:1px solid rgba(34,42,52,0.18);transition:padding-left .45s cubic-bezier(.16,1,.3,1),background .45s;" onmouseover="this.style.paddingLeft='18px';this.style.background='linear-gradient(90deg,rgba(184,224,32,0.1),transparent 70%)'" onmouseout="this.style.paddingLeft='';this.style.background=''">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#5e7a00;">04</span>
+            <div><h3 style="margin:0 0 9px;font-size:clamp(22px,2.7vw,34px);font-weight:600;letter-spacing:-0.015em;">Вайбкодинг продуктов</h3><p style="margin:0;font-size:15px;line-height:1.55;color:#565C64;max-width:560px;">Кастомные сервисы и внутренние инструменты, которых нет в коробке — собираем за недели.</p></div>
+          </div>
+          <div data-slide="right" data-delay="0" class="lime-idx" style="display:grid;grid-template-columns:56px 1fr;gap:24px;align-items:baseline;padding:30px 14px 30px 0;border-bottom:1px solid rgba(34,42,52,0.18);transition:padding-left .45s cubic-bezier(.16,1,.3,1),background .45s;" onmouseover="this.style.paddingLeft='18px';this.style.background='linear-gradient(90deg,rgba(184,224,32,0.1),transparent 70%)'" onmouseout="this.style.paddingLeft='';this.style.background=''">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#5e7a00;">05</span>
+            <div><h3 style="margin:0 0 9px;font-size:clamp(22px,2.7vw,34px);font-weight:600;letter-spacing:-0.015em;">Свои SaaS &amp; MVP</h3><p style="margin:0;font-size:15px;line-height:1.55;color:#565C64;max-width:560px;">Упаковываем процесс в продукт: от кликабельного прототипа до работающей подписки.</p></div>
+          </div>
+          <div data-slide="left" data-delay="0" class="lime-idx" style="display:grid;grid-template-columns:56px 1fr;gap:24px;align-items:baseline;padding:30px 14px 30px 0;border-bottom:1px solid rgba(34,42,52,0.18);transition:padding-left .45s cubic-bezier(.16,1,.3,1),background .45s;" onmouseover="this.style.paddingLeft='18px';this.style.background='linear-gradient(90deg,rgba(184,224,32,0.1),transparent 70%)'" onmouseout="this.style.paddingLeft='';this.style.background=''">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#5e7a00;">06</span>
+            <div><h3 style="margin:0 0 9px;font-size:clamp(22px,2.7vw,34px);font-weight:600;letter-spacing:-0.015em;">Поддержка и рост</h3><p style="margin:0;font-size:15px;line-height:1.55;color:#565C64;max-width:560px;">Доработки, обучение, контроль метрик. Остаёмся рядом и масштабируем то, что работает.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section id="process" data-chapter="03" data-chname="ПРОЦЕСС" style="max-width:1280px;margin:0 auto;padding:clamp(70px,11vh,140px) 40px;">
+      <div style="display:grid;grid-template-columns:minmax(220px,0.82fr) 2fr;gap:clamp(28px,5vw,80px);align-items:start;">
+        <div data-slide="up" style="position:sticky;top:118px;">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.18em;color:#5e7a00;margin-bottom:22px;">(03) — КАК РАБОТАЕМ</div>
+          <h2 style="margin:0 0 22px;font-weight:600;letter-spacing:-0.012em;line-height:1.02;font-size:clamp(30px,4vw,60px);">От хаоса —<br><span style="font-family:'Onest',sans-serif;font-weight:300;">к механизму</span></h2>
+          <p style="margin:0;max-width:300px;font-size:15px;line-height:1.55;color:#565C64;">Пять шагов от первой встречи до системы, которая растит выручку сама.</p>
+        </div>
+        <div style="border-top:1px solid rgba(34,42,52,0.2);">
+          <div data-slide="right" data-delay="0" style="display:grid;grid-template-columns:1fr;gap:14px;padding:34px 0;border-bottom:1px solid rgba(34,42,52,0.18);">
+            <div style="display:flex;align-items:baseline;gap:22px;"><span style="font-size:clamp(40px,6vw,76px);font-weight:600;letter-spacing:-0.04em;line-height:0.9;color:rgba(34,42,52,0.16);">01</span><h3 style="margin:0;font-size:clamp(22px,2.8vw,36px);font-weight:600;letter-spacing:-0.015em;">Аудит</h3></div>
+            <p style="margin:0;font-size:15.5px;line-height:1.55;color:#565C64;max-width:560px;">Разбираем процесс продаж и текущие инструменты, находим, где утекают лиды и деньги.</p>
+          </div>
+          <div data-slide="right" data-delay="60" style="display:grid;grid-template-columns:1fr;gap:14px;padding:34px 0;border-bottom:1px solid rgba(34,42,52,0.18);">
+            <div style="display:flex;align-items:baseline;gap:22px;"><span style="font-size:clamp(40px,6vw,76px);font-weight:600;letter-spacing:-0.04em;line-height:0.9;color:rgba(34,42,52,0.16);">02</span><h3 style="margin:0;font-size:clamp(22px,2.8vw,36px);font-weight:600;letter-spacing:-0.015em;">Архитектура</h3></div>
+            <p style="margin:0;font-size:15.5px;line-height:1.55;color:#565C64;max-width:560px;">Проектируем воронки, поля и логику. Решаем, что закроет коробка, а что — код.</p>
+          </div>
+          <div data-slide="right" data-delay="120" style="display:grid;grid-template-columns:1fr;gap:14px;padding:34px 0;border-bottom:1px solid rgba(34,42,52,0.18);">
+            <div style="display:flex;align-items:baseline;gap:22px;"><span style="font-size:clamp(40px,6vw,76px);font-weight:600;letter-spacing:-0.04em;line-height:0.9;color:rgba(34,42,52,0.16);">03</span><h3 style="margin:0;font-size:clamp(22px,2.8vw,36px);font-weight:600;letter-spacing:-0.015em;">Внедрение</h3></div>
+            <p style="margin:0;font-size:15.5px;line-height:1.55;color:#565C64;max-width:560px;">Настраиваем CRM, подключаем интеграции, переносим данные и обучаем команду.</p>
+          </div>
+          <div data-slide="right" data-delay="180" style="display:grid;grid-template-columns:1fr;gap:14px;padding:34px 0;border-bottom:1px solid rgba(34,42,52,0.18);">
+            <div style="display:flex;align-items:baseline;gap:22px;"><span style="font-size:clamp(40px,6vw,76px);font-weight:600;letter-spacing:-0.04em;line-height:0.9;color:rgba(34,42,52,0.16);">04</span><h3 style="margin:0;font-size:clamp(22px,2.8vw,36px);font-weight:600;letter-spacing:-0.015em;">Автоматизация</h3></div>
+            <p style="margin:0;font-size:15.5px;line-height:1.55;color:#565C64;max-width:560px;">Подключаем ИИ-агентов и кастомный код, убираем ручные действия из воронки.</p>
+          </div>
+          <div data-slide="right" data-delay="240" style="display:grid;grid-template-columns:1fr;gap:14px;padding:34px 0;border-bottom:1px solid rgba(34,42,52,0.18);">
+            <div style="display:flex;align-items:baseline;gap:22px;"><span style="font-size:clamp(40px,6vw,76px);font-weight:600;letter-spacing:-0.04em;line-height:0.9;color:#5e7a00;">05</span><h3 style="margin:0;font-size:clamp(22px,2.8vw,36px);font-weight:600;letter-spacing:-0.015em;">Рост</h3></div>
+            <p style="margin:0;font-size:15.5px;line-height:1.55;color:#565C64;max-width:560px;">Следим за метриками, дорабатываем и масштабируем. Механизм работает — вы растёте.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CASES -->
+    <section id="cases" data-chapter="04" data-chname="КЕЙСЫ" style="max-width:1280px;margin:0 auto;padding:clamp(70px,11vh,140px) 40px;">
+      <div data-slide="up" style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:clamp(40px,6vh,72px);padding-bottom:24px;border-bottom:1px solid rgba(34,42,52,0.2);">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.18em;color:#5e7a00;margin-bottom:20px;">(04) — КЕЙСЫ</div>
+          <h2 style="margin:0;font-weight:600;letter-spacing:-0.012em;line-height:1.0;font-size:clamp(34px,5.4vw,80px);">Что построили <span style="font-family:'Onest',sans-serif;font-weight:300;">другим</span></h2>
+        </div>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.14em;color:#969CA4;">003 / ВЫБРАННЫЕ</span>
+      </div>
+
+      <div data-slide="right" data-delay="0" style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,64px);align-items:center;padding:clamp(30px,5vh,56px) 0;border-bottom:1px solid rgba(34,42,52,0.16);">
+        <div>
+          <div style="display:flex;align-items:baseline;gap:18px;margin-bottom:18px;"><span style="font-size:clamp(34px,4vw,58px);font-weight:600;letter-spacing:-0.04em;line-height:0.9;color:rgba(34,42,52,0.18);">01</span><span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:0.12em;color:#5e7a00;">amoCRM · ИНТЕГРАЦИИ</span></div>
+          <h3 style="margin:0 0 14px;font-size:clamp(26px,3.4vw,46px);font-weight:600;letter-spacing:-0.02em;line-height:1.02;">Опт без потерь лидов</h3>
+          <p style="margin:0;font-size:16px;line-height:1.55;color:#565C64;max-width:460px;">Свели сайт, телефонию и WhatsApp в одну воронку amoCRM. Лиды не теряются, а менеджер видит всю историю касаний.</p>
+        </div>
+        <image-slot id="lime-case-1" shape="rect" placeholder="Дашборд воронки" style="width:100%;height:clamp(240px,32vw,380px);display:block;border:1px solid rgba(34,42,52,0.14);clip-path:polygon(26px 0, 100% 0, 100% 100%, 0 100%, 0 26px);"></image-slot>
+      </div>
+
+      <div data-slide="left" data-delay="0" style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,64px);align-items:center;padding:clamp(30px,5vh,56px) 0;border-bottom:1px solid rgba(34,42,52,0.16);">
+        <image-slot id="lime-case-2" shape="rect" placeholder="Интерфейс ИИ-бота" style="width:100%;height:clamp(240px,32vw,380px);display:block;border:1px solid rgba(34,42,52,0.14);clip-path:polygon(0 0, 100% 0, 100% 100%, 26px 100%, 0 calc(100% - 26px));order:-1;"></image-slot>
+        <div>
+          <div style="display:flex;align-items:baseline;gap:18px;margin-bottom:18px;"><span style="font-size:clamp(34px,4vw,58px);font-weight:600;letter-spacing:-0.04em;line-height:0.9;color:rgba(34,42,52,0.18);">02</span><span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:0.12em;color:#5e7a00;">ИИ-АГЕНТ · БИТРИКС24</span></div>
+          <h3 style="margin:0 0 14px;font-size:clamp(26px,3.4vw,46px);font-weight:600;letter-spacing:-0.02em;line-height:1.02;">Квалификация на боте</h3>
+          <p style="margin:0;font-size:16px;line-height:1.55;color:#565C64;max-width:460px;">ИИ разбирает входящие, ставит теги и греет лида до звонка менеджера — отдел продаж берёт уже тёплых.</p>
+        </div>
+      </div>
+
+      <div data-slide="right" data-delay="0" style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,64px);align-items:center;padding:clamp(30px,5vh,56px) 0;border-bottom:1px solid rgba(34,42,52,0.16);">
+        <div>
+          <div style="display:flex;align-items:baseline;gap:18px;margin-bottom:18px;"><span style="font-size:clamp(34px,4vw,58px);font-weight:600;letter-spacing:-0.04em;line-height:0.9;color:rgba(34,42,52,0.18);">03</span><span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:0.12em;color:#5e7a00;">SAAS · MVP</span></div>
+          <h3 style="margin:0 0 14px;font-size:clamp(26px,3.4vw,46px);font-weight:600;letter-spacing:-0.02em;line-height:1.02;">MVP за две недели</h3>
+          <p style="margin:0;font-size:16px;line-height:1.55;color:#565C64;max-width:460px;">Собрали на вайбкодинге работающий продукт с подпиской и личным кабинетом — от прототипа до первых платящих.</p>
+        </div>
+        <image-slot id="lime-case-3" shape="rect" placeholder="Экран SaaS-продукта" style="width:100%;height:clamp(240px,32vw,380px);display:block;border:1px solid rgba(34,42,52,0.14);clip-path:polygon(26px 0, 100% 0, 100% 100%, 0 100%, 0 26px);"></image-slot>
+      </div>
+    </section>
+
+    <!-- STACK TICKER -->
+    <section data-chapter="05" data-chname="СТЕК" style="padding:clamp(56px,9vh,104px) 0;overflow:hidden;border-top:1px solid rgba(34,42,52,0.14);border-bottom:1px solid rgba(34,42,52,0.14);">
+      <div style="max-width:1280px;margin:0 auto 30px;padding:0 40px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.18em;color:#5e7a00;">(05) — НА ЧЁМ СОБИРАЕМ</div>
+      <div style="display:flex;width:max-content;animation:lime-marquee 34s linear infinite;">
+        <div style="display:flex;align-items:center;gap:50px;padding-right:50px;font-size:clamp(26px,3.6vw,54px);font-weight:500;letter-spacing:-0.02em;color:#aab1b9;white-space:nowrap;">
+          <span>amoCRM</span><span style="color:var(--lime,#B8E020);">✦</span><span>Битрикс24</span><span style="color:var(--lime,#B8E020);">✦</span><span>Telegram</span><span style="color:var(--lime,#B8E020);">✦</span><span>WhatsApp</span><span style="color:var(--lime,#B8E020);">✦</span><span>1С</span><span style="color:var(--lime,#B8E020);">✦</span><span>OpenAI</span><span style="color:var(--lime,#B8E020);">✦</span><span>n8n</span><span style="color:var(--lime,#B8E020);">✦</span><span>Make</span><span style="color:var(--lime,#B8E020);">✦</span><span>Supabase</span><span style="color:var(--lime,#B8E020);">✦</span><span>Next.js</span><span style="color:var(--lime,#B8E020);">✦</span><span>Сквозная аналитика</span><span style="color:var(--lime,#B8E020);">✦</span>
+        </div>
+        <div aria-hidden="true" style="display:flex;align-items:center;gap:50px;padding-right:50px;font-size:clamp(26px,3.6vw,54px);font-weight:500;letter-spacing:-0.02em;color:#aab1b9;white-space:nowrap;">
+          <span>amoCRM</span><span style="color:var(--lime,#B8E020);">✦</span><span>Битрикс24</span><span style="color:var(--lime,#B8E020);">✦</span><span>Telegram</span><span style="color:var(--lime,#B8E020);">✦</span><span>WhatsApp</span><span style="color:var(--lime,#B8E020);">✦</span><span>1С</span><span style="color:var(--lime,#B8E020);">✦</span><span>OpenAI</span><span style="color:var(--lime,#B8E020);">✦</span><span>n8n</span><span style="color:var(--lime,#B8E020);">✦</span><span>Make</span><span style="color:var(--lime,#B8E020);">✦</span><span>Supabase</span><span style="color:var(--lime,#B8E020);">✦</span><span>Next.js</span><span style="color:var(--lime,#B8E020);">✦</span><span>Сквозная аналитика</span><span style="color:var(--lime,#B8E020);">✦</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" data-chapter="06" data-chname="FAQ" style="max-width:1280px;margin:0 auto;padding:clamp(70px,11vh,140px) 40px;">
+      <div style="display:grid;grid-template-columns:minmax(220px,0.82fr) 2fr;gap:clamp(28px,5vw,80px);align-items:start;">
+        <div data-slide="up" style="position:sticky;top:118px;">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.18em;color:#5e7a00;margin-bottom:22px;">(06) — ВОПРОСЫ</div>
+          <h2 style="margin:0;font-weight:600;letter-spacing:-0.012em;line-height:1.02;font-size:clamp(30px,4vw,60px);">Коротко <span style="font-family:'Onest',sans-serif;font-weight:300;">о деле</span></h2>
+        </div>
+        <div style="border-top:1px solid rgba(34,42,52,0.2);">
+        <details data-slide="left" data-delay="0" style="border-bottom:1px solid rgba(34,42,52,0.16);">
+          <summary style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:26px 0;font-size:clamp(18px,2vw,24px);font-weight:500;letter-spacing:-0.01em;">Сколько занимает внедрение?<span style="font-family:'JetBrains Mono',monospace;font-size:22px;color:#5e7a00;">+</span></summary>
+          <p style="margin:0 0 26px;font-size:15.5px;line-height:1.6;color:#565C64;max-width:680px;">Базовое внедрение CRM — от 2 до 4 недель. Кастомные сборки и MVP — от 2 недель в зависимости от объёма. Точный срок называем после аудита.</p>
+        </details>
+        <details data-slide="left" data-delay="60" style="border-bottom:1px solid rgba(34,42,52,0.16);">
+          <summary style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:26px 0;font-size:clamp(18px,2vw,24px);font-weight:500;letter-spacing:-0.01em;">Что такое вайбкодинг у вас?<span style="font-family:'JetBrains Mono',monospace;font-size:22px;color:#5e7a00;">+</span></summary>
+          <p style="margin:0 0 26px;font-size:15.5px;line-height:1.6;color:#565C64;max-width:680px;">Быстрая сборка рабочих продуктов и интеграций с помощью ИИ-инструментов: то, что раньше делалось месяцами, собираем за недели — без потери качества.</p>
+        </details>
+        <details data-slide="left" data-delay="120" style="border-bottom:1px solid rgba(34,42,52,0.16);">
+          <summary style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:26px 0;font-size:clamp(18px,2vw,24px);font-weight:500;letter-spacing:-0.01em;">Работаете с нашей текущей CRM?<span style="font-family:'JetBrains Mono',monospace;font-size:22px;color:#5e7a00;">+</span></summary>
+          <p style="margin:0 0 26px;font-size:15.5px;line-height:1.6;color:#565C64;max-width:680px;">Да. Подхватываем существующую amoCRM или Битрикс24, наводим порядок, достраиваем интеграции и автоматизации поверх того, что уже есть.</p>
+        </details>
+        <details data-slide="left" data-delay="180" style="border-bottom:1px solid rgba(34,42,52,0.16);">
+          <summary style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:26px 0;font-size:clamp(18px,2vw,24px);font-weight:500;letter-spacing:-0.01em;">Остаётесь после запуска?<span style="font-family:'JetBrains Mono',monospace;font-size:22px;color:#5e7a00;">+</span></summary>
+          <p style="margin:0 0 26px;font-size:15.5px;line-height:1.6;color:#565C64;max-width:680px;">Да, ведём поддержку и развитие: дорабатываем, обучаем команду и следим за метриками, чтобы механизм продолжал расти.</p>
+        </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" data-chapter="07" data-chname="КОНТАКТ" style="max-width:1280px;margin:0 auto;padding:clamp(80px,13vh,170px) 40px clamp(50px,8vh,90px);">
+      <div data-slide="up" style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.18em;color:#5e7a00;">(07) — ЗАЯВКА</div>
+      <h2 data-slide="up" data-delay="80" style="margin:20px 0 0;font-weight:600;letter-spacing:-0.022em;line-height:0.96;font-size:clamp(40px,8.4vw,124px);">Соберём ваш<br><span style="font-family:'Onest',sans-serif;font-weight:300;">механизм</span></h2>
+      <div style="display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(32px,5vw,72px);align-items:end;margin-top:clamp(44px,7vh,80px);">
+        <div data-slide="left">
+          <p style="margin:0 0 28px;font-size:17px;line-height:1.55;color:#565C64;max-width:380px;">Расскажите про бизнес и задачу — вернёмся с планом внедрения и оценкой в течение дня.</p>
+          <div style="display:flex;flex-direction:column;gap:10px;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:0.04em;color:#15181C;">
+            <span>hello@laym.studio</span>
+            <span>@laym_studio</span>
+          </div>
+        </div>
+        <form data-slide="right" onsubmit="return false" style="position:relative;border:1px solid rgba(255,255,255,0.5);background:rgba(247,250,252,0.55);backdrop-filter:blur(20px) saturate(1.2);border-top:2px solid var(--lime,#B8E020);clip-path:polygon(0 0, calc(100% - 30px) 0, 100% 30px, 100% 100%, 30px 100%, 0 calc(100% - 30px));box-shadow:0 22px 60px rgba(34,42,52,0.1), inset 0 1px 0 rgba(255,255,255,0.6);padding:clamp(32px,4vw,52px);display:flex;flex-direction:column;gap:22px;">
+          <input type="text" placeholder="Имя" style="background:transparent;border:none;border-bottom:1px solid rgba(34,42,52,0.25);padding:12px 0;font-size:16px;outline:none;transition:border-color .25s;" onfocus="this.style.borderColor='#5e7a00'" onblur="this.style.borderColor='rgba(34,42,52,0.25)'">
+          <input type="text" placeholder="Телефон или telegram" style="background:transparent;border:none;border-bottom:1px solid rgba(34,42,52,0.25);padding:12px 0;font-size:16px;outline:none;transition:border-color .25s;" onfocus="this.style.borderColor='#5e7a00'" onblur="this.style.borderColor='rgba(34,42,52,0.25)'">
+          <textarea placeholder="Коротко о задаче" rows="2" style="background:transparent;border:none;border-bottom:1px solid rgba(34,42,52,0.25);padding:12px 0;font-size:16px;outline:none;resize:none;transition:border-color .25s;" onfocus="this.style.borderColor='#5e7a00'" onblur="this.style.borderColor='rgba(34,42,52,0.25)'"></textarea>
+          <button style="margin-top:8px;align-self:flex-start;background:var(--lime,#B8E020);color:#15181C;font-weight:600;font-size:15px;padding:15px 30px;border-radius:100px;transition:transform .25s,box-shadow .25s;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 12px 26px rgba(94,122,0,0.22)'" onmouseout="this.style.transform='';this.style.boxShadow=''">Отправить заявку →</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer style="background:#13171B;color:#E8EBEE;margin-top:clamp(40px,7vh,90px);">
+      <div style="max-width:1280px;margin:0 auto;padding:clamp(40px,7vh,72px) 40px 36px;">
+        <div data-slide="up" style="font-weight:700;letter-spacing:0.1em;line-height:1;font-size:clamp(56px,16vw,220px);">ЛАЙМ</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-top:clamp(28px,4vh,44px);padding-top:24px;border-top:1px solid rgba(255,255,255,0.14);font-family:'JetBrains Mono',monospace;font-size:12px;color:#8A9098;letter-spacing:0.04em;">
+          <span>Внедрение CRM · Вайбкодинг · ИИ · SaaS</span>
+          <span>© 2026 ЛАЙМ · собрано на вайбкодинге</span>
+        </div>
+      </div>
+    </footer>
+
+  </main>
+</div>
+<script>
+class Component {
+  progress = 0;
+
+  renderVals() { return {}; }
+
+  componentDidMount() {
+    const accent = (this.props && this.props.accent) || '#B8E020';
+    document.documentElement.style.setProperty('--lime', accent);
+    try { this.initCity(); } catch (e) { console.warn('city init failed', e); }
+    this.initReveal();
+    this._onScroll = () => this.onScroll();
+    this._onResize = () => { this.resizeCanvas && this.resizeCanvas(); this.onScroll(); };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    document.addEventListener('scroll', this._onScroll, { passive: true, capture: true });
+    window.addEventListener('resize', this._onResize);
+    this._onMouse = (e) => { this._mx = (e.clientX / window.innerWidth - 0.5) * 2; this._my = (e.clientY / window.innerHeight - 0.5) * 2; };
+    window.addEventListener('pointermove', this._onMouse, { passive: true });
+    this.onScroll();
+    const intro = document.querySelectorAll('#top [data-intro]');
+    intro.forEach((el, i) => { setTimeout(() => { el.style.opacity = '1'; el.style.transform = 'none'; }, 160 + i * 110); });
+  }
+
+  componentDidUpdate(prev) {
+    if (prev.accent !== this.props.accent) {
+      document.documentElement.style.setProperty('--lime', this.props.accent || '#B8E020');
+      this._accent = this.props.accent || '#B8E020';
+    }
+    if (prev.cityDensity !== this.props.cityDensity || prev.liveBackground !== this.props.liveBackground) {
+      this.teardownCity();
+      try { this.initCity(); } catch (e) {}
+    }
+  }
+
+  componentWillUnmount() {
+    this.teardownCity();
+    window.removeEventListener('scroll', this._onScroll);
+    window.removeEventListener('resize', this._onResize);
+    window.removeEventListener('pointermove', this._onMouse);
+    if (this._io) this._io.disconnect();
+    if (this._io2) this._io2.disconnect();
+  }
+
+  teardownCity() {
+    if (this._raf) cancelAnimationFrame(this._raf);
+    this._raf = null;
+  }
+
+  onScroll() {
+    const se = document.scrollingElement || document.documentElement;
+    const sh = Math.max(se.scrollHeight, document.body.scrollHeight);
+    const max = sh - window.innerHeight;
+    const y = window.pageYOffset || se.scrollTop || document.body.scrollTop || 0;
+    this.progress = max > 0 ? Math.max(0, Math.min(1, y / max)) : 0;
+    this.paintScrollUI(y);
+  }
+
+  paintScrollUI(y) {
+    const pb = this._pb || (this._pb = document.getElementById('lime-progress'));
+    if (pb) pb.style.width = (this.progress * 100) + '%';
+    const nav = this._nav || (this._nav = document.getElementById('lime-nav'));
+    if (nav) {
+      if (y > 40) {
+        nav.style.background = 'rgba(243,245,247,0.72)';
+        nav.style.backdropFilter = 'blur(14px)';
+        nav.style.borderColor = 'rgba(34,42,52,0.08)';
+      } else {
+        nav.style.background = 'transparent';
+        nav.style.backdropFilter = 'none';
+        nav.style.borderColor = 'rgba(34,42,52,0)';
+      }
+    }
+    const grid = this._grid || (this._grid = document.getElementById('lime-grid'));
+    if (grid) grid.style.transform = 'translateY(' + (-y * 0.035) + 'px)';
+    const rb = this._railBar || (this._railBar = document.getElementById('lime-rail-bar'));
+    const rp = this._railPct || (this._railPct = document.getElementById('lime-rail-pct'));
+    const rc = this._railCh || (this._railCh = document.getElementById('lime-rail-ch'));
+    if (rb) rb.style.width = (this.progress * 100) + '%';
+    if (rp) rp.textContent = Math.round(this.progress * 100) + '%';
+    if (rc) {
+      if (!this._secs) this._secs = [].slice.call(document.querySelectorAll('[data-chapter]'));
+      let cur = this._secs[0];
+      for (const sct of this._secs) { if (sct.getBoundingClientRect().top <= window.innerHeight * 0.42) cur = sct; }
+      if (cur) { const t = cur.getAttribute('data-chapter') + ' / ' + cur.getAttribute('data-chname'); if (rc.textContent !== t) rc.textContent = t; }
+      const vl = this._vlabel || (this._vlabel = document.getElementById('lime-vlabel'));
+      if (vl && cur) { const nm = cur.getAttribute('data-chname'); if (vl.textContent !== nm) vl.textContent = nm; }
+    }
+  }
+
+  initReveal() {
+    const root = document.getElementById('lime-root');
+    if (!root) return;
+    const els = root.querySelectorAll('[data-slide]');
+    els.forEach(e => {
+      const dir = e.getAttribute('data-slide');
+      e.style.opacity = '0';
+      e.style.transform = dir === 'left' ? 'translateX(-130px) skewX(5deg)' : dir === 'right' ? 'translateX(130px) skewX(-5deg)' : 'translateY(54px)';
+      e.style.transition = 'opacity 1.6s cubic-bezier(.16,1,.3,1), transform 1.8s cubic-bezier(.16,1,.3,1)';
+      e.style.willChange = 'opacity, transform';
+    });
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(e => { e.style.opacity = '1'; e.style.transform = 'none'; });
+    } else {
+      const io = new IntersectionObserver((ents) => {
+        ents.forEach(en => {
+          if (en.isIntersecting) {
+            const e = en.target;
+            e.style.transitionDelay = (e.getAttribute('data-delay') || 0) + 'ms';
+            e.style.opacity = '1';
+            e.style.transform = 'none';
+            io.unobserve(e);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -12% 0px' });
+      els.forEach(e => io.observe(e));
+      this._io = io;
+    }
+    const cs = root.querySelectorAll('[data-count]');
+    if ('IntersectionObserver' in window) {
+      const io2 = new IntersectionObserver((ents) => {
+        ents.forEach(en => { if (en.isIntersecting) { this.animCount(en.target); io2.unobserve(en.target); } });
+      }, { threshold: 0.6 });
+      cs.forEach(e => io2.observe(e));
+      this._io2 = io2;
+    }
+  }
+
+  animCount(el) {
+    const target = parseFloat(el.getAttribute('data-count')) || 0;
+    const pre = el.getAttribute('data-prefix') || '';
+    const suf = el.getAttribute('data-suffix') || '';
+    const dur = 1500, st = performance.now();
+    const step = (t) => {
+      const k = Math.min(1, (t - st) / dur);
+      const e = 1 - Math.pow(1 - k, 3);
+      el.textContent = pre + Math.round(target * e) + suf;
+      if (k < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  initCity() {
+    const canvas = document.getElementById('lime-city');
+    if (!canvas) return;
+    const accent = (this.props && this.props.accent) || '#B8E020';
+    this._accent = accent;
+    const live = this.props.liveBackground !== false;
+    if (!live) { canvas.style.display = 'none'; return; }
+    canvas.style.display = 'block';
+    const ctx = canvas.getContext('2d');
+    const TW = 36, TH = 18;
+    const iso = (gx, gy, z) => [(gx - gy) * TW, (gx + gy) * TH - z];
+    const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+    const lerp = (a, b, t) => a + (b - a) * t;
+    const easeOut = t => 1 - Math.pow(1 - t, 3);
+    const easeInOut = t => t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+
+    // ---- generate city ----
+    const mul = (this.props.cityDensity === 'Разреженный') ? 0.62
+              : (this.props.cityDensity === 'Плотный') ? 1.4 : 1;
+    function mulberry32(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+    const rng = mulberry32(11);
+    // each station = one dominant "hero" object (matched to a page section) + satellites
+    const sceneHeroes = ['datatower', 'node', 'server', 'chip', 'screen', 'antenna', 'node', 'datatower'];
+    const foci = sceneHeroes.map((_, i) => [10 + i * 16, 8 + i * 7]);
+    const structs = [];
+    const occ = new Set();
+    const key = (i, j) => i + ',' + j;
+    const isFree = (gx, gy, fw, fd) => {
+      for (let i = Math.floor(gx) - 2; i <= Math.floor(gx) + fw + 1; i++)
+        for (let j = Math.floor(gy) - 2; j <= Math.floor(gy) + fd + 1; j++)
+          if (occ.has(key(i, j))) return false;
+      return true;
+    };
+    const take = (gx, gy, fw, fd) => {
+      for (let i = Math.floor(gx) - 1; i < Math.floor(gx) + fw + 1; i++)
+        for (let j = Math.floor(gy) - 1; j < Math.floor(gy) + fd + 1; j++) occ.add(key(i, j));
+    };
+    function makeStruct(type, at, big) {
+      const s = { type, at: Math.min(0.97, at), accent: big ? true : rng() < 0.14, phase: rng() * 6.28 };
+      if (type === 'box') { s.w = big ? 2 + Math.floor(rng() * 2) : 1 + Math.floor(rng() * 2); s.d = big ? 2 : 1 + Math.floor(rng() * 2); s.h = big ? 96 + rng() * 64 : 30 + rng() * 52; s.sub = Math.floor(rng() * 3); }
+      else if (type === 'server') { s.w = big ? 3 : 2; s.d = big ? 2 : 1 + Math.floor(rng() * 2); s.h = big ? 86 + rng() * 48 : 34 + rng() * 32; }
+      else if (type === 'datatower') { s.w = big ? 3 : 2; s.d = big ? 3 : 2; s.h = big ? 158 + rng() * 84 : 80 + rng() * 56; }
+      else if (type === 'node') { s.w = big ? 2 : 1; s.d = big ? 2 : 1; s.h = big ? 72 + rng() * 44 : 12 + rng() * 18; }
+      else if (type === 'chip') { s.r = big ? 3 + rng() * 0.9 : 1.5 + rng() * 0.6; s.spd = (rng() < 0.5 ? -1 : 1) * (0.3 + rng() * 0.4); }
+      else if (type === 'antenna') { s.w = 2; s.d = 2; s.h = big ? 116 + rng() * 48 : 50 + rng() * 38; s.spd = 0.5 + rng() * 0.8; }
+      else if (type === 'screen') { s.cols = big ? 4 : 2 + Math.floor(rng() * 2); s.h = big ? 46 + rng() * 18 : 22 + rng() * 14; }
+      return s;
+    }
+    const footprint = (s) => s.type === 'chip' ? [Math.ceil(s.r * 2) + 1, Math.ceil(s.r * 2) + 1] : s.type === 'screen' ? [s.cols + 1, 2] : [s.w, s.d];
+    sceneHeroes.forEach((hType, i) => {
+      const at = i === 0 ? 0 : Math.max(0, i / sceneHeroes.length - 0.05);
+      const hero = makeStruct(hType, at, true);
+      hero.gx = foci[i][0]; hero.gy = foci[i][1];
+      const [hfw, hfd] = footprint(hero);
+      take(hero.gx, hero.gy, hfw, hfd);
+      structs.push(hero);
+      const n = Math.max(1, Math.round((2 + (i % 2)) * mul));
+      let placed = 0, tries = 0;
+      while (placed < n && tries < 50) {
+        tries++;
+        const cand = makeStruct(rng() < 0.6 ? 'node' : 'box', at + 0.02, false);
+        const [fw, fd] = footprint(cand);
+        const gx = Math.round(foci[i][0] + (rng() * 28 - 14));
+        const gy = Math.round(foci[i][1] + (rng() * 28 - 14));
+        if (!isFree(gx, gy, fw, fd)) continue;
+        take(gx, gy, fw, fd); cand.gx = gx; cand.gy = gy;
+        structs.push(cand); placed++;
+      }
+    });
+    const order = structs.slice().sort((a, b) => (a.gx + a.gy) - (b.gx + b.gy));
+    // circuit roads: nearest-neighbour mesh + main avenue between station hubs
+    const conns = [];
+    const sorted = order;
+    for (let i = 1; i < sorted.length; i++) {
+      let best = -1, bd = 1e9;
+      for (let j = Math.max(0, i - 8); j < i; j++) {
+        const dx = sorted[i].gx - sorted[j].gx, dy = sorted[i].gy - sorted[j].gy, dist = dx * dx + dy * dy;
+        if (dist < bd) { bd = dist; best = j; }
+      }
+      if (best >= 0 && bd < 360) { const a = sorted[i], b = sorted[best]; conns.push({ a: [a.gx, a.gy], b: [b.gx, b.gy], at: Math.min(0.97, Math.max(a.at, b.at) + 0.01), phase: rng() }); }
+    }
+    for (let i = 0; i < foci.length - 1; i++) {
+      conns.push({ a: foci[i], b: foci[i + 1], at: Math.min(0.96, 0.04 + i * 0.16), phase: rng() });
+    }
+
+    let camX = 0, camY = 0, W = 0, H = 0;
+    this.resizeCanvas = () => {
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      W = window.innerWidth; H = window.innerHeight;
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    this.resizeCanvas();
+
+    const camFocus = (p) => {
+      const seg = p * (foci.length - 1);
+      const i = Math.min(foci.length - 2, Math.floor(seg));
+      const e = easeInOut(seg - i);
+      return [lerp(foci[i][0], foci[i + 1][0], e), lerp(foci[i][1], foci[i + 1][1], e)];
+    };
+
+    const P = (pt) => [pt[0] + camX, pt[1] + camY];
+    function poly(pts, fill, stroke, sw) {
+      ctx.beginPath();
+      pts.forEach((q, i) => { const X = q[0] + camX, Y = q[1] + camY; i ? ctx.lineTo(X, Y) : ctx.moveTo(X, Y); });
+      ctx.closePath();
+      if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+      if (stroke) { ctx.lineWidth = sw || 1; ctx.strokeStyle = stroke; ctx.stroke(); }
+    }
+    function shadow(center, rx) {
+      const cx = center[0] + camX, cy = center[1] + camY + 2;
+      const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(6, rx * 1.25));
+      g.addColorStop(0, 'rgba(18,26,36,0.2)'); g.addColorStop(0.55, 'rgba(18,26,36,0.09)'); g.addColorStop(1, 'rgba(18,26,36,0)');
+      ctx.save(); ctx.globalAlpha *= 0.9;
+      ctx.beginPath(); ctx.ellipse(cx, cy, rx * 1.25, rx * 0.6, 0, 0, 7); ctx.fillStyle = g; ctx.fill(); ctx.restore();
+    }
+    const STROKE = 'rgba(34,42,52,0.1)';
+    const SOFT = 'rgba(34,42,52,0.035)';
+    const lp = (a, b, t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t];
+    function vgrad(x, yTop, yBot, c0, c1) {
+      const g = ctx.createLinearGradient(x + camX, yTop + camY, x + camX, yBot + camY);
+      g.addColorStop(0, c0); g.addColorStop(1, c1); return g;
+    }
+    function wall(g0, g1, h, c0, c1) {
+      const t0 = [g0[0], g0[1] - h], t1 = [g1[0], g1[1] - h];
+      poly([g0, g1, t1, t0], vgrad(g0[0], t0[1], g0[1], c0, c1), STROKE, 1);
+      ctx.strokeStyle = SOFT; ctx.lineWidth = 1;
+      const n = Math.max(1, Math.round(h / 14));
+      for (let i = 1; i < n; i++) {
+        const z = h * i / n;
+        ctx.beginPath(); ctx.moveTo(g0[0] + camX, g0[1] - z + camY); ctx.lineTo(g1[0] + camX, g1[1] - z + camY); ctx.stroke();
+      }
+      for (const fr of [0.34, 0.67]) {
+        const a0 = lp(g0, g1, fr);
+        ctx.beginPath(); ctx.moveTo(a0[0] + camX, a0[1] + camY); ctx.lineTo(a0[0] + camX, a0[1] - h + camY); ctx.stroke();
+      }
+    }
+    function winWall(g0, g1, h, c0, c1, phase) {
+      const t0 = [g0[0], g0[1] - h], t1 = [g1[0], g1[1] - h];
+      poly([g0, g1, t1, t0], vgrad(g0[0], t0[1], g0[1], c0, c1), STROKE, 1);
+      const sh = ctx.createLinearGradient(g0[0] + camX, 0, g1[0] + camX, 0);
+      sh.addColorStop(0, 'rgba(255,255,255,0)'); sh.addColorStop(0.5, 'rgba(255,255,255,0.16)'); sh.addColorStop(1, 'rgba(255,255,255,0)');
+      poly([g0, g1, t1, t0], sh, null, 0);
+      const len = Math.hypot(g1[0] - g0[0], g1[1] - g0[1]);
+      const cols = Math.max(2, Math.round(len / 10)), rows = Math.max(2, Math.round(h / 12)), pad = 0.2;
+      const bil = (u, v) => [g0[0] + (g1[0] - g0[0]) * u, g0[1] + (g1[1] - g0[1]) * u - h * v];
+      for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+        const q = [bil((c + pad) / cols, (r + pad) / rows), bil((c + 1 - pad) / cols, (r + pad) / rows), bil((c + 1 - pad) / cols, (r + 1 - pad) / rows), bil((c + pad) / cols, (r + 1 - pad) / rows)];
+        if ((r * 3 + c * 5 + Math.floor(phase * 6)) % 8 === 0) { ctx.save(); ctx.shadowColor = accent; ctx.shadowBlur = 5; poly(q, accent, null, 0); ctx.restore(); }
+        else poly(q, 'rgba(74,90,108,0.13)', null, 0);
+      }
+    }
+    function capParapet(gx, gy, w, d, h) {
+      const At = iso(gx, gy, h), Bt = iso(gx + w, gy, h), Ct = iso(gx + w, gy + d, h), Dt = iso(gx, gy + d, h);
+      poly([At, Bt, Ct, Dt], '#F4F7FA', STROKE, 1);
+      poly([lp(At, Ct, 0.2), lp(Bt, Dt, 0.2), lp(Ct, At, 0.2), lp(Dt, Bt, 0.2)], '#E3E8ED', 'rgba(34,42,52,0.1)', 1);
+      ctx.strokeStyle = 'rgba(255,255,255,0.7)'; ctx.lineWidth = 1.2;
+      ctx.beginPath(); ctx.moveTo(Dt[0] + camX, Dt[1] + camY); ctx.lineTo(At[0] + camX, At[1] + camY); ctx.lineTo(Bt[0] + camX, Bt[1] + camY); ctx.stroke();
+    }
+    function roofMast(gx, gy, w, d, h, time, phase) {
+      const c = iso(gx + w / 2, gy + d / 2, h), cx = c[0] + camX, cy = c[1] + camY;
+      ctx.strokeStyle = 'rgba(34,42,52,0.4)'; ctx.lineWidth = 1.4;
+      ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx, cy - 24); ctx.stroke();
+      const pulse = 0.5 + 0.5 * Math.sin(time * 0.004 + phase);
+      ctx.save(); ctx.globalAlpha *= 0.5 + 0.5 * pulse; ctx.fillStyle = accent; ctx.shadowColor = accent; ctx.shadowBlur = 12;
+      ctx.beginPath(); ctx.arc(cx, cy - 25, 2.6, 0, 7); ctx.fill(); ctx.restore();
+    }
+    function drawBox(s, a, time) {
+      const h = s.h * a, gx = s.gx, gy = s.gy, w = s.w, d = s.d, sub = s.sub || 0;
+      const A = iso(gx, gy, 0), C = iso(gx + w, gy + d, 0);
+      shadow([(A[0] + C[0]) / 2, (A[1] + C[1]) / 2 + 5], (w + d) * TW * 0.6);
+      const cL0 = '#CDD4DC', cL1 = '#B4BCC7', cR0 = '#E4E9EE', cR1 = '#C9D0D8';
+      if (sub === 1 && h > 56) {
+        const h1 = h * 0.58;
+        winWall(iso(gx, gy + d, 0), iso(gx + w, gy + d, 0), h1, cL0, cL1, s.phase);
+        winWall(iso(gx + w, gy, 0), iso(gx + w, gy + d, 0), h1, cR0, cR1, s.phase + 2);
+        capParapet(gx, gy, w, d, h1);
+        const iw = w * 0.6, id = d * 0.6, ox = gx + (w - iw) / 2, oy = gy + (d - id) / 2;
+        winWall(iso(ox, oy + id, h1), iso(ox + iw, oy + id, h1), h - h1, cL0, cL1, s.phase + 1);
+        winWall(iso(ox + iw, oy, h1), iso(ox + iw, oy + id, h1), h - h1, cR0, cR1, s.phase + 3);
+        capParapet(ox, oy, iw, id, h);
+        if (h > 120) roofMast(ox, oy, iw, id, h, time, s.phase);
+      } else {
+        winWall(iso(gx, gy + d, 0), iso(gx + w, gy + d, 0), h, cL0, cL1, s.phase);
+        winWall(iso(gx + w, gy, 0), iso(gx + w, gy + d, 0), h, cR0, cR1, s.phase + 2);
+        capParapet(gx, gy, w, d, h);
+        if (sub === 2 && h > 58) roofMast(gx, gy, w, d, h, time, s.phase);
+        else if (h > 64) {
+          const ux = gx + w * 0.3, uy = gy + d * 0.3, uw = w * 0.4, ud = d * 0.4, uh = 12 * a;
+          winWall(iso(ux, uy + ud, h), iso(ux + uw, uy + ud, h), uh, cL0, cL1, s.phase);
+          winWall(iso(ux + uw, uy, h), iso(ux + uw, uy + ud, h), uh, cR0, cR1, s.phase);
+          capParapet(ux, uy, uw, ud, h + uh);
+        }
+      }
+      if (s.accent) {
+        const Bt = iso(gx + w, gy, h), Ct = iso(gx + w, gy + d, h), Dt = iso(gx, gy + d, h);
+        ctx.strokeStyle = accent; ctx.lineWidth = 1.6;
+        ctx.beginPath(); ctx.moveTo(Bt[0] + camX, Bt[1] + camY); ctx.lineTo(Ct[0] + camX, Ct[1] + camY); ctx.lineTo(Dt[0] + camX, Dt[1] + camY); ctx.stroke();
+      }
+    }
+    function tierBox(ox, oy, ow, od, z0, h) {
+      const D = iso(ox, oy + od, z0), C = iso(ox + ow, oy + od, z0), B = iso(ox + ow, oy, z0);
+      wall(D, C, h, '#CBD2D9', '#B4BCC5');
+      wall(B, C, h, '#E0E5EA', '#C6CDD4');
+      const At = iso(ox, oy, z0 + h), Bt = iso(ox + ow, oy, z0 + h), Ct = iso(ox + ow, oy + od, z0 + h), Dt = iso(ox, oy + od, z0 + h);
+      poly([At, Bt, Ct, Dt], '#EFF2F5', STROKE, 1);
+      return z0 + h;
+    }
+    function drawServer(s, a, time) {
+      const h = s.h * a, gx = s.gx, gy = s.gy, w = s.w, d = s.d;
+      const A = iso(gx, gy, 0), C = iso(gx + w, gy + d, 0), B = iso(gx + w, gy, 0), D = iso(gx, gy + d, 0);
+      shadow([(A[0] + C[0]) / 2, (A[1] + C[1]) / 2 + 5], (w + d) * TW * 0.55);
+      wall(D, C, h, '#C7CED6', '#AEB6C0');
+      wall(B, C, h, '#DBE1E6', '#C2C9D1');
+      const At = iso(gx, gy, h), Bt = iso(gx + w, gy, h), Ct = iso(gx + w, gy + d, h), Dt = iso(gx, gy + d, h);
+      poly([At, Bt, Ct, Dt], '#EEF1F4', STROKE, 1);
+      ctx.strokeStyle = 'rgba(34,42,52,0.16)'; ctx.lineWidth = 1;
+      const slots = Math.max(3, Math.round(h / 6));
+      for (let i = 1; i < slots; i++) { const z = h * i / slots; ctx.beginPath(); ctx.moveTo(B[0] + camX, B[1] - z + camY); ctx.lineTo(C[0] + camX, C[1] - z + camY); ctx.stroke(); }
+      const ld = lp(D, C, 0.16);
+      ctx.save(); ctx.shadowColor = accent;
+      for (let i = 0; i < slots - 1; i++) {
+        const z = h * (i + 0.5) / slots;
+        const lit = Math.sin(time * 0.004 + s.phase + i * 1.3) > 0.25;
+        ctx.fillStyle = lit ? accent : 'rgba(34,42,52,0.22)';
+        ctx.shadowBlur = lit ? 9 : 0;
+        ctx.beginPath(); ctx.arc(ld[0] + camX, ld[1] - z + camY, 1.9, 0, 7); ctx.fill();
+      }
+      ctx.restore();
+      ctx.strokeStyle = 'rgba(255,255,255,0.6)'; ctx.lineWidth = 1.2;
+      ctx.beginPath(); ctx.moveTo(Dt[0] + camX, Dt[1] + camY); ctx.lineTo(At[0] + camX, At[1] + camY); ctx.lineTo(Bt[0] + camX, Bt[1] + camY); ctx.stroke();
+    }
+    function drawDatatower(s, a, time) {
+      const H = s.h * a; shadow(iso(s.gx, s.gy, 0), (s.w + 1) * TW * 0.6);
+      const tiers = 3, th = H / tiers; let z0 = 0;
+      let ow = s.w + 1, od = s.d + 1, ox = s.gx, oy = s.gy;
+      for (let t = 0; t < tiers; t++) {
+        z0 = tierBox(ox, oy, ow, od, z0, th);
+        const nw = ow * 0.64, nd = od * 0.64; ox += (ow - nw) / 2; oy += (od - nd) / 2; ow = nw; od = nd;
+      }
+      const cap = iso(ox + ow / 2, oy + od / 2, z0), cx = cap[0] + camX, cy = cap[1] + camY;
+      const pulse = 0.55 + 0.45 * Math.sin(time * 0.004 + s.phase);
+      ctx.save();
+      ctx.strokeStyle = accent; ctx.globalAlpha *= 0.5; ctx.lineWidth = 1.4;
+      ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx, cy - 12); ctx.stroke();
+      ctx.globalAlpha = pulse; ctx.fillStyle = accent; ctx.shadowColor = accent; ctx.shadowBlur = 18;
+      ctx.beginPath(); ctx.moveTo(cx, cy - 18); ctx.lineTo(cx + 5, cy - 11); ctx.lineTo(cx, cy - 4); ctx.lineTo(cx - 5, cy - 11); ctx.closePath(); ctx.fill();
+      ctx.restore();
+    }
+    function drawScreen(s, a, time) {
+      const gx = s.gx, gy = s.gy, cols = s.cols || 2, h = s.h * a;
+      shadow(iso(gx + cols / 2, gy + 0.5, 0), cols * TW * 0.5);
+      const standH = Math.min(14, h * 0.4);
+      tierBox(gx + cols / 2 - 0.35, gy + 0.25, 0.7, 0.5, 0, standH);
+      const z0 = standH, sh = h;
+      const b0 = iso(gx, gy, z0), b1 = iso(gx + cols, gy, z0);
+      const t0 = [b0[0], b0[1] - sh], t1 = [b1[0], b1[1] - sh];
+      poly([b0, b1, t1, t0], '#2B333D', STROKE, 1.2);
+      const bil = (u, v) => lp(lp(b0, b1, u), lp(t0, t1, u), v);
+      ctx.strokeStyle = 'rgba(184,224,32,0.16)'; ctx.lineWidth = 1;
+      for (let i = 1; i < 4; i++) { const a0 = bil(0, i / 4), a1 = bil(1, i / 4); ctx.beginPath(); ctx.moveTo(a0[0] + camX, a0[1] + camY); ctx.lineTo(a1[0] + camX, a1[1] + camY); ctx.stroke(); }
+      const nb = cols * 2;
+      ctx.save(); ctx.shadowColor = accent; ctx.shadowBlur = 10;
+      for (let i = 0; i < nb; i++) {
+        const bh = 0.25 + 0.6 * Math.abs(Math.sin(time * 0.003 + s.phase + i * 0.9));
+        const u0 = (i + 0.25) / nb, u1 = (i + 0.75) / nb;
+        poly([bil(u0, 0.1), bil(u1, 0.1), bil(u1, 0.1 + bh * 0.8), bil(u0, 0.1 + bh * 0.8)], accent, null, 0);
+      }
+      ctx.restore();
+      ctx.strokeStyle = 'rgba(255,255,255,0.5)'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(t0[0] + camX, t0[1] + camY); ctx.lineTo(t1[0] + camX, t1[1] + camY); ctx.stroke();
+    }
+    function drawChip(s, a, time) {
+      const R = s.r, gx = s.gx - R, gy = s.gy - R, w = R * 2, d = R * 2, h = 10 * a;
+      const A = iso(gx, gy, 0), C = iso(gx + w, gy + d, 0), B = iso(gx + w, gy, 0), D = iso(gx, gy + d, 0);
+      shadow([(A[0] + C[0]) / 2, (A[1] + C[1]) / 2 + 4], R * TW * 1.2);
+      wall(D, C, h, '#C5CCD4', '#AEB6C0');
+      wall(B, C, h, '#D7DDE3', '#BEC6CE');
+      const At = iso(gx, gy, h), Bt = iso(gx + w, gy, h), Ct = iso(gx + w, gy + d, h), Dt = iso(gx, gy + d, h);
+      poly([At, Bt, Ct, Dt], '#E7EBEF', STROKE, 1);
+      const cen = [(At[0] + Ct[0]) / 2, (At[1] + Ct[1]) / 2];
+      const sc = (pt, k) => [cen[0] + (pt[0] - cen[0]) * k, cen[1] + (pt[1] - cen[1]) * k];
+      poly([sc(At, 0.7), sc(Bt, 0.7), sc(Ct, 0.7), sc(Dt, 0.7)], null, accent, 1);
+      const pulse = 0.5 + 0.5 * Math.sin(time * 0.004 + s.phase);
+      ctx.save(); ctx.globalAlpha *= 0.45 + 0.5 * pulse; ctx.shadowColor = accent; ctx.shadowBlur = 14;
+      poly([sc(At, 0.36), sc(Bt, 0.36), sc(Ct, 0.36), sc(Dt, 0.36)], accent, null, 0);
+      ctx.restore();
+      ctx.strokeStyle = 'rgba(34,42,52,0.4)'; ctx.lineWidth = 1.4;
+      for (let i = 1; i < 6; i++) {
+        const e1 = lp(D, C, i / 6); ctx.beginPath(); ctx.moveTo(e1[0] + camX, e1[1] + camY); ctx.lineTo(e1[0] - 4 + camX, e1[1] + 2 + camY); ctx.stroke();
+        const e2 = lp(B, C, i / 6); ctx.beginPath(); ctx.moveTo(e2[0] + camX, e2[1] + camY); ctx.lineTo(e2[0] + 4 + camX, e2[1] + 2 + camY); ctx.stroke();
+      }
+    }
+    function drawAntenna(s, a, time) {
+      const h = s.h * a, c = iso(s.gx, s.gy, 0), bx = c[0] + camX, by = c[1] + camY, tx = bx, ty = by - h;
+      shadow(iso(s.gx, s.gy, 0), 9);
+      ctx.beginPath(); ctx.ellipse(bx, by, 6, 3, 0, 0, 7); ctx.fillStyle = '#CCD3DA'; ctx.fill(); ctx.lineWidth = 1; ctx.strokeStyle = STROKE; ctx.stroke();
+      const g = ctx.createLinearGradient(bx - 2.5, 0, bx + 2.5, 0);
+      g.addColorStop(0, '#CDD4DB'); g.addColorStop(0.5, '#EEF1F4'); g.addColorStop(1, '#D5DCE2');
+      ctx.beginPath(); ctx.moveTo(bx - 2.5, by); ctx.lineTo(bx + 2.5, by); ctx.lineTo(tx + 1, ty); ctx.lineTo(tx - 1, ty); ctx.closePath();
+      ctx.fillStyle = g; ctx.fill(); ctx.lineWidth = 1; ctx.strokeStyle = STROKE; ctx.stroke();
+      const ang = time * 0.001 * s.spd + s.phase, rr = 13;
+      const ex = Math.cos(ang) * rr, ey = Math.sin(ang) * rr * 0.42;
+      ctx.strokeStyle = STROKE; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(tx - ex, ty - ey); ctx.lineTo(tx + ex, ty + ey); ctx.stroke();
+      ctx.beginPath(); ctx.ellipse(tx + ex, ty + ey, 4.5, 2.6, ang, 0, 7); ctx.fillStyle = '#E6EAEE'; ctx.fill(); ctx.lineWidth = 1; ctx.stroke();
+      const pulse = (time * 0.0016 + s.phase) % 1;
+      ctx.save(); ctx.globalAlpha *= (1 - pulse) * 0.8; ctx.strokeStyle = accent; ctx.lineWidth = 1.4;
+      ctx.beginPath(); ctx.arc(tx + ex, ty + ey, 3 + pulse * 16, 0, 6.28); ctx.stroke(); ctx.restore();
+      ctx.beginPath(); ctx.arc(tx, ty, 3, 0, 7); ctx.fillStyle = '#C5CCD3'; ctx.fill(); ctx.lineWidth = 1; ctx.strokeStyle = STROKE; ctx.stroke();
+    }
+    function drawNode(s, a, time) {
+      const h = s.h * a, gx = s.gx, gy = s.gy, w = s.w, d = s.d;
+      const A = iso(gx, gy, 0), C = iso(gx + w, gy + d, 0), B = iso(gx + w, gy, 0), D = iso(gx, gy + d, 0);
+      shadow([(A[0] + C[0]) / 2, (A[1] + C[1]) / 2 + 4], (w + d) * TW * 0.5);
+      wall(D, C, h, '#CDD4DB', '#B7BFC8');
+      wall(B, C, h, '#DEE3E8', '#C6CDD4');
+      const At = iso(gx, gy, h), Bt = iso(gx + w, gy, h), Ct = iso(gx + w, gy + d, h), Dt = iso(gx, gy + d, h);
+      poly([At, Bt, Ct, Dt], '#EEF1F4', STROKE, 1);
+      const cen = [(At[0] + Ct[0]) / 2 + camX, (At[1] + Ct[1]) / 2 + camY];
+      const pulse = 0.5 + 0.5 * Math.sin(time * 0.005 + s.phase);
+      ctx.save(); ctx.globalAlpha *= 0.4 + 0.5 * pulse; ctx.fillStyle = accent; ctx.shadowColor = accent; ctx.shadowBlur = 16;
+      ctx.beginPath(); ctx.arc(cen[0], cen[1], 2.6 + pulse * 1.8 + (w - 1) * 3, 0, 7); ctx.fill(); ctx.restore();
+    }
+    function drawConn(cn, p, time) {
+      if (p < cn.at) return;
+      const a = clamp((p - cn.at) / 0.06, 0, 1);
+      const A = iso(cn.a[0], cn.a[1], 1.5), E = iso(cn.b[0], cn.a[1], 1.5), B = iso(cn.b[0], cn.b[1], 1.5);
+      ctx.save(); ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      ctx.globalAlpha = a * 0.55; ctx.strokeStyle = 'rgba(34,42,52,0.1)'; ctx.lineWidth = 6;
+      ctx.beginPath(); ctx.moveTo(A[0] + camX, A[1] + camY); ctx.lineTo(E[0] + camX, E[1] + camY); ctx.lineTo(B[0] + camX, B[1] + camY); ctx.stroke();
+      ctx.strokeStyle = 'rgba(246,248,250,0.95)'; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.moveTo(A[0] + camX, A[1] + camY); ctx.lineTo(E[0] + camX, E[1] + camY); ctx.lineTo(B[0] + camX, B[1] + camY); ctx.stroke();
+      ctx.setLineDash([2, 5]); ctx.globalAlpha = a * 0.35; ctx.strokeStyle = accent; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(A[0] + camX, A[1] + camY); ctx.lineTo(E[0] + camX, E[1] + camY); ctx.lineTo(B[0] + camX, B[1] + camY); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.globalAlpha = a; ctx.fillStyle = accent; ctx.shadowColor = accent; ctx.shadowBlur = 8;
+      for (const off of [0, 0.5]) {
+        const u = (time * 0.00028 + cn.phase + off) % 1;
+        let px, py;
+        if (u < 0.5) { const k = u / 0.5; px = lerp(A[0], E[0], k); py = lerp(A[1], E[1], k); }
+        else { const k = (u - 0.5) / 0.5; px = lerp(E[0], B[0], k); py = lerp(E[1], B[1], k); }
+        ctx.beginPath(); ctx.ellipse(px + camX, py + camY, 2.6, 2.6, 0, 0, 7); ctx.fill();
+      }
+      ctx.restore();
+    }
+
+    const draw = (time) => {
+      this.onScroll();
+      ctx.clearRect(0, 0, W, H);
+      const p = this.progress || 0;
+      if (!this._secs2) this._secs2 = [].slice.call(document.querySelectorAll('[data-chapter]'));
+      let act = 0;
+      for (let si = 0; si < this._secs2.length; si++) { if (this._secs2[si].getBoundingClientRect().top <= H * 0.45) act = si; }
+      const tf = foci[Math.min(foci.length - 1, act)];
+      if (!this._cf) this._cf = [tf[0], tf[1]];
+      this._cf[0] += (tf[0] - this._cf[0]) * 0.06;
+      this._cf[1] += (tf[1] - this._cf[1]) * 0.06;
+      const ic = iso(this._cf[0], this._cf[1], 0);
+      camX = W * 0.63 - ic[0] + (this._mx || 0) * 30;
+      camY = H * 0.58 - ic[1] + (this._my || 0) * 22;
+      ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      conns.forEach(cn => drawConn(cn, p, time));
+      for (const s of order) {
+        const tt = clamp((p - s.at) / 0.07, 0, 1);
+        if (tt <= 0) continue;
+        const a = easeOut(tt);
+        ctx.globalAlpha = a;
+        if (s.type === 'box') drawBox(s, a, time);
+        else if (s.type === 'server') drawServer(s, a, time);
+        else if (s.type === 'datatower') drawDatatower(s, a, time);
+        else if (s.type === 'screen') drawScreen(s, a, time);
+        else if (s.type === 'chip') drawChip(s, a, time);
+        else if (s.type === 'antenna') drawAntenna(s, a, time);
+        else if (s.type === 'node') drawNode(s, a, time);
+        ctx.globalAlpha = 1;
+      }
+      // scroll-driven glitch on the rendered objects
+      const vel = Math.abs((this.progress || 0) - (this._lastP == null ? (this.progress || 0) : this._lastP));
+      this._lastP = this.progress || 0;
+      this._gs = Math.max((this._gs || 0) * 0.8, Math.min(0.5, vel * 36));
+      const gs = this._gs;
+      if (gs > 0.12) {
+        const dp = canvas.width / W;
+        ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0);
+        const bands = Math.round(1 + gs * 4);
+        for (let gi = 0; gi < bands; gi++) {
+          const by = Math.random() * canvas.height, bh = (2 + Math.random() * 9) * dp, dx = (Math.random() - 0.5) * 46 * gs * dp;
+          ctx.drawImage(canvas, 0, by, canvas.width, bh, dx, by, canvas.width, bh);
+        }
+        ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = gs * 0.08;
+        ctx.drawImage(canvas, 4 * gs * dp, 0);
+        ctx.restore();
+      }
+      this._raf = requestAnimationFrame(draw);
+    };
+    this._raf = requestAnimationFrame(draw);
+  }
+}
+
+  // --- standalone bootstrap (replaces the design-composer runtime) ---
+  var __lime = new Component();
+  __lime.props = { accent: '#B8E020', cityDensity: 'Средний', liveBackground: true };
+  var __limeBoot = function () { try { __lime.componentDidMount(); } catch (e) { console.error(e); } };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', __limeBoot);
+  else __limeBoot();
+
+</script>
+</body>
+</html>
