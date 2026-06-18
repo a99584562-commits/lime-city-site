@@ -36,6 +36,7 @@
     #lime-nav nav{gap:2px!important;}
     #lime-nav nav a{padding:8px 9px!important;font-size:10px!important;letter-spacing:0!important;}
     #lime-nav>a{gap:9px!important;}
+    #lime-nav>a img{width:28px!important;height:28px!important;}
     #lime-nav>a span:last-child{font-size:15px!important;letter-spacing:0.08em!important;}
     #top{padding:100px 18px 40px!important;}
     #momentum,#services,#process,#cases,#contact,#faq{padding-left:18px!important;padding-right:18px!important;}
@@ -83,10 +84,7 @@
   <!-- NAV -->
   <header id="lime-nav" style="position:fixed;top:0;left:0;width:100%;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:22px 40px;border-bottom:1px solid rgba(34,42,52,0);transition:background .4s,backdrop-filter .4s,border-color .4s;">
     <a href="#top" data-intro="nav" style="display:flex;align-items:center;gap:13px;opacity:0;transform:translateY(-14px);transition:opacity .7s ease,transform .9s cubic-bezier(.16,1,.3,1);">
-      <span style="position:relative;width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;">
-        <span style="position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg, #15181C 0 6deg, transparent 6deg 30deg, #15181C 30deg 36deg, transparent 36deg 60deg, #15181C 60deg 66deg, transparent 66deg 90deg, #15181C 90deg 96deg, transparent 96deg 120deg, #15181C 120deg 126deg, transparent 126deg 150deg, #15181C 150deg 156deg, transparent 156deg 180deg, #15181C 180deg 186deg, transparent 186deg 210deg, #15181C 210deg 216deg, transparent 216deg 240deg, #15181C 240deg 246deg, transparent 246deg 270deg, #15181C 270deg 276deg, transparent 276deg 300deg, #15181C 300deg 306deg, transparent 306deg 330deg, #15181C 330deg 336deg, transparent 336deg 360deg);-webkit-mask:radial-gradient(circle, transparent 6px, #000 7px);mask:radial-gradient(circle, transparent 6px, #000 7px);animation:lime-spin 18s linear infinite;"></span>
-        <span style="width:7px;height:7px;border-radius:50%;background:var(--lime,#B8E020);"></span>
-      </span>
+      <img src="logo-mark.png" alt="ЛАЙМ" width="34" height="34" style="display:block;width:34px;height:34px;object-fit:contain;flex:none;">
       <span style="font-size:19px;font-weight:700;letter-spacing:0.16em;">ЛАЙМ</span>
     </a>
     <nav data-intro="nav" style="display:flex;align-items:center;gap:6px;opacity:0;transform:translateY(-14px);transition:opacity .7s ease,transform .9s cubic-bezier(.16,1,.3,1);">
@@ -121,11 +119,6 @@
           Scroll
         </a>
       </div>
-    </section>
-
-    <!-- HERO IMAGE (full-bleed, user fills) -->
-    <section style="position:relative;width:100vw;margin-left:calc(50% - 50vw);height:100vh;overflow:hidden;background:#DEE3E8;">
-      <image-slot id="lime-hero-img" shape="rect" placeholder="Фото: офис · команда · продукт" style="width:100%;height:100%;display:block;"></image-slot>
     </section>
 
     <!-- SPLIT HEADLINE -->
