@@ -54,6 +54,9 @@
     /* decorative vertical HUD overlaps content on narrow screens */
     #lime-vlabel,#lime-rail{display:none!important;}
   }
+  /* ---- wide screens: let content breathe into the empty sides ---- */
+  @media (min-width:1700px){ #lime-root [style*="max-width:1280px"]{max-width:1480px!important;} }
+  @media (min-width:2150px){ #lime-root [style*="max-width:1280px"]{max-width:1680px!important;} }
 </style>
 </head>
 <body>
@@ -306,10 +309,10 @@
 
     <!-- CONTACT -->
     <section id="contact" data-chapter="07" data-chname="КОНТАКТ" style="max-width:1280px;margin:0 auto;padding:clamp(80px,13vh,170px) 40px clamp(50px,8vh,90px);">
-      <div data-slide="up" style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.18em;color:#5e7a00;">(07) — ЗАЯВКА</div>
-      <h2 data-slide="up" data-delay="80" style="margin:20px 0 0;font-weight:600;letter-spacing:-0.022em;line-height:0.96;font-size:clamp(40px,8.4vw,124px);">Соберём ваш<br><span style="font-family:'Onest',sans-serif;font-weight:300;">механизм</span></h2>
-      <div style="display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(32px,5vw,72px);align-items:end;margin-top:clamp(44px,7vh,80px);">
+      <div style="display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(32px,5vw,72px);align-items:start;">
         <div data-slide="left">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.18em;color:#5e7a00;">(07) — ЗАЯВКА</div>
+          <h2 style="margin:18px 0 30px;font-weight:600;letter-spacing:-0.022em;line-height:0.98;font-size:clamp(38px,5vw,78px);">Соберём ваш<br><span style="font-family:'Onest',sans-serif;font-weight:300;">механизм</span></h2>
           <p style="margin:0 0 28px;font-size:17px;line-height:1.55;color:#565C64;max-width:380px;">Расскажите про бизнес и задачу — вернёмся с планом внедрения и оценкой в течение дня.</p>
           <div style="display:flex;flex-direction:column;gap:10px;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:0.04em;color:#15181C;">
             <span>hello@laym.studio</span>
