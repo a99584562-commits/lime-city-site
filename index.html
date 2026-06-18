@@ -55,14 +55,14 @@
 
   <!-- NAV -->
   <header id="lime-nav" style="position:fixed;top:0;left:0;width:100%;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:22px 40px;border-bottom:1px solid rgba(34,42,52,0);transition:background .4s,backdrop-filter .4s,border-color .4s;">
-    <a href="#top" style="display:flex;align-items:center;gap:13px;">
+    <a href="#top" data-intro="nav" style="display:flex;align-items:center;gap:13px;opacity:0;transform:translateY(-14px);transition:opacity .7s ease,transform .9s cubic-bezier(.16,1,.3,1);">
       <span style="position:relative;width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;">
         <span style="position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg, #15181C 0 6deg, transparent 6deg 30deg, #15181C 30deg 36deg, transparent 36deg 60deg, #15181C 60deg 66deg, transparent 66deg 90deg, #15181C 90deg 96deg, transparent 96deg 120deg, #15181C 120deg 126deg, transparent 126deg 150deg, #15181C 150deg 156deg, transparent 156deg 180deg, #15181C 180deg 186deg, transparent 186deg 210deg, #15181C 210deg 216deg, transparent 216deg 240deg, #15181C 240deg 246deg, transparent 246deg 270deg, #15181C 270deg 276deg, transparent 276deg 300deg, #15181C 300deg 306deg, transparent 306deg 330deg, #15181C 330deg 336deg, transparent 336deg 360deg);-webkit-mask:radial-gradient(circle, transparent 6px, #000 7px);mask:radial-gradient(circle, transparent 6px, #000 7px);animation:lime-spin 18s linear infinite;"></span>
         <span style="width:7px;height:7px;border-radius:50%;background:var(--lime,#B8E020);"></span>
       </span>
       <span style="font-size:19px;font-weight:700;letter-spacing:0.16em;">ЛАЙМ</span>
     </a>
-    <nav style="display:flex;align-items:center;border:1px solid rgba(34,42,52,0.16);border-radius:3px;overflow:hidden;background:rgba(248,247,242,0.5);backdrop-filter:blur(6px);">
+    <nav data-intro="nav" style="display:flex;align-items:center;border:1px solid rgba(34,42,52,0.16);border-radius:3px;overflow:hidden;background:rgba(248,247,242,0.5);backdrop-filter:blur(6px);opacity:0;transform:translateY(-14px);transition:opacity .7s ease,transform .9s cubic-bezier(.16,1,.3,1);">
       <a href="#services" style="padding:11px 18px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.02em;color:#565C64;border-right:1px solid rgba(34,42,52,0.1);transition:color .25s,background .25s;" onmouseover="this.style.color='#15181C';this.style.background='rgba(34,42,52,0.04)'" onmouseout="this.style.color='#565C64';this.style.background='transparent'">Услуги</a>
       <a href="#process" style="padding:11px 18px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.02em;color:#565C64;border-right:1px solid rgba(34,42,52,0.1);transition:color .25s,background .25s;" onmouseover="this.style.color='#15181C';this.style.background='rgba(34,42,52,0.04)'" onmouseout="this.style.color='#565C64';this.style.background='transparent'">Процесс</a>
       <a href="#cases" style="padding:11px 18px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.02em;color:#565C64;border-right:1px solid rgba(34,42,52,0.1);transition:color .25s,background .25s;" onmouseover="this.style.color='#15181C';this.style.background='rgba(34,42,52,0.04)'" onmouseout="this.style.color='#565C64';this.style.background='transparent'">Кейсы</a>
@@ -75,19 +75,19 @@
 
     <!-- HERO INTRO -->
     <section id="top" data-chapter="00" data-chname="ЛАЙМ" style="position:relative;min-height:100vh;padding:118px 40px 48px;display:flex;flex-direction:column;justify-content:space-between;">
-      <div style="max-width:1280px;margin:0 auto;width:100%;">
+      <div data-intro="text" style="max-width:1280px;margin:0 auto;width:100%;opacity:0;transform:translateY(18px);transition:opacity .8s ease,transform .9s cubic-bezier(.16,1,.3,1);">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.14em;color:#565C64;text-transform:uppercase;">
           <span style="display:flex;align-items:center;gap:12px;"><span style="display:inline-flex;width:22px;height:22px;align-items:center;justify-content:center;border:1px solid rgba(34,42,52,0.2);font-size:13px;">⊹</span>CRM-внедрение × вайбкодинг</span>
           <span style="display:flex;align-items:center;gap:20px;"><span style="display:flex;align-items:center;gap:7px;"><span style="width:7px;height:7px;border-radius:50%;background:var(--lime,#B8E020);"></span>система активна</span><span style="color:#969CA4;">v2026</span></span>
         </div>
       </div>
       <div style="width:100%;display:flex;align-items:center;justify-content:space-between;font-family:'Onest',sans-serif;font-weight:300;letter-spacing:0.04em;line-height:0.9;font-size:clamp(74px,19vw,300px);text-shadow:0 0 26px rgba(243,245,246,0.92);">
-        <span style="">Л</span>
-        <span style="">А</span>
-        <span style="">Й</span>
-        <span style="">М<span style="display:inline-block;width:0.14em;height:0.14em;border-radius:50%;background:var(--lime,#B8E020);margin-left:0.05em;"></span></span>
+        <span data-intro="letter" style="opacity:0;transform:translateX(-160px);transition:opacity .7s ease,transform 1s cubic-bezier(.16,1,.3,1);">Л</span>
+        <span data-intro="letter" style="opacity:0;transform:translateX(-160px);transition:opacity .7s ease,transform 1s cubic-bezier(.16,1,.3,1);">А</span>
+        <span data-intro="letter" style="opacity:0;transform:translateX(-160px);transition:opacity .7s ease,transform 1s cubic-bezier(.16,1,.3,1);">Й</span>
+        <span data-intro="letter" style="opacity:0;transform:translateX(-160px);transition:opacity .7s ease,transform 1s cubic-bezier(.16,1,.3,1);">М<span style="display:inline-block;width:0.14em;height:0.14em;border-radius:50%;background:var(--lime,#B8E020);margin-left:0.05em;"></span></span>
       </div>
-      <div style="max-width:1280px;margin:0 auto;width:100%;display:flex;align-items:flex-end;justify-content:space-between;gap:30px;flex-wrap:wrap;">
+      <div data-intro="text" style="max-width:1280px;margin:0 auto;width:100%;display:flex;align-items:flex-end;justify-content:space-between;gap:30px;flex-wrap:wrap;opacity:0;transform:translateY(18px);transition:opacity .8s ease,transform .9s cubic-bezier(.16,1,.3,1);">
         <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.14em;color:#565C64;text-transform:uppercase;line-height:1.7;">Цифровая архитектура продаж<br><span style="color:#969CA4;">CRM · код · ИИ · SaaS</span></div>
         <a href="#momentum" style="display:flex;align-items:center;gap:14px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.1em;color:#565C64;text-transform:uppercase;">
           <span style="display:inline-block;width:1px;height:40px;background:linear-gradient(var(--lime,#B8E020),transparent);"></span>
@@ -333,8 +333,26 @@ class Component {
     this._onMouse = (e) => { this._mx = (e.clientX / window.innerWidth - 0.5) * 2; this._my = (e.clientY / window.innerHeight - 0.5) * 2; };
     window.addEventListener('pointermove', this._onMouse, { passive: true });
     this.onScroll();
-    const intro = document.querySelectorAll('#top [data-intro]');
-    intro.forEach((el, i) => { setTimeout(() => { el.style.opacity = '1'; el.style.transform = 'none'; }, 160 + i * 110); });
+    this.initIntro();
+  }
+
+  initIntro() {
+    const reveal = (el, delay) => { if (!el) return; setTimeout(() => { el.style.opacity = '1'; el.style.transform = 'none'; }, delay); };
+    // honour reduced-motion: show everything at once
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.querySelectorAll('[data-intro]').forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; el.style.transition = 'none'; });
+      return;
+    }
+    // 1) letters fly in from the left, one by one, on an empty screen
+    const letters = [].slice.call(document.querySelectorAll('#top [data-intro="letter"]'));
+    const L0 = 260, LS = 145;
+    letters.forEach((el, i) => reveal(el, L0 + i * LS));
+    // 2) the rest of the hero text fades in after the letters land
+    const afterLetters = L0 + letters.length * LS + 180;
+    document.querySelectorAll('[data-intro="text"]').forEach((el, i) => reveal(el, afterLetters + i * 140));
+    // 3) the nav (logo + menu) comes out last
+    const navEls = [].slice.call(document.querySelectorAll('#lime-nav [data-intro="nav"]'));
+    navEls.forEach((el, i) => reveal(el, afterLetters + 120 + i * 110));
   }
 
   componentDidUpdate(prev) {
