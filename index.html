@@ -939,6 +939,22 @@ class Component {
         else if (s.type === 'node') drawNode(s, a, time);
         ctx.globalAlpha = 1;
       }
+      // ---- highlight the city zone under the current section ----
+      {
+        const actI = Math.min(foci.length - 1, act);
+        const fp = iso(foci[actI][0], foci[actI][1], 0);
+        const X = fp[0] + camX, Y = fp[1] + camY;
+        const pul = 0.6 + 0.4 * Math.sin(time * 0.004);
+        ctx.save();
+        const rg = ctx.createRadialGradient(X, Y + 12, 0, X, Y + 12, 160);
+        rg.addColorStop(0, 'rgba(184,224,32,' + (0.2 * pul).toFixed(3) + ')');
+        rg.addColorStop(1, 'rgba(184,224,32,0)');
+        ctx.beginPath(); ctx.ellipse(X, Y + 12, 160, 80, 0, 0, 7); ctx.fillStyle = rg; ctx.fill();
+        ctx.globalAlpha = 0.45 + 0.45 * pul;
+        ctx.strokeStyle = accent; ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.ellipse(X, Y, 24 + 7 * pul, 12 + 3.5 * pul, 0, 0, 7); ctx.stroke();
+        ctx.restore();
+      }
       // scroll-driven glitch on the rendered objects
       const vel = Math.abs((this.progress || 0) - (this._lastP == null ? (this.progress || 0) : this._lastP));
       this._lastP = this.progress || 0;
