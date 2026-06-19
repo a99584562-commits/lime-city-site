@@ -73,11 +73,11 @@
   .lime-win-play::after{content:'';position:absolute;left:55%;top:50%;transform:translate(-50%,-50%);border-left:19px solid var(--lime,#B8E020);border-top:11px solid transparent;border-bottom:11px solid transparent;}
   @media (max-width:768px){ #lime-reel{--win-w:300px;} }
   /* ---- intro loader: glitch logo on dark ---- */
-  #lime-loader{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:radial-gradient(60% 60% at 50% 45%, #161b21 0%, #0d1014 72%);transition:opacity .8s ease,visibility .8s;}
+  #lime-loader{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background-color:#0d1014;background-image:radial-gradient(circle, #2a3040 1px, transparent 1px);background-size:28px 28px;transition:opacity .6s ease,visibility .6s;}
   #lime-loader.done{opacity:0;visibility:hidden;pointer-events:none;}
   .lime-loader-box{position:relative;z-index:1;width:clamp(118px,16vw,168px);aspect-ratio:1;border-radius:clamp(26px,3vw,38px);background:radial-gradient(130% 130% at 30% 18%, #232a32 0%, #0c1014 100%);box-shadow:0 40px 90px -20px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;animation:lime-loader-breathe 3.2s ease-in-out infinite;}
   .lime-loader-box::after{content:'';position:absolute;inset:-52%;border-radius:50%;background:radial-gradient(circle, rgba(255,255,255,0.06), transparent 60%);pointer-events:none;z-index:-1;}
-  .lime-loader-word{position:absolute;top:50%;transform:translateY(-50%);font-family:'JetBrains Mono',monospace;font-weight:400;font-size:clamp(16px,2.2vw,32px);letter-spacing:0.14em;line-height:1;white-space:nowrap;pointer-events:none;text-transform:uppercase;}
+  .lime-loader-word{position:absolute;top:50%;transform:translateY(-50%);font-family:'JetBrains Mono',monospace;font-weight:400;font-size:clamp(9px,1.1vw,16px);letter-spacing:0.14em;line-height:1;white-space:nowrap;pointer-events:none;text-transform:uppercase;}
   .lime-loader-word--l{left:clamp(20px,8vw,150px);color:#EDEFF1;}
   .lime-loader-word--r{right:clamp(20px,8vw,150px);color:var(--lime,#B8E020);}
   .lime-loader-box img{width:58%;height:58%;object-fit:contain;animation:lime-loader-glitch 2.8s steps(1) infinite;}
@@ -410,7 +410,7 @@ class Component {
     const loader = document.getElementById('lime-loader');
     if (!loader) { this.initIntro(); return; }
     const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const minShow = reduce ? 500 : 2000;          // keep the glitch on screen a beat
+    const minShow = reduce ? 300 : 1100;
     const t0 = (window.performance && performance.now) ? performance.now() : 0;
     const pctEl = document.getElementById('lime-loader-pct');
     const setPct = (v) => { if (pctEl) pctEl.textContent = String(Math.round(v)).padStart(3, '0') + '%'; };
