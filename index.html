@@ -76,6 +76,7 @@
   #lime-loader{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background-color:#0d1014;background-image:radial-gradient(circle, #2a3040 1px, transparent 1px);background-size:28px 28px;transition:opacity .6s ease,visibility .6s;}
   #lime-loader.done{opacity:0;visibility:hidden;pointer-events:none;}
   .lime-loader-box{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;animation:lime-loader-breathe 3.2s ease-in-out infinite;}
+  .lime-loader-ring{position:absolute;width:clamp(148px,20vw,224px);height:auto;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-90deg);pointer-events:none;overflow:visible;}
   .lime-loader-word{position:absolute;top:50%;transform:translateY(-50%);font-family:'JetBrains Mono',monospace;font-weight:400;font-size:clamp(9px,1.1vw,16px);letter-spacing:0.14em;line-height:1;white-space:nowrap;pointer-events:none;text-transform:uppercase;}
   .lime-loader-word--l{left:clamp(20px,8vw,150px);color:#EDEFF1;}
   .lime-loader-word--r{right:clamp(20px,8vw,150px);color:var(--lime,#B8E020);}
@@ -92,7 +93,7 @@
 </style>
 </head>
 <body>
-<div id="lime-loader" aria-hidden="true"><span class="lime-loader-word lime-loader-word--l">загрузка</span><div class="lime-loader-box"><img src="logo-mark-white.png" alt=""></div><span class="lime-loader-word lime-loader-word--r" id="lime-loader-pct">000%</span></div>
+<div id="lime-loader" aria-hidden="true"><span class="lime-loader-word lime-loader-word--l">загрузка</span><div class="lime-loader-box"><svg class="lime-loader-ring" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><circle id="lime-loader-ring-c" cx="100" cy="100" r="88" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="2.5"/><circle id="lime-loader-ring-p" cx="100" cy="100" r="88" fill="none" stroke="#B8E020" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="552.9" stroke-dashoffset="552.9"/></svg><img src="logo-mark-white.png" alt=""></div><span class="lime-loader-word lime-loader-word--r" id="lime-loader-pct">000%</span></div>
 <div id="lime-root" style="position:relative;width:100%;">
 
   <div id="lime-progress" style="position:fixed;top:0;left:0;height:2px;width:0%;background:var(--lime,#B8E020);z-index:300;"></div>
@@ -412,7 +413,12 @@ class Component {
     const minShow = reduce ? 300 : 1100;
     const t0 = (window.performance && performance.now) ? performance.now() : 0;
     const pctEl = document.getElementById('lime-loader-pct');
-    const setPct = (v) => { if (pctEl) pctEl.textContent = String(Math.round(v)).padStart(3, '0') + '%'; };
+    const ringEl = document.getElementById('lime-loader-ring-p');
+    const circ = 552.9;
+    const setPct = (v) => {
+      if (pctEl) pctEl.textContent = String(Math.round(v)).padStart(3, '0') + '%';
+      if (ringEl) ringEl.style.strokeDashoffset = circ * (1 - v / 100);
+    };
     let pv = 0;
     const pint = setInterval(() => { pv = Math.min(96, pv + Math.random() * 7 + 2); setPct(pv); }, 110);
     const reveal = () => {
