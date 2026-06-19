@@ -75,8 +75,11 @@
   /* ---- intro loader: glitch logo on dark ---- */
   #lime-loader{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:radial-gradient(60% 60% at 50% 45%, #161b21 0%, #0d1014 72%);transition:opacity .8s ease,visibility .8s;}
   #lime-loader.done{opacity:0;visibility:hidden;pointer-events:none;}
-  .lime-loader-box{position:relative;width:clamp(118px,16vw,168px);aspect-ratio:1;border-radius:clamp(26px,3vw,38px);background:radial-gradient(130% 130% at 30% 18%, #232a32 0%, #0c1014 100%);box-shadow:0 40px 90px -20px rgba(0,0,0,0.7),inset 0 1px 0 rgba(255,255,255,0.1),inset 0 0 0 1px rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;animation:lime-loader-breathe 3.2s ease-in-out infinite;}
-  .lime-loader-box::after{content:'';position:absolute;inset:-60% -70% -60% 30%;background:radial-gradient(circle at 72% 50%, rgba(255,255,255,0.10), transparent 60%);pointer-events:none;}
+  .lime-loader-box{position:relative;z-index:1;width:clamp(118px,16vw,168px);aspect-ratio:1;border-radius:clamp(26px,3vw,38px);background:radial-gradient(130% 130% at 30% 18%, #232a32 0%, #0c1014 100%);box-shadow:0 40px 90px -20px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;animation:lime-loader-breathe 3.2s ease-in-out infinite;}
+  .lime-loader-box::after{content:'';position:absolute;inset:-52%;border-radius:50%;background:radial-gradient(circle, rgba(255,255,255,0.06), transparent 60%);pointer-events:none;z-index:-1;}
+  .lime-loader-word{position:absolute;top:50%;transform:translateY(-50%);font-family:'Onest',sans-serif;font-weight:300;font-size:clamp(44px,12vw,190px);line-height:1;white-space:nowrap;pointer-events:none;filter:blur(3px);letter-spacing:-0.02em;}
+  .lime-loader-word--l{left:-1vw;color:#F4F6F7;opacity:0.3;}
+  .lime-loader-word--r{right:-1vw;color:var(--lime,#B8E020);opacity:0.5;}
   .lime-loader-box img{width:58%;height:58%;object-fit:contain;animation:lime-loader-glitch 2.8s steps(1) infinite;}
   @keyframes lime-loader-breathe{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-4px) scale(1.015);}}
   @keyframes lime-loader-glitch{
@@ -90,7 +93,7 @@
 </style>
 </head>
 <body>
-<div id="lime-loader" aria-hidden="true"><div class="lime-loader-box"><img src="logo-mark-white.png" alt=""></div></div>
+<div id="lime-loader" aria-hidden="true"><span class="lime-loader-word lime-loader-word--l">загрузка</span><div class="lime-loader-box"><img src="logo-mark-white.png" alt=""></div><span class="lime-loader-word lime-loader-word--r" id="lime-loader-pct">000%</span></div>
 <div id="lime-root" style="position:relative;width:100%;">
 
   <div id="lime-progress" style="position:fixed;top:0;left:0;height:2px;width:0%;background:var(--lime,#B8E020);z-index:300;"></div>
@@ -409,10 +412,15 @@ class Component {
     const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const minShow = reduce ? 500 : 2000;          // keep the glitch on screen a beat
     const t0 = (window.performance && performance.now) ? performance.now() : 0;
+    const pctEl = document.getElementById('lime-loader-pct');
+    const setPct = (v) => { if (pctEl) pctEl.textContent = String(Math.round(v)).padStart(3, '0') + '%'; };
+    let pv = 0;
+    const pint = setInterval(() => { pv = Math.min(96, pv + Math.random() * 7 + 2); setPct(pv); }, 110);
     const reveal = () => {
       const now = (window.performance && performance.now) ? performance.now() : t0 + minShow;
       const wait = Math.max(0, minShow - (now - t0));
       setTimeout(() => {
+        clearInterval(pint); setPct(100);
         loader.classList.add('done');             // fade the dark cover away
         setTimeout(() => this.initIntro(), 240);  // letters roll out as the light page appears
         setTimeout(() => { loader.style.display = 'none'; }, 1000);
