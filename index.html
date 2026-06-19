@@ -61,7 +61,7 @@
   @media (min-width:2150px){ #lime-root [style*="max-width:1280px"]{max-width:1680px!important;} }
   /* ---- showreel carousel (mac-style browser windows on an arc) ---- */
   #lime-reel{--win-w:clamp(340px,33vw,480px);}
-  .lime-win{position:absolute;top:0;left:0;width:var(--win-w);border-radius:16px;overflow:hidden;background:rgba(248,250,252,0.86);backdrop-filter:blur(12px);border:1px solid rgba(34,42,52,0.12);box-shadow:0 40px 80px -26px rgba(0,0,0,0.55),0 0 0 1px rgba(255,255,255,0.07),inset 0 1px 0 rgba(255,255,255,0.78);will-change:transform,opacity;}
+  .lime-win{position:absolute;top:0;left:0;width:var(--win-w);border-radius:16px;overflow:hidden;background:rgba(248,250,252,0.86);backdrop-filter:blur(12px);border:1px solid rgba(34,42,52,0.12);box-shadow:0 36px 70px -24px rgba(34,42,52,0.34),inset 0 1px 0 rgba(255,255,255,0.7);will-change:transform,opacity;}
   .lime-win-bar{display:flex;align-items:center;gap:10px;padding:9px 12px;border-bottom:1px solid rgba(34,42,52,0.1);background:rgba(255,255,255,0.55);}
   .lime-win-dots{display:flex;gap:6px;flex:none;}
   .lime-win-dots i{width:9px;height:9px;border-radius:50%;display:block;background:rgba(34,42,52,0.18);}
@@ -144,7 +144,7 @@
     </section>
 
     <!-- SHOWREEL CAROUSEL (browser windows on an arc; videos to be added later) -->
-    <section id="showreel" style="position:relative;overflow:hidden;padding:clamp(52px,8vh,108px) 0 clamp(60px,9vh,124px);background:radial-gradient(70% 62% at 50% 48%, rgba(184,224,32,0.08), transparent 70%), linear-gradient(180deg, rgba(17,21,27,0) 0%, #11151B 15%, #11151B 85%, rgba(17,21,27,0) 100%);">
+    <section id="showreel" style="position:relative;overflow:hidden;padding:clamp(4px,1vh,24px) 0 clamp(36px,5vh,72px);">
       <!-- To add a video to a card: replace its .lime-win-play span with
            <video src="VIDEO.mp4" muted loop autoplay playsinline></video> -->
       <div id="lime-reel" style="position:relative;height:clamp(260px,30vw,400px);">
@@ -938,22 +938,6 @@ class Component {
         else if (s.type === 'antenna') drawAntenna(s, a, time);
         else if (s.type === 'node') drawNode(s, a, time);
         ctx.globalAlpha = 1;
-      }
-      // ---- highlight the city zone under the current section ----
-      {
-        const actI = Math.min(foci.length - 1, act);
-        const fp = iso(foci[actI][0], foci[actI][1], 0);
-        const X = fp[0] + camX, Y = fp[1] + camY;
-        const pul = 0.6 + 0.4 * Math.sin(time * 0.004);
-        ctx.save();
-        const rg = ctx.createRadialGradient(X, Y + 12, 0, X, Y + 12, 160);
-        rg.addColorStop(0, 'rgba(184,224,32,' + (0.2 * pul).toFixed(3) + ')');
-        rg.addColorStop(1, 'rgba(184,224,32,0)');
-        ctx.beginPath(); ctx.ellipse(X, Y + 12, 160, 80, 0, 0, 7); ctx.fillStyle = rg; ctx.fill();
-        ctx.globalAlpha = 0.45 + 0.45 * pul;
-        ctx.strokeStyle = accent; ctx.lineWidth = 1.5;
-        ctx.beginPath(); ctx.ellipse(X, Y, 24 + 7 * pul, 12 + 3.5 * pul, 0, 0, 7); ctx.stroke();
-        ctx.restore();
       }
       // scroll-driven glitch on the rendered objects
       const vel = Math.abs((this.progress || 0) - (this._lastP == null ? (this.progress || 0) : this._lastP));
