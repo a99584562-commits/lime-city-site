@@ -352,7 +352,7 @@
     <!-- FOOTER -->
     <footer style="background:#13171B;color:#E8EBEE;margin-top:clamp(40px,7vh,90px);">
       <div style="max-width:1280px;margin:0 auto;padding:clamp(40px,7vh,72px) 40px 36px;">
-        <div data-slide="up" style="font-weight:700;letter-spacing:0.1em;line-height:1;font-size:clamp(56px,16vw,220px);">ЛАЙМ</div>
+        <div data-slide="up" style="font-family:'Onest',sans-serif;font-weight:300;letter-spacing:0.04em;line-height:1;font-size:clamp(56px,16vw,220px);color:#F4F6F7;">ЛА<span aria-label="Й" style="position:relative;">И<span aria-hidden="true" style="position:absolute;left:50%;top:-0.2em;transform:translateX(-46%);width:0.32em;height:0.32em;pointer-events:none;"><svg viewBox="0 0 100 100" style="width:100%;height:100%;display:block;overflow:visible;"><path d="M86 14 C 50 18, 20 46, 16 84 C 54 80, 84 50, 86 14 Z" fill="var(--lime,#B8E020)"></path></svg></span></span>М<span style="display:inline-block;width:0.14em;height:0.14em;border-radius:50%;background:var(--lime,#B8E020);margin-left:0.05em;"></span></div>
         <div style="display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-top:clamp(28px,4vh,44px);padding-top:24px;border-top:1px solid rgba(255,255,255,0.14);font-family:'JetBrains Mono',monospace;font-size:12px;color:#8A9098;letter-spacing:0.04em;">
           <span>Внедрение CRM · Вайбкодинг · ИИ · SaaS</span>
           <span>© 2026 ЛАЙМ · собрано на вайбкодинге</span>
@@ -378,8 +378,6 @@ class Component {
     window.addEventListener('scroll', this._onScroll, { passive: true });
     document.addEventListener('scroll', this._onScroll, { passive: true, capture: true });
     window.addEventListener('resize', this._onResize);
-    this._onMouse = (e) => { this._mx = (e.clientX / window.innerWidth - 0.5) * 2; this._my = (e.clientY / window.innerHeight - 0.5) * 2; };
-    window.addEventListener('pointermove', this._onMouse, { passive: true });
     this.onScroll();
     this.initIntro();
     this.initCarousel();
@@ -457,7 +455,6 @@ class Component {
     this.teardownCity();
     window.removeEventListener('scroll', this._onScroll);
     window.removeEventListener('resize', this._onResize);
-    window.removeEventListener('pointermove', this._onMouse);
     if (this._io) this._io.disconnect();
     if (this._io2) this._io2.disconnect();
   }
@@ -920,8 +917,8 @@ class Component {
       this._cf[0] += (tf[0] - this._cf[0]) * 0.06;
       this._cf[1] += (tf[1] - this._cf[1]) * 0.06;
       const ic = iso(this._cf[0], this._cf[1], 0);
-      camX = W * 0.63 - ic[0] + (this._mx || 0) * 30;
-      camY = H * 0.58 - ic[1] + (this._my || 0) * 22;
+      camX = W * 0.63 - ic[0];
+      camY = H * 0.58 - ic[1];
       ctx.lineCap = 'round'; ctx.lineJoin = 'round';
       conns.forEach(cn => drawConn(cn, p, time));
       for (const s of order) {
