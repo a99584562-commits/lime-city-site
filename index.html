@@ -72,28 +72,26 @@
   .lime-win-play{width:66px;height:66px;border-radius:50%;background:rgba(255,255,255,0.92);box-shadow:0 12px 28px rgba(34,42,52,0.22);position:relative;display:block;}
   .lime-win-play::after{content:'';position:absolute;left:55%;top:50%;transform:translate(-50%,-50%);border-left:19px solid var(--lime,#B8E020);border-top:11px solid transparent;border-bottom:11px solid transparent;}
   @media (max-width:768px){ #lime-reel{--win-w:300px;} }
-  /* ---- intro loader: glitch logo on dark ---- */
-  #lime-loader{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background-color:#0d1014;background-image:radial-gradient(circle, #2a3040 1px, transparent 1px);background-size:28px 28px;transition:opacity .6s ease,visibility .6s;}
-  #lime-loader.done{opacity:0;visibility:hidden;pointer-events:none;}
-  .lime-loader-box{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;animation:lime-loader-breathe 3.2s ease-in-out infinite;}
-  .lime-loader-ring{position:absolute;width:clamp(148px,20vw,224px);height:auto;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-90deg);pointer-events:none;overflow:visible;}
-  .lime-loader-word{position:absolute;top:50%;transform:translateY(-50%);font-family:'JetBrains Mono',monospace;font-weight:400;font-size:clamp(9px,1.1vw,16px);letter-spacing:0.14em;line-height:1;white-space:nowrap;pointer-events:none;text-transform:uppercase;}
-  .lime-loader-word--l{left:clamp(20px,8vw,150px);color:#EDEFF1;}
-  .lime-loader-word--r{right:clamp(20px,8vw,150px);color:var(--lime,#B8E020);}
-  .lime-loader-box img{width:clamp(90px,12vw,140px);height:auto;object-fit:contain;animation:lime-loader-glitch 2.8s steps(1) infinite;}
-  @keyframes lime-loader-breathe{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-4px) scale(1.015);}}
-  @keyframes lime-loader-glitch{
-    0%,6%,14%,47%,51%,100%{filter:none;transform:translate(0,0);}
-    7%{filter:drop-shadow(3px 0 rgba(255,40,90,.75)) drop-shadow(-3px 0 rgba(0,200,255,.75));transform:translate(-2px,1px);}
-    9%{filter:none;transform:translate(2px,-1px);}
-    11%{filter:drop-shadow(-2px 0 rgba(255,40,90,.7)) drop-shadow(2px 0 rgba(0,200,255,.7));transform:translate(1px,0);}
-    48%{filter:drop-shadow(2px 0 rgba(255,40,90,.65)) drop-shadow(-2px 0 rgba(0,200,255,.65));transform:translate(1px,1px);}
-  }
-  @media (prefers-reduced-motion: reduce){ #lime-loader .lime-loader-box,#lime-loader .lime-loader-box img{animation:none!important;} }
+  /* ---- intro loader: glyphic-style split reveal ---- */
+  #lime-loader{position:fixed;inset:0;z-index:9999;pointer-events:none;}
+  .lime-ld-panel{position:absolute;left:0;right:0;background-color:#FAFBFC;background-image:radial-gradient(circle, #d3d7df 1px, transparent 1px);background-size:28px 28px;transition:transform .72s cubic-bezier(.76,0,.24,1);}
+  .lime-ld-top{top:0;height:57%;}
+  .lime-ld-bot{bottom:0;height:44%;}
+  #lime-loader.done .lime-ld-top{transform:translateY(-100.5%);}
+  #lime-loader.done .lime-ld-bot{transform:translateY(100.5%);}
+  .lime-ld-seam{position:absolute;left:0;right:0;top:57%;transform:translateY(-50%);z-index:2;padding:0 clamp(20px,4vw,64px);transition:opacity .3s ease;}
+  #lime-loader.done .lime-ld-seam,#lime-loader.done .lime-ld-pct{opacity:0;}
+  .lime-ld-mark{display:flex;align-items:center;justify-content:space-between;gap:clamp(10px,1.4vw,18px);width:0;min-width:max-content;max-width:1280px;margin:0 auto 18px;transition:width .16s linear;}
+  .lime-ld-mark span{font-family:'Manrope',sans-serif;font-weight:600;font-size:clamp(15px,1.9vw,24px);letter-spacing:0.01em;color:#15181C;white-space:nowrap;}
+  .lime-ld-knak{width:clamp(26px,2.8vw,36px);height:auto;flex:none;}
+  .lime-ld-line{position:relative;height:1.5px;width:100%;background:rgba(21,24,28,0.12);}
+  .lime-ld-fill{position:absolute;left:0;top:0;height:100%;width:0;background:var(--lime,#B8E020);transition:width .16s linear;}
+  .lime-ld-pct{position:absolute;left:0;right:0;bottom:clamp(20px,5vh,40px);text-align:center;z-index:2;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:0.1em;color:#15181C;transition:opacity .3s ease;}
+  @media (prefers-reduced-motion: reduce){ #lime-loader .lime-ld-panel,#lime-loader .lime-ld-mark,#lime-loader .lime-ld-fill{transition-duration:.2s!important;} }
 </style>
 </head>
 <body>
-<div id="lime-loader" aria-hidden="true"><span class="lime-loader-word lime-loader-word--l">загрузка</span><div class="lime-loader-box"><svg class="lime-loader-ring" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><circle id="lime-loader-ring-c" cx="100" cy="100" r="88" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="2.5"/><circle id="lime-loader-ring-p" cx="100" cy="100" r="88" fill="none" stroke="#B8E020" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="552.9" stroke-dashoffset="552.9"/></svg><img src="logo-mark-white.png" alt=""></div><span class="lime-loader-word lime-loader-word--r" id="lime-loader-pct">000%</span></div>
+<div id="lime-loader" aria-hidden="true"><div class="lime-ld-panel lime-ld-top"></div><div class="lime-ld-panel lime-ld-bot"></div><div class="lime-ld-seam"><div class="lime-ld-mark"><span>ЛАЙМ</span><img class="lime-ld-knak" src="logo-mark-black.png" alt=""><span>CRM</span></div><div class="lime-ld-line"><span class="lime-ld-fill"></span></div></div><div class="lime-ld-pct" id="lime-loader-pct">(0%)</div></div>
 <div id="lime-root" style="position:relative;width:100%;">
 
   <div id="lime-progress" style="position:fixed;top:0;left:0;height:2px;width:0%;background:var(--lime,#B8E020);z-index:300;"></div>
@@ -413,22 +411,27 @@ class Component {
     const minShow = reduce ? 300 : 1100;
     const t0 = (window.performance && performance.now) ? performance.now() : 0;
     const pctEl = document.getElementById('lime-loader-pct');
-    const ringEl = document.getElementById('lime-loader-ring-p');
-    const circ = 552.9;
+    const fillEl = loader.querySelector('.lime-ld-fill');
+    const markEl = loader.querySelector('.lime-ld-mark');
     const setPct = (v) => {
-      if (pctEl) pctEl.textContent = String(Math.round(v)).padStart(3, '0') + '%';
-      if (ringEl) ringEl.style.strokeDashoffset = circ * (1 - v / 100);
+      const r = Math.round(v);
+      if (pctEl) pctEl.textContent = '(' + r + '%)';
+      if (fillEl) fillEl.style.width = v + '%';   // lime line fills left→right
+      if (markEl) markEl.style.width = v + '%';   // wordmark parts spread apart
     };
+    setPct(0);
     let pv = 0;
     const pint = setInterval(() => { pv = Math.min(96, pv + Math.random() * 7 + 2); setPct(pv); }, 110);
     const reveal = () => {
       const now = (window.performance && performance.now) ? performance.now() : t0 + minShow;
       const wait = Math.max(0, minShow - (now - t0));
       setTimeout(() => {
-        clearInterval(pint); setPct(100);
-        loader.classList.add('done');             // fade the dark cover away
-        setTimeout(() => this.initIntro(), 240);  // letters roll out as the light page appears
-        setTimeout(() => { loader.style.display = 'none'; }, 1000);
+        clearInterval(pint); setPct(100);         // fill line + fully spread wordmark
+        setTimeout(() => {
+          loader.classList.add('done');           // panels split apart, seam fades
+          setTimeout(() => this.initIntro(), 300);// letters roll out as the gap opens
+          setTimeout(() => { loader.style.display = 'none'; }, 900);
+        }, 320);                                   // hold the full state a beat
       }, wait);
     };
     if (document.readyState === 'complete') reveal();
