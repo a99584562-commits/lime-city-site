@@ -121,6 +121,17 @@
     .lime-pn-row>a{padding:8px 9px;font-size:10px;letter-spacing:0.04em;color:#565C64;}
     #lime-nav .lime-cta{padding:8px 12px!important;font-size:10px!important;margin-left:3px;}
   }
+  /* ---- cookie consent banner ---- */
+  #lime-cookie{position:fixed;left:clamp(12px,2vw,28px);right:clamp(12px,2vw,28px);bottom:clamp(12px,2vw,28px);z-index:8500;display:none;align-items:center;justify-content:space-between;gap:18px 24px;flex-wrap:wrap;max-width:760px;margin:0 auto;padding:18px 22px;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border:1px solid rgba(34,42,52,0.12);clip-path:polygon(16px 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%,0 16px);box-shadow:0 24px 60px -20px rgba(34,42,52,0.28);}
+  #lime-cookie.show{display:flex;}
+  #lime-cookie p{margin:0;font-size:13.5px;line-height:1.5;color:#3a4048;flex:1;min-width:220px;}
+  #lime-cookie a{color:#5e7a00;}
+  #lime-cookie .btns{display:flex;gap:10px;flex:none;}
+  #lime-cookie button{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.04em;padding:11px 20px;border-radius:100px;cursor:pointer;transition:filter .2s,background .2s;white-space:nowrap;}
+  #lime-cookie .no{background:transparent;border:1px solid rgba(34,42,52,0.3);color:#2f353d;}
+  #lime-cookie .no:hover{background:rgba(34,42,52,0.06);}
+  #lime-cookie .yes{background:var(--lime,#B8E020);border:1px solid var(--lime,#B8E020);color:#15181C;font-weight:600;}
+  #lime-cookie .yes:hover{filter:brightness(1.05);}
 </style>
 </head>
 <body>
@@ -400,7 +411,11 @@
           <input type="text" placeholder="Имя" style="background:transparent;border:none;border-bottom:1px solid rgba(34,42,52,0.25);padding:12px 0;font-size:16px;outline:none;transition:border-color .25s;" onfocus="this.style.borderColor='#5e7a00'" onblur="this.style.borderColor='rgba(34,42,52,0.25)'">
           <input type="text" placeholder="Телефон или MAX" style="background:transparent;border:none;border-bottom:1px solid rgba(34,42,52,0.25);padding:12px 0;font-size:16px;outline:none;transition:border-color .25s;" onfocus="this.style.borderColor='#5e7a00'" onblur="this.style.borderColor='rgba(34,42,52,0.25)'">
           <textarea placeholder="Коротко о задаче" rows="2" style="background:transparent;border:none;border-bottom:1px solid rgba(34,42,52,0.25);padding:12px 0;font-size:16px;outline:none;resize:none;transition:border-color .25s;" onfocus="this.style.borderColor='#5e7a00'" onblur="this.style.borderColor='rgba(34,42,52,0.25)'"></textarea>
-          <button style="margin-top:8px;align-self:flex-start;background:var(--lime,#B8E020);color:#15181C;font-weight:600;font-size:15px;padding:15px 30px;border-radius:100px;transition:transform .25s,box-shadow .25s;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 12px 26px rgba(94,122,0,0.22)'" onmouseout="this.style.transform='';this.style.boxShadow=''">Отправить заявку →</button>
+          <label style="display:flex;align-items:flex-start;gap:10px;font-size:13px;line-height:1.5;color:#565C64;cursor:pointer;transition:color .25s;">
+            <input type="checkbox" id="lime-consent" style="margin-top:2px;width:16px;height:16px;flex:none;accent-color:#5e7a00;cursor:pointer;">
+            <span>Я даю согласие на обработку персональных данных в соответствии с <a href="policy.html" target="_blank" rel="noopener" style="color:#5e7a00;text-decoration:underline;">Политикой обработки ПДн</a>.</span>
+          </label>
+          <button type="submit" onclick="var c=document.getElementById('lime-consent'); if(!c.checked){c.closest('label').style.color='#c0392b';c.focus();return false;} this.textContent='Заявка принята ✓';this.style.background='#9fbf1e';" style="margin-top:4px;align-self:flex-start;background:var(--lime,#B8E020);color:#15181C;font-weight:600;font-size:15px;padding:15px 30px;border-radius:100px;transition:transform .25s,box-shadow .25s,background .25s;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 12px 26px rgba(94,122,0,0.22)'" onmouseout="this.style.transform='';this.style.boxShadow=''">Отправить заявку →</button>
         </form>
       </div>
     </section>
@@ -412,7 +427,14 @@
           <img src="logo-mark-white.png" alt="ЛАЙМ" width="90" height="90" style="width:clamp(42px,7vw,90px);height:auto;flex:none;">
           <div style="font-family:'Manrope',sans-serif;font-weight:300;letter-spacing:0.04em;line-height:1;font-size:clamp(40px,9vw,116px);color:#F4F6F7;">ЛА<span aria-label="Й" style="position:relative;">И<span aria-hidden="true" style="position:absolute;left:50%;top:-0.2em;transform:translateX(-46%);width:0.32em;height:0.32em;pointer-events:none;"><svg viewBox="0 0 100 100" style="width:100%;height:100%;display:block;overflow:visible;"><path d="M86 14 C 50 18, 20 46, 16 84 C 54 80, 84 50, 86 14 Z" fill="var(--lime,#B8E020)"></path></svg></span></span>М<span style="display:inline-block;width:0.14em;height:0.14em;border-radius:50%;background:var(--lime,#B8E020);margin-left:0.05em;"></span></div>
         </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-top:clamp(28px,4vh,44px);padding-top:24px;border-top:1px solid rgba(255,255,255,0.14);font-family:'JetBrains Mono',monospace;font-size:12px;color:#8A9098;letter-spacing:0.04em;">
+        <div style="display:flex;flex-wrap:wrap;gap:10px 26px;align-items:center;margin-top:clamp(28px,4vh,44px);font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:0.04em;color:#8A9098;">
+          <a href="policy.html" style="color:#dfe3d6;text-decoration:none;border-bottom:1px solid rgba(184,224,32,0.45);padding-bottom:1px;">Политика обработки ПДн</a>
+          <span>[ООО «ЛАЙМ» / ИП ...]</span>
+          <span>ИНН [__________]</span>
+          <span>ОГРН [__________]</span>
+          <span>[email для обращений]</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-top:24px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.14);font-family:'JetBrains Mono',monospace;font-size:12px;color:#8A9098;letter-spacing:0.04em;">
           <span>Внедрение CRM · Вайбкодинг · ИИ · SaaS</span>
           <span>© 2026 ЛАЙМ · собрано на вайбкодинге</span>
         </div>
@@ -1060,6 +1082,24 @@ class Component {
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', __limeBoot);
   else __limeBoot();
 
+</script>
+<div id="lime-cookie" role="dialog" aria-label="Cookie">
+  <p>Мы используем файлы cookie для работы сайта и аналитики. Подробнее — в <a href="policy.html" target="_blank" rel="noopener">Политике обработки ПДн</a>.</p>
+  <div class="btns">
+    <button type="button" class="no" onclick="__limeCookie(false)">Отклонить</button>
+    <button type="button" class="yes" onclick="__limeCookie(true)">Принять</button>
+  </div>
+</div>
+<script>
+  function __limeCookie(accepted){
+    try{ localStorage.setItem('lime-cookie', accepted ? 'accepted' : 'declined'); }catch(e){}
+    var b=document.getElementById('lime-cookie'); if(b) b.classList.remove('show');
+    // Подключать необязательные cookie / счётчики (Я.Метрика и т.п.) только при accepted===true
+  }
+  (function(){
+    var saved=null; try{ saved=localStorage.getItem('lime-cookie'); }catch(e){}
+    if(!saved){ var b=document.getElementById('lime-cookie'); if(b) setTimeout(function(){b.classList.add('show');}, 1600); }
+  })();
 </script>
 </body>
 </html>
