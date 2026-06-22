@@ -106,11 +106,27 @@
   .lime-row:hover{padding-left:18px;background:linear-gradient(90deg,rgba(184,224,32,0.10),transparent 70%);}
   .lime-case-img{transition:transform .5s cubic-bezier(.16,1,.3,1),border-color .5s,box-shadow .5s;will-change:transform;}
   .lime-case-img:hover{transform:translateY(-6px);border-color:rgba(94,122,0,0.45);box-shadow:0 30px 60px -30px rgba(34,42,52,0.32);}
+  /* ---- connected-pill nav (floema-style gooey) ---- */
+  .lime-pn{position:relative;display:inline-flex;}
+  .lime-pn-goo{position:absolute;inset:0;display:flex;gap:3px;filter:url(#lime-goo);pointer-events:none;}
+  .lime-pn-goo>span{flex:none;background:#fff;border-radius:100px;padding:11px 18px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.02em;color:transparent;white-space:nowrap;transition:background .3s;}
+  .lime-pn-row{position:relative;display:flex;gap:3px;}
+  .lime-pn-row>a{flex:none;padding:11px 18px;border-radius:100px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.02em;color:#2a3038;transition:color .25s;}
+  .lime-pn-row>a:hover{color:#000;}
+  @media (max-width:768px){
+    #lime-nav{padding:16px 18px!important;}
+    #lime-nav nav{gap:2px!important;}
+    .lime-pn-goo{display:none;}
+    .lime-pn-row{gap:0;}
+    .lime-pn-row>a{padding:8px 9px;font-size:10px;letter-spacing:0.04em;color:#565C64;}
+    #lime-nav .lime-cta{padding:8px 12px!important;font-size:10px!important;margin-left:3px;}
+  }
 </style>
 </head>
 <body>
 <div id="lime-loader" aria-hidden="true"><div class="lime-ld-panel lime-ld-top"></div><div class="lime-ld-panel lime-ld-bot"></div><div class="lime-ld-seam"><div class="lime-ld-mark"><span>ЛАЙМ</span><img class="lime-ld-knak" src="logo-mark-black.png" alt=""><span>CRM</span></div><div class="lime-ld-line"><span class="lime-ld-fill"></span></div></div><div class="lime-ld-pct" id="lime-loader-pct">(0%)</div></div>
 <div id="lime-grain" aria-hidden="true"></div>
+<svg width="0" height="0" style="position:absolute;pointer-events:none;" aria-hidden="true"><defs><filter id="lime-goo"><feGaussianBlur in="SourceGraphic" stdDeviation="8" result="b"/><feColorMatrix in="b" type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 22 -10"/></filter></defs></svg>
 <div id="lime-root" style="position:relative;width:100%;">
 
   <div id="lime-progress" style="position:fixed;top:0;left:0;height:2px;width:0%;background:var(--lime,#B8E020);z-index:300;"></div>
@@ -138,10 +154,15 @@
       <span style="font-size:19px;font-weight:700;letter-spacing:0.16em;">ЛАЙМ</span>
     </a>
     <nav data-intro="nav" style="display:flex;align-items:center;gap:6px;opacity:0;transform:translateY(-14px);transition:opacity .7s ease,transform .9s cubic-bezier(.16,1,.3,1);">
-      <a href="#services" style="padding:11px 18px;border-radius:100px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.02em;color:#565C64;background:transparent;transition:color .25s,background .25s;" onmouseover="this.style.color='#15181C';this.style.background='rgba(34,42,52,0.06)'" onmouseout="this.style.color='#565C64';this.style.background='transparent'">Услуги</a>
-      <a href="#process" style="padding:11px 18px;border-radius:100px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.02em;color:#565C64;background:transparent;transition:color .25s,background .25s;" onmouseover="this.style.color='#15181C';this.style.background='rgba(34,42,52,0.06)'" onmouseout="this.style.color='#565C64';this.style.background='transparent'">Процесс</a>
-      <a href="#cases" style="padding:11px 18px;border-radius:100px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.02em;color:#565C64;background:transparent;transition:color .25s,background .25s;" onmouseover="this.style.color='#15181C';this.style.background='rgba(34,42,52,0.06)'" onmouseout="this.style.color='#565C64';this.style.background='transparent'">Кейсы</a>
-      <a href="#contact" style="padding:11px 20px;border-radius:100px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.02em;color:#15181C;background:var(--lime,#B8E020);transition:filter .25s,box-shadow .25s;" onmouseover="this.style.filter='brightness(1.05)';this.style.boxShadow='0 6px 18px rgba(184,224,32,0.45)'" onmouseout="this.style.filter='';this.style.boxShadow=''">Заявка →</a>
+      <span class="lime-pn">
+        <span class="lime-pn-goo" aria-hidden="true"><span id="lime-g0">Услуги</span><span id="lime-g1">Процесс</span><span id="lime-g2">Кейсы</span></span>
+        <span class="lime-pn-row">
+          <a href="#services" onmouseover="document.getElementById('lime-g0').style.background='#edf0c6'" onmouseout="document.getElementById('lime-g0').style.background=''">Услуги</a>
+          <a href="#process" onmouseover="document.getElementById('lime-g1').style.background='#edf0c6'" onmouseout="document.getElementById('lime-g1').style.background=''">Процесс</a>
+          <a href="#cases" onmouseover="document.getElementById('lime-g2').style.background='#edf0c6'" onmouseout="document.getElementById('lime-g2').style.background=''">Кейсы</a>
+        </span>
+      </span>
+      <a href="#contact" class="lime-cta" style="margin-left:6px;padding:11px 20px;border-radius:100px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.02em;color:#15181C;background:var(--lime,#B8E020);transition:filter .25s,box-shadow .25s;" onmouseover="this.style.filter='brightness(1.05)';this.style.boxShadow='0 6px 18px rgba(184,224,32,0.45)'" onmouseout="this.style.filter='';this.style.boxShadow=''">Заявка →</a>
     </nav>
   </header>
 
