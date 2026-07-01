@@ -34,8 +34,8 @@
   /* ---- responsive (mobile / small tablet) ---- */
   @media (max-width:768px){
     #lime-nav{padding:14px 12px!important;}
-    #lime-nav nav{gap:2px!important;}
-    #lime-nav nav a{padding:8px 9px!important;font-size:10px!important;letter-spacing:0!important;}
+    #lime-nav nav{display:none!important;}
+    #lime-menu-btn{display:flex!important;}
     #lime-nav>a{gap:9px!important;}
     #lime-nav>a img{width:28px!important;height:28px!important;}
     #lime-nav>a span:last-child{font-size:15px!important;letter-spacing:0.08em!important;}
@@ -117,6 +117,24 @@
   #lime-cookie .no:hover{background:rgba(34,42,52,0.06);}
   #lime-cookie .yes{background:var(--lime,#B8E020);border:1px solid var(--lime,#B8E020);color:#15181C;font-weight:600;}
   #lime-cookie .yes:hover{filter:brightness(1.05);}
+  /* ---- mobile slide-in menu (glyphslabs-style letter reveal) ---- */
+  #lime-menu-btn{display:none;flex-direction:column;align-items:center;justify-content:center;gap:5px;width:38px;height:38px;flex:none;border-radius:100px;border:1px solid rgba(34,42,52,0.18);background:transparent;cursor:pointer;padding:0;}
+  #lime-menu-btn span{display:block;width:15px;height:1.4px;background:#15181C;border-radius:2px;transition:transform .3s cubic-bezier(.16,1,.3,1),opacity .3s;}
+  #lime-menu-btn.open span:first-child{transform:translateY(3.2px) rotate(45deg);}
+  #lime-menu-btn.open span:last-child{transform:translateY(-3.2px) rotate(-45deg);}
+  #lime-menu{position:fixed;inset:0;z-index:9400;visibility:hidden;pointer-events:none;}
+  #lime-menu.open{visibility:visible;pointer-events:auto;}
+  .lime-menu-backdrop{position:absolute;inset:0;background:rgba(19,23,27,0.42);backdrop-filter:blur(6px);opacity:0;transition:opacity .4s ease;}
+  #lime-menu.open .lime-menu-backdrop{opacity:1;}
+  .lime-menu-panel{position:absolute;top:0;right:0;bottom:0;width:min(340px,84vw);background:#F7F9FA;box-shadow:-24px 0 60px -10px rgba(19,23,27,0.24);display:flex;flex-direction:column;padding:22px 26px 30px;transform:translateX(100%);transition:transform .5s cubic-bezier(.16,1,.3,1);clip-path:polygon(0 0,100% 0,100% 100%,26px 100%,0 calc(100% - 26px));}
+  #lime-menu.open .lime-menu-panel{transform:translateX(0);}
+  .lime-menu-close{align-self:flex-end;width:36px;height:36px;flex:none;border-radius:100px;border:1px solid rgba(34,42,52,0.16);background:transparent;font-size:14px;color:#15181C;cursor:pointer;margin-bottom:auto;}
+  .lime-menu-links{display:flex;flex-direction:column;margin:auto 0;}
+  .lime-menu-links a{position:relative;padding:18px 0;border-bottom:1px solid rgba(34,42,52,0.12);font-family:'Manrope',sans-serif;font-weight:600;font-size:clamp(24px,7vw,30px);letter-spacing:-0.01em;color:#15181C;text-decoration:none;}
+  .lime-menu-links a.lime-menu-cta{color:#5e7a00;}
+  .lime-menu-links .ch{display:inline-block;opacity:0;transform:translateY(14px);transition:opacity .5s cubic-bezier(.16,1,.3,1),transform .5s cubic-bezier(.16,1,.3,1);}
+  #lime-menu.open .lime-menu-links .ch{opacity:1;transform:translateY(0);}
+  .lime-menu-foot{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.1em;color:#969CA4;text-transform:uppercase;padding-top:16px;}
 </style>
 </head>
 <body>
@@ -154,7 +172,23 @@
       <a href="#cases" style="padding:11px 18px;border-radius:100px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.02em;color:#565C64;background:transparent;transition:color .25s,background .25s;" onmouseover="this.style.color='#15181C';this.style.background='rgba(34,42,52,0.06)'" onmouseout="this.style.color='#565C64';this.style.background='transparent'">Кейсы</a>
       <a href="#contact" style="padding:11px 20px;border-radius:100px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.02em;color:#15181C;background:var(--lime,#B8E020);transition:filter .25s,box-shadow .25s;" onmouseover="this.style.filter='brightness(1.05)';this.style.boxShadow='0 6px 18px rgba(184,224,32,0.45)'" onmouseout="this.style.filter='';this.style.boxShadow=''">Заявка →</a>
     </nav>
+    <button id="lime-menu-btn" type="button" aria-label="Открыть меню" onclick="limeMenuToggle()">
+      <span></span><span></span>
+    </button>
   </header>
+  <div id="lime-menu" aria-hidden="true">
+    <div class="lime-menu-backdrop" onclick="limeMenuToggle(false)"></div>
+    <div class="lime-menu-panel">
+      <button type="button" class="lime-menu-close" aria-label="Закрыть меню" onclick="limeMenuToggle(false)">✕</button>
+      <nav class="lime-menu-links">
+        <a href="#services" onclick="limeMenuToggle(false)">Услуги</a>
+        <a href="#process" onclick="limeMenuToggle(false)">Процесс</a>
+        <a href="#cases" onclick="limeMenuToggle(false)">Кейсы</a>
+        <a href="#contact" class="lime-menu-cta" onclick="limeMenuToggle(false)">Заявка →</a>
+      </nav>
+      <div class="lime-menu-foot">ЛАЙМ · CRM-внедрение × вайбкодинг</div>
+    </div>
+  </div>
 
   <!-- CONTENT -->
   <main style="position:relative;z-index:5;">
@@ -738,7 +772,11 @@ class Component {
       conns.push({ a: foci[i], b: foci[i + 1], at: Math.min(0.96, 0.04 + i * 0.16), phase: rng() });
     }
 
-    let camX = 0, camY = 0, W = 0, H = 0;
+    let camX = 0, camY = 0, W = 0, H = 0, cfx = 0, cfy = 0;
+    function depthFade(gx, gy) {
+      const d = Math.hypot(gx - cfx, gy - cfy);
+      return clamp(1 - (d - 14) / 50, 0.42, 1);
+    }
     this.resizeCanvas = () => {
       const dpr = Math.min(2, window.devicePixelRatio || 1);
       W = window.innerWidth; H = window.innerHeight;
@@ -998,23 +1036,33 @@ class Component {
     }
     function drawConn(cn, p, time) {
       if (p < cn.at) return;
-      const a = clamp((p - cn.at) / 0.06, 0, 1);
+      const mgx = (cn.a[0] + cn.b[0]) / 2, mgy = (cn.a[1] + cn.b[1]) / 2;
+      const a = clamp((p - cn.at) / 0.06, 0, 1) * depthFade(mgx, mgy);
       const A = iso(cn.a[0], cn.a[1], 1.5), E = iso(cn.b[0], cn.a[1], 1.5), B = iso(cn.b[0], cn.b[1], 1.5);
+      const pointAt = (u) => {
+        u = ((u % 1) + 1) % 1;
+        if (u < 0.5) { const k = u / 0.5; return [lerp(A[0], E[0], k), lerp(A[1], E[1], k)]; }
+        const k = (u - 0.5) / 0.5; return [lerp(E[0], B[0], k), lerp(E[1], B[1], k)];
+      };
       ctx.save(); ctx.lineCap = 'round'; ctx.lineJoin = 'round';
       ctx.globalAlpha = a * 0.55; ctx.strokeStyle = 'rgba(34,42,52,0.1)'; ctx.lineWidth = 6;
       ctx.beginPath(); ctx.moveTo(A[0] + camX, A[1] + camY); ctx.lineTo(E[0] + camX, E[1] + camY); ctx.lineTo(B[0] + camX, B[1] + camY); ctx.stroke();
       ctx.strokeStyle = 'rgba(246,248,250,0.95)'; ctx.lineWidth = 3;
       ctx.beginPath(); ctx.moveTo(A[0] + camX, A[1] + camY); ctx.lineTo(E[0] + camX, E[1] + camY); ctx.lineTo(B[0] + camX, B[1] + camY); ctx.stroke();
-      ctx.setLineDash([2, 5]); ctx.globalAlpha = a * 0.35; ctx.strokeStyle = accent; ctx.lineWidth = 1;
+      ctx.setLineDash([2, 5]); ctx.globalAlpha = a * 0.4; ctx.strokeStyle = accent; ctx.lineWidth = 1.2;
+      ctx.shadowColor = accent; ctx.shadowBlur = 4;
       ctx.beginPath(); ctx.moveTo(A[0] + camX, A[1] + camY); ctx.lineTo(E[0] + camX, E[1] + camY); ctx.lineTo(B[0] + camX, B[1] + camY); ctx.stroke();
-      ctx.setLineDash([]);
+      ctx.shadowBlur = 0; ctx.setLineDash([]);
       ctx.globalAlpha = a; ctx.fillStyle = accent; ctx.shadowColor = accent; ctx.shadowBlur = 8;
       for (const off of [0, 0.5]) {
         const u = (time * 0.00028 + cn.phase + off) % 1;
-        let px, py;
-        if (u < 0.5) { const k = u / 0.5; px = lerp(A[0], E[0], k); py = lerp(A[1], E[1], k); }
-        else { const k = (u - 0.5) / 0.5; px = lerp(E[0], B[0], k); py = lerp(E[1], B[1], k); }
-        ctx.beginPath(); ctx.ellipse(px + camX, py + camY, 2.6, 2.6, 0, 0, 7); ctx.fill();
+        const [px, py] = pointAt(u);
+        const [tx, ty] = pointAt(u - 0.045);
+        const g = ctx.createLinearGradient(tx + camX, ty + camY, px + camX, py + camY);
+        g.addColorStop(0, 'transparent'); g.addColorStop(1, accent);
+        ctx.strokeStyle = g; ctx.lineWidth = 2.6;
+        ctx.beginPath(); ctx.moveTo(tx + camX, ty + camY); ctx.lineTo(px + camX, py + camY); ctx.stroke();
+        ctx.beginPath(); ctx.ellipse(px + camX, py + camY, 2.6, 2.6, 0, 0, 7); ctx.fillStyle = accent; ctx.fill();
       }
       ctx.restore();
     }
@@ -1034,13 +1082,14 @@ class Component {
       const ic = iso(this._cf[0], this._cf[1], 0);
       camX = W * 0.63 - ic[0];
       camY = H * 0.58 - ic[1];
+      cfx = this._cf[0]; cfy = this._cf[1];
       ctx.lineCap = 'round'; ctx.lineJoin = 'round';
       conns.forEach(cn => drawConn(cn, p, time));
       for (const s of order) {
         const tt = clamp((p - s.at) / 0.07, 0, 1);
         if (tt <= 0) continue;
         const a = easeOut(tt);
-        ctx.globalAlpha = a;
+        ctx.globalAlpha = a * depthFade(s.gx, s.gy);
         if (s.type === 'box') drawBox(s, a, time);
         else if (s.type === 'server') drawServer(s, a, time);
         else if (s.type === 'datatower') drawDatatower(s, a, time);
@@ -1098,6 +1147,35 @@ class Component {
     var saved=null; try{ saved=localStorage.getItem('lime-cookie'); }catch(e){}
     if(!saved){ var b=document.getElementById('lime-cookie'); if(b) setTimeout(function(){b.classList.add('show');}, 1600); }
   })();
+  // mobile slide-in menu: split each link into chars for a cascading stagger reveal
+  (function(){
+    var idx = 0;
+    [].slice.call(document.querySelectorAll('.lime-menu-links a')).forEach(function(a){
+      var text = a.textContent;
+      a.setAttribute('aria-label', text);
+      a.textContent = '';
+      for (var i = 0; i < text.length; i++) {
+        var ch = text[i];
+        var span = document.createElement('span');
+        span.className = 'ch';
+        span.setAttribute('aria-hidden', 'true');
+        span.style.transitionDelay = (idx * 22) + 'ms';
+        span.textContent = ch === ' ' ? ' ' : ch;
+        a.appendChild(span);
+        idx++;
+      }
+    });
+  })();
+  function limeMenuToggle(open){
+    var m = document.getElementById('lime-menu');
+    var btn = document.getElementById('lime-menu-btn');
+    if (!m) return;
+    if (open === undefined) open = !m.classList.contains('open');
+    m.classList.toggle('open', open);
+    m.setAttribute('aria-hidden', open ? 'false' : 'true');
+    if (btn) { btn.classList.toggle('open', open); btn.setAttribute('aria-expanded', open ? 'true' : 'false'); }
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
 </script>
 </body>
 </html>
