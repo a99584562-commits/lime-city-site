@@ -117,6 +117,28 @@
   #lime-cookie .no:hover{background:rgba(34,42,52,0.06);}
   #lime-cookie .yes{background:var(--lime,#B8E020);border:1px solid var(--lime,#B8E020);color:#15181C;font-weight:600;}
   #lime-cookie .yes:hover{filter:brightness(1.05);}
+  /* ---- awwwards pack: masked line reveals, custom cursor, magnetic CTA ---- */
+  [data-lines] .lime-ln{display:block;overflow:hidden;padding-bottom:0.09em;margin-bottom:-0.09em;}
+  [data-lines] .lime-ln-in{display:block;transform:translateY(112%);transition:transform 1s cubic-bezier(.16,1,.3,1);}
+  [data-lines].on .lime-ln-in{transform:translateY(0);}
+  @media (prefers-reduced-motion: reduce){ [data-lines] .lime-ln-in{transition:none;transform:none;} }
+  .lime-swap{position:relative;display:inline-block;overflow:hidden;vertical-align:top;}
+  .lime-swap>span{display:block;transition:transform .45s cubic-bezier(.16,1,.3,1);}
+  .lime-swap>span:last-child{position:absolute;inset:0;transform:translateY(108%);}
+  .lime-mag:hover .lime-swap>span:first-child{transform:translateY(-108%);}
+  .lime-mag:hover .lime-swap>span:last-child{transform:translateY(0);}
+  #lime-cur-dot,#lime-cur-ring{display:none;}
+  @media (hover:hover) and (pointer:fine){
+    html.lime-cur, html.lime-cur *{cursor:none!important;}
+    html.lime-cur #lime-cur-dot{display:block;}
+    html.lime-cur #lime-cur-ring{display:flex;}
+    #lime-cur-dot{position:fixed;left:0;top:0;z-index:9700;width:6px;height:6px;border-radius:50%;background:#15181C;pointer-events:none;will-change:transform;}
+    #lime-cur-ring{position:fixed;left:0;top:0;z-index:9699;width:36px;height:36px;border-radius:100px;border:1.2px solid rgba(21,24,28,0.35);background:rgba(255,255,255,0);pointer-events:none;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:0.08em;text-transform:uppercase;color:#15181C;white-space:nowrap;will-change:transform;transition:width .35s cubic-bezier(.16,1,.3,1),height .35s cubic-bezier(.16,1,.3,1),background .3s,border-color .3s;}
+    #lime-cur-ring span{opacity:0;transition:opacity .25s;}
+    #lime-cur-ring.hov{width:54px;height:54px;border-color:rgba(94,122,0,0.6);}
+    #lime-cur-ring.lab{width:78px;height:78px;background:rgba(255,255,255,0.92);border-color:rgba(94,122,0,0.5);}
+    #lime-cur-ring.lab span{opacity:1;}
+  }
   /* ---- mobile slide-in menu (glyphslabs-style letter reveal) ---- */
   #lime-menu-btn{display:none;flex-direction:column;align-items:center;justify-content:center;gap:5px;width:38px;height:38px;flex:none;border-radius:100px;border:1px solid rgba(34,42,52,0.18);background:transparent;cursor:pointer;padding:0;}
   #lime-menu-btn span{display:block;width:15px;height:1.4px;background:#15181C;border-radius:2px;transition:transform .3s cubic-bezier(.16,1,.3,1),opacity .3s;}
@@ -171,7 +193,7 @@
       <a href="#services" style="padding:11px 18px;border-radius:100px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.02em;color:#565C64;background:transparent;transition:color .25s,background .25s;" onmouseover="this.style.color='#15181C';this.style.background='rgba(34,42,52,0.06)'" onmouseout="this.style.color='#565C64';this.style.background='transparent'">Услуги</a>
       <a href="#process" style="padding:11px 18px;border-radius:100px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.02em;color:#565C64;background:transparent;transition:color .25s,background .25s;" onmouseover="this.style.color='#15181C';this.style.background='rgba(34,42,52,0.06)'" onmouseout="this.style.color='#565C64';this.style.background='transparent'">Процесс</a>
       <a href="#cases" style="padding:11px 18px;border-radius:100px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.02em;color:#565C64;background:transparent;transition:color .25s,background .25s;" onmouseover="this.style.color='#15181C';this.style.background='rgba(34,42,52,0.06)'" onmouseout="this.style.color='#565C64';this.style.background='transparent'">Кейсы</a>
-      <a href="#contact" style="padding:11px 20px;border-radius:100px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.02em;color:#15181C;background:var(--lime,#B8E020);transition:filter .25s,box-shadow .25s;" onmouseover="this.style.filter='brightness(1.05)';this.style.boxShadow='0 6px 18px rgba(184,224,32,0.45)'" onmouseout="this.style.filter='';this.style.boxShadow=''">Заявка →</a>
+      <a href="#contact" class="lime-mag" style="padding:11px 20px;border-radius:100px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.02em;color:#15181C;background:var(--lime,#B8E020);transition:filter .25s,box-shadow .25s,transform .45s cubic-bezier(.16,1,.3,1);" onmouseover="this.style.filter='brightness(1.05)';this.style.boxShadow='0 6px 18px rgba(184,224,32,0.45)'" onmouseout="this.style.filter='';this.style.boxShadow=''"><span class="lime-swap"><span>Заявка →</span><span>Заявка →</span></span></a>
     </nav>
     <button id="lime-menu-btn" type="button" aria-label="Открыть меню" onclick="limeMenuToggle()">
       <span></span><span></span>
@@ -229,7 +251,7 @@
     <section id="showreel" style="position:relative;overflow:hidden;padding:clamp(4px,1vh,24px) 0 clamp(36px,5vh,72px);">
       <!-- To add a video to a card: replace its .lime-win-play span with
            <video src="VIDEO.mp4" muted loop autoplay playsinline></video> -->
-      <div id="lime-reel" style="position:relative;height:clamp(260px,30vw,400px);">
+      <div id="lime-reel" data-cursor="Тяни" style="position:relative;height:clamp(260px,30vw,400px);">
         <div class="lime-win" data-video=""><div class="lime-win-bar"><span class="lime-win-dots"><i></i><i></i><i></i></span><span class="lime-win-title">Настройка CRM</span></div><div class="lime-win-screen"><span class="lime-win-play"></span></div></div>
         <div class="lime-win" data-video=""><div class="lime-win-bar"><span class="lime-win-dots"><i></i><i></i><i></i></span><span class="lime-win-title">Внедрение бизнес-процессов</span></div><div class="lime-win-screen"><span class="lime-win-play"></span></div></div>
         <div class="lime-win" data-video=""><div class="lime-win-bar"><span class="lime-win-dots"><i></i><i></i><i></i></span><span class="lime-win-title">Разработка MVP</span></div><div class="lime-win-screen"><span class="lime-win-play"></span></div></div>
@@ -267,7 +289,7 @@
       <div style="display:grid;grid-template-columns:minmax(220px,0.82fr) 2fr;gap:clamp(28px,5vw,80px);align-items:start;">
         <div data-slide="up" style="position:sticky;top:118px;">
           <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.18em;color:#5e7a00;margin-bottom:22px;">(02) — ЧТО ДЕЛАЕМ</div>
-          <h2 style="margin:0 0 22px;font-weight:600;letter-spacing:-0.012em;line-height:1.02;font-size:clamp(30px,4vw,60px);">Два цеха,<br><span style="font-family:'Manrope',sans-serif;font-weight:300;">один результат</span></h2>
+          <h2 data-lines style="margin:0 0 22px;font-weight:600;letter-spacing:-0.012em;line-height:1.02;font-size:clamp(30px,4vw,60px);">Два цеха,<br><span style="font-family:'Manrope',sans-serif;font-weight:300;">один результат</span></h2>
           <p style="margin:0;max-width:300px;font-size:15px;line-height:1.55;color:#565C64;">Сначала наводим порядок на готовых CRM. Потом докручиваем кодом и ИИ то, чего в коробке не бывает.</p>
         </div>
         <div style="border-top:1px solid rgba(34,42,52,0.2);">
@@ -304,7 +326,7 @@
       <div style="display:grid;grid-template-columns:minmax(220px,0.82fr) 2fr;gap:clamp(28px,5vw,80px);align-items:start;">
         <div data-slide="up" style="position:sticky;top:118px;">
           <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.18em;color:#5e7a00;margin-bottom:22px;">(03) — КАК РАБОТАЕМ</div>
-          <h2 style="margin:0 0 22px;font-weight:600;letter-spacing:-0.012em;line-height:1.02;font-size:clamp(30px,4vw,60px);">От хаоса —<br><span style="font-family:'Manrope',sans-serif;font-weight:300;">к механизму</span></h2>
+          <h2 data-lines style="margin:0 0 22px;font-weight:600;letter-spacing:-0.012em;line-height:1.02;font-size:clamp(30px,4vw,60px);">От хаоса —<br><span style="font-family:'Manrope',sans-serif;font-weight:300;">к механизму</span></h2>
           <p style="margin:0;max-width:300px;font-size:15px;line-height:1.55;color:#565C64;">Пять шагов от первой встречи до системы, которая растит выручку сама.</p>
         </div>
         <div style="border-top:1px solid rgba(34,42,52,0.2);">
@@ -337,7 +359,7 @@
       <div data-slide="up" style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:clamp(40px,6vh,72px);padding-bottom:24px;border-bottom:1px solid rgba(34,42,52,0.2);">
         <div>
           <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.18em;color:#5e7a00;margin-bottom:20px;">(04) — КЕЙСЫ</div>
-          <h2 style="margin:0;font-weight:600;letter-spacing:-0.012em;line-height:1.0;font-size:clamp(34px,5.4vw,80px);">Что построили <span style="font-family:'Manrope',sans-serif;font-weight:300;">другим</span></h2>
+          <h2 data-lines style="margin:0;font-weight:600;letter-spacing:-0.012em;line-height:1.0;font-size:clamp(34px,5.4vw,80px);">Что построили <span style="font-family:'Manrope',sans-serif;font-weight:300;">другим</span></h2>
         </div>
         <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.14em;color:#969CA4;">003 / ВЫБРАННЫЕ</span>
       </div>
@@ -386,7 +408,7 @@
       <div style="display:grid;grid-template-columns:minmax(220px,0.82fr) 2fr;gap:clamp(28px,5vw,80px);align-items:start;">
         <div data-slide="up" style="position:sticky;top:118px;">
           <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.18em;color:#5e7a00;margin-bottom:22px;">(06) — ВОПРОСЫ</div>
-          <h2 style="margin:0;font-weight:600;letter-spacing:-0.012em;line-height:1.02;font-size:clamp(30px,4vw,60px);">Коротко <span style="font-family:'Manrope',sans-serif;font-weight:300;">о деле</span></h2>
+          <h2 data-lines style="margin:0;font-weight:600;letter-spacing:-0.012em;line-height:1.02;font-size:clamp(30px,4vw,60px);">Коротко <span style="font-family:'Manrope',sans-serif;font-weight:300;">о деле</span></h2>
         </div>
         <div style="border-top:1px solid rgba(34,42,52,0.2);">
         <details data-slide="left" data-delay="0" style="border-bottom:1px solid rgba(34,42,52,0.16);">
@@ -414,7 +436,7 @@
       <div style="display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(32px,5vw,72px);align-items:start;">
         <div data-slide="left">
           <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.18em;color:#5e7a00;">(07) — ЗАЯВКА</div>
-          <h2 style="margin:18px 0 30px;font-weight:600;letter-spacing:-0.022em;line-height:0.98;font-size:clamp(38px,5vw,78px);">Соберём ваш<br><span style="font-family:'Manrope',sans-serif;font-weight:300;">механизм</span></h2>
+          <h2 data-lines style="margin:18px 0 30px;font-weight:600;letter-spacing:-0.022em;line-height:0.98;font-size:clamp(38px,5vw,78px);">Соберём ваш<br><span style="font-family:'Manrope',sans-serif;font-weight:300;">механизм</span></h2>
           <p style="margin:0 0 28px;font-size:17px;line-height:1.55;color:#565C64;max-width:380px;">Расскажите про бизнес и задачу — вернёмся с планом внедрения и оценкой в течение дня.</p>
           <div style="display:flex;flex-direction:column;gap:10px;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:0.04em;color:#15181C;">
             <span>hello@laym.studio</span>
@@ -429,7 +451,7 @@
             <input type="checkbox" id="lime-consent" style="margin-top:2px;width:16px;height:16px;flex:none;accent-color:#5e7a00;cursor:pointer;">
             <span>Я даю согласие на обработку персональных данных в соответствии с <a href="policy.html" target="_blank" rel="noopener" style="color:#5e7a00;text-decoration:underline;">Политикой обработки ПДн</a>.</span>
           </label>
-          <button type="submit" onclick="var c=document.getElementById('lime-consent'); if(!c.checked){c.closest('label').style.color='#c0392b';c.focus();return false;} this.textContent='Заявка принята ✓';this.style.background='#9fbf1e';" style="margin-top:4px;align-self:flex-start;background:var(--lime,#B8E020);color:#15181C;font-weight:600;font-size:15px;padding:15px 30px;border-radius:100px;transition:transform .25s,box-shadow .25s,background .25s;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 12px 26px rgba(94,122,0,0.22)'" onmouseout="this.style.transform='';this.style.boxShadow=''">Отправить заявку →</button>
+          <button type="submit" class="lime-mag" onclick="var c=document.getElementById('lime-consent'); if(!c.checked){c.closest('label').style.color='#c0392b';c.focus();return false;} this.textContent='Заявка принята ✓';this.style.background='#9fbf1e';" style="margin-top:4px;align-self:flex-start;background:var(--lime,#B8E020);color:#15181C;font-weight:600;font-size:15px;padding:15px 30px;border-radius:100px;transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .25s,background .25s;" onmouseover="this.style.boxShadow='0 12px 26px rgba(94,122,0,0.22)'" onmouseout="this.style.boxShadow=''"><span class="lime-swap"><span>Отправить заявку →</span><span>Отправить заявку →</span></span></button>
         </form>
       </div>
     </section>
@@ -522,6 +544,21 @@ class Component {
     const N = cards.length;
     cards.forEach((c, i) => { c._p = i / N; });
     const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // drag-to-scroll with inertia (pointer events cover mouse & touch)
+    let dragging = false, dragX = 0, dragVel = 0, resumeAt = 0;
+    stage.style.touchAction = 'pan-y';
+    stage.addEventListener('pointerdown', (e) => {
+      dragging = true; dragX = e.clientX; dragVel = 0;
+      try { stage.setPointerCapture(e.pointerId); } catch (err) {}
+    });
+    stage.addEventListener('pointermove', (e) => {
+      if (!dragging) return;
+      const travel2 = N * (cards[0].offsetWidth + 56);
+      const dp = (e.clientX - dragX) / travel2; dragX = e.clientX;
+      cards.forEach(c => { c._p = ((c._p + dp) % 1 + 1) % 1; });
+      dragVel = dp; resumeAt = performance.now() + 2400;
+    });
+    ['pointerup', 'pointercancel'].forEach(ev => stage.addEventListener(ev, () => { dragging = false; }));
     let last = null;
     const layout = (ts) => {
       if (last == null) last = ts;
@@ -531,8 +568,13 @@ class Component {
       const span = cw + 56;                 // fixed, even spacing → steady rhythm
       const travel = N * span;
       const midY = (H - ch) / 2;            // windows sit on one baseline
+      if (!dragging) { dragVel = Math.abs(dragVel) > 0.00004 ? dragVel * 0.94 : 0; }
       for (const c of cards) {
-        if (!reduce) { c._p -= dt * 0.034; if (c._p < 0) c._p += 1; }
+        if (!reduce && !dragging) {
+          if (dragVel) c._p += dragVel;
+          else if (ts > resumeAt) c._p -= dt * 0.034;
+          c._p = ((c._p % 1) + 1) % 1;
+        }
         const x = c._p * travel - cw - 28;
         const u = (x + cw / 2) / W;            // 0..1 across the stage
         const cu = Math.max(0, Math.min(1, u));
@@ -619,8 +661,6 @@ class Component {
         nav.style.borderColor = 'rgba(34,42,52,0)';
       }
     }
-    const grid = this._grid || (this._grid = document.getElementById('lime-grid'));
-    if (grid) grid.style.transform = 'translateY(' + (-y * 0.035) + 'px)';
     const rb = this._railBar || (this._railBar = document.getElementById('lime-rail-bar'));
     const rp = this._railPct || (this._railPct = document.getElementById('lime-rail-pct'));
     const rc = this._railCh || (this._railCh = document.getElementById('lime-rail-ch'));
@@ -1199,6 +1239,130 @@ class Component {
   (function(){
     var saved=null; try{ saved=localStorage.getItem('lime-cookie'); }catch(e){}
     if(!saved){ var b=document.getElementById('lime-cookie'); if(b) setTimeout(function(){b.classList.add('show');}, 1600); }
+  })();
+</script>
+<div id="lime-cur-dot" aria-hidden="true"></div>
+<div id="lime-cur-ring" aria-hidden="true"><span id="lime-cur-lab"></span></div>
+<script src="lenis.min.js"></script>
+<script>
+  // ---- awwwards pack: inertia scroll, line reveals, cursor, magnetics, kinetic type ----
+  (function(){
+    var fine = window.matchMedia && matchMedia('(hover:hover) and (pointer:fine)').matches;
+    var noMotion = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // 1) inertia smooth scroll (Lenis, self-hosted); native on touch
+    if (window.Lenis && !noMotion && fine) {
+      var lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
+      window.__lenis = lenis;
+      (function raf(t){ lenis.raf(t); requestAnimationFrame(raf); })(0);
+      document.querySelectorAll('a[href^="#"]').forEach(function(a){
+        a.addEventListener('click', function(e){
+          var id = a.getAttribute('href'); if (!id || id.length < 2) return;
+          var t = document.querySelector(id); if (!t) return;
+          e.preventDefault(); lenis.scrollTo(t, { offset: -84, duration: 1.3 });
+        });
+      });
+      var mt = window.limeMenuToggle;
+      if (mt) window.limeMenuToggle = function(open){
+        mt(open);
+        var m = document.getElementById('lime-menu');
+        if (m && m.classList.contains('open')) lenis.stop(); else lenis.start();
+      };
+    }
+
+    // 2) masked line reveals for section headings
+    document.querySelectorAll('[data-lines]').forEach(function(h){
+      var nodes = Array.prototype.slice.call(h.childNodes);
+      var groups = [[]];
+      nodes.forEach(function(n){ if (n.nodeName === 'BR') groups.push([]); else groups[groups.length - 1].push(n); });
+      h.innerHTML = '';
+      groups.forEach(function(g, i){
+        var ln = document.createElement('span'); ln.className = 'lime-ln';
+        var inn = document.createElement('span'); inn.className = 'lime-ln-in';
+        inn.style.transitionDelay = (i * 110) + 'ms';
+        g.forEach(function(n){ inn.appendChild(n); });
+        ln.appendChild(inn); h.appendChild(ln);
+      });
+    });
+    if ('IntersectionObserver' in window) {
+      var lio = new IntersectionObserver(function(es){
+        es.forEach(function(en){ if (en.isIntersecting) { en.target.classList.add('on'); lio.unobserve(en.target); } });
+      }, { threshold: 0.35 });
+      document.querySelectorAll('[data-lines]').forEach(function(h){ lio.observe(h); });
+    } else {
+      document.querySelectorAll('[data-lines]').forEach(function(h){ h.classList.add('on'); });
+    }
+
+    // 3) custom cursor: dot + trailing ring, grows on interactive, label over carousel
+    if (fine) {
+      document.documentElement.classList.add('lime-cur');
+      var dot = document.getElementById('lime-cur-dot'), ring = document.getElementById('lime-cur-ring'), lab = document.getElementById('lime-cur-lab');
+      var mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my;
+      addEventListener('mousemove', function(e){
+        mx = e.clientX; my = e.clientY;
+        var tc = e.target && e.target.closest ? e.target.closest('a,button,.lime-win,[data-cursor],input,textarea,label') : null;
+        var dc = e.target && e.target.closest ? e.target.closest('[data-cursor]') : null;
+        var l = dc ? dc.getAttribute('data-cursor') : '';
+        ring.classList.toggle('lab', !!l);
+        ring.classList.toggle('hov', !!tc && !l);
+        if (lab.textContent !== (l || '')) lab.textContent = l || '';
+      }, { passive: true });
+      (function cur(){
+        rx += (mx - rx) * 0.16; ry += (my - ry) * 0.16;
+        dot.style.transform = 'translate(' + mx + 'px,' + my + 'px) translate(-50%,-50%)';
+        ring.style.transform = 'translate(' + rx.toFixed(1) + 'px,' + ry.toFixed(1) + 'px) translate(-50%,-50%)';
+        requestAnimationFrame(cur);
+      })();
+    }
+
+    // 4) magnetic CTAs
+    if (fine) {
+      document.querySelectorAll('.lime-mag').forEach(function(b){
+        b.addEventListener('mousemove', function(e){
+          var r = b.getBoundingClientRect();
+          var dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height / 2);
+          b.style.transform = 'translate(' + (dx * 0.22).toFixed(1) + 'px,' + (dy * 0.3).toFixed(1) + 'px)';
+        });
+        b.addEventListener('mouseleave', function(){ b.style.transform = ''; });
+      });
+    }
+
+    // 5) kinetic hero letters: variable weight follows cursor proximity
+    if (fine && !noMotion) {
+      var lts = Array.prototype.slice.call(document.querySelectorAll('.lime-letters > span'));
+      if (lts.length) {
+        var ws = lts.map(function(){ return 300; });
+        var kx = -1e4, ky = -1e4;
+        addEventListener('mousemove', function(e){ kx = e.clientX; ky = e.clientY; }, { passive: true });
+        (function kin(){
+          for (var i = 0; i < lts.length; i++) {
+            var r = lts[i].getBoundingClientRect();
+            if (r.bottom < -40 || r.top > innerHeight + 40) continue;
+            var d = Math.hypot(kx - (r.left + r.width / 2), ky - (r.top + r.height / 2));
+            var t = 300 + Math.max(0, 1 - d / 360) * 380;
+            ws[i] += (t - ws[i]) * 0.1;
+            var w = Math.round(ws[i]);
+            if (lts[i].__w !== w) { lts[i].__w = w; lts[i].style.fontWeight = w; }
+          }
+          requestAnimationFrame(kin);
+        })();
+      }
+    }
+
+    // 6) stack marquee speeds up with scroll velocity
+    (function(){
+      var mq = document.querySelector('.lime-mq');
+      if (!mq || !mq.getAnimations) return;
+      var anim = null, lastY = window.pageYOffset || 0, rate = 1;
+      (function mv(){
+        if (!anim) { var as = mq.getAnimations(); anim = (as && as[0]) || null; }
+        var yy = window.pageYOffset || 0; var dy = Math.abs(yy - lastY); lastY = yy;
+        var target = 1 + Math.min(4, dy * 0.05);
+        rate += (target - rate) * 0.08;
+        if (anim) anim.playbackRate = rate;
+        requestAnimationFrame(mv);
+      })();
+    })();
   })();
   // mobile slide-in menu: split each link into chars for a cascading stagger reveal
   (function(){
