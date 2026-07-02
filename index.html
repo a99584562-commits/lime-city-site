@@ -36,6 +36,7 @@
     #lime-nav{padding:14px 12px!important;}
     #lime-nav nav{display:none!important;}
     #lime-menu-btn{display:flex!important;}
+    #lime-stamp{display:none!important;}
     #lime-nav>a{gap:9px!important;}
     #lime-nav>a img{width:28px!important;height:28px!important;}
     #lime-nav>a span:last-child{font-size:15px!important;letter-spacing:0.08em!important;}
@@ -117,6 +118,18 @@
   #lime-cookie .no:hover{background:rgba(34,42,52,0.06);}
   #lime-cookie .yes{background:var(--lime,#B8E020);border:1px solid var(--lime,#B8E020);color:#15181C;font-weight:600;}
   #lime-cookie .yes:hover{filter:brightness(1.05);}
+  /* ---- awwwards pack 2: signatures ---- */
+  ::selection{background:var(--lime,#B8E020);color:#15181C;}
+  html{scrollbar-width:thin;scrollbar-color:rgba(34,42,52,0.35) transparent;}
+  ::-webkit-scrollbar{width:10px;}
+  ::-webkit-scrollbar-track{background:transparent;}
+  ::-webkit-scrollbar-thumb{background:rgba(34,42,52,0.3);border-radius:100px;border:3px solid #F3F5F6;}
+  ::-webkit-scrollbar-thumb:hover{background:rgba(34,42,52,0.5);}
+  .lime-stamp-rot{animation:lime-rot 22s linear infinite;transform-origin:50% 50%;}
+  @keyframes lime-rot{to{transform:rotate(360deg);}}
+  #lime-nav nav{position:relative;}
+  #lime-spy{position:absolute;bottom:3px;height:2px;background:var(--lime,#B8E020);border-radius:2px;transition:left .45s cubic-bezier(.16,1,.3,1),width .45s cubic-bezier(.16,1,.3,1),opacity .3s;opacity:0;pointer-events:none;}
+  @media (prefers-reduced-motion: reduce){ .lime-stamp-rot{animation:none;} }
   /* ---- awwwards pack: masked line reveals, custom cursor, magnetic CTA ---- */
   [data-lines] .lime-ln{display:block;overflow:hidden;padding-bottom:0.09em;margin-bottom:-0.09em;}
   [data-lines] .lime-ln-in{display:block;transform:translateY(112%);transition:transform 1s cubic-bezier(.16,1,.3,1);}
@@ -221,7 +234,7 @@
       <div data-intro="text" style="max-width:1280px;margin:0 auto;width:100%;opacity:0;transform:translateY(18px);transition:opacity .8s ease,transform .9s cubic-bezier(.16,1,.3,1);">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.14em;color:#565C64;text-transform:uppercase;">
           <span style="display:flex;align-items:center;gap:12px;"><span style="display:inline-flex;width:22px;height:22px;align-items:center;justify-content:center;border:1px solid rgba(34,42,52,0.2);font-size:13px;">⊹</span>CRM-внедрение × вайбкодинг</span>
-          <span style="display:flex;align-items:center;gap:20px;"><span style="display:flex;align-items:center;gap:7px;"><span style="width:7px;height:7px;border-radius:50%;background:var(--lime,#B8E020);"></span>система активна</span><span style="color:#969CA4;">v2026</span></span>
+          <span style="display:flex;align-items:center;gap:20px;"><span style="display:flex;align-items:center;gap:7px;"><span style="width:7px;height:7px;border-radius:50%;background:var(--lime,#B8E020);"></span>система активна</span><span style="color:#969CA4;">v2026</span><span id="lime-clock" style="color:#969CA4;"></span></span>
         </div>
       </div>
       <div class="lime-letters" style="width:100%;max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:clamp(16px,7vw,107px);font-family:'Manrope',sans-serif;font-weight:300;letter-spacing:0.04em;line-height:0.9;font-size:clamp(64px,14vw,260px);text-shadow:0 0 26px rgba(243,245,246,0.92);">
@@ -229,6 +242,13 @@
         <span data-intro="letter" style="opacity:0;transform:translateX(-160px);transition:opacity .7s ease,transform 1s cubic-bezier(.16,1,.3,1);">А</span>
         <span data-intro="letter" aria-label="Й" style="position:relative;opacity:0;transform:translateX(-160px);transition:opacity .7s ease,transform 1s cubic-bezier(.16,1,.3,1);">И<span aria-hidden="true" style="position:absolute;left:50%;top:-0.2em;transform:translateX(-46%);width:0.32em;height:0.32em;pointer-events:none;"><svg viewBox="0 0 100 100" style="width:100%;height:100%;display:block;overflow:visible;"><path d="M86 14 C 50 18, 20 46, 16 84 C 54 80, 84 50, 86 14 Z" fill="var(--lime,#B8E020)"></path></svg></span></span>
         <span data-intro="letter" style="opacity:0;transform:translateX(-160px);transition:opacity .7s ease,transform 1s cubic-bezier(.16,1,.3,1);">М<span style="display:inline-block;width:0.14em;height:0.14em;border-radius:50%;background:var(--lime,#B8E020);margin-left:0.05em;"></span></span>
+      </div>
+      <div id="lime-stamp" data-intro="text" aria-hidden="true" style="position:absolute;right:clamp(28px,5vw,96px);bottom:138px;width:116px;height:116px;opacity:0;transform:translateY(18px);transition:opacity .8s ease,transform .9s cubic-bezier(.16,1,.3,1);pointer-events:none;">
+        <svg class="lime-stamp-rot" viewBox="0 0 120 120" style="position:absolute;inset:0;width:100%;height:100%;overflow:visible;">
+          <defs><path id="lime-stc" d="M60,60 m-47,0 a47,47 0 1,1 94,0 a47,47 0 1,1 -94,0"></path></defs>
+          <text style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2.8px;fill:#6b7280;"><textPath href="#lime-stc">CRM • КОД • ИИ • SAAS • ВАЙБКОДИНГ •</textPath></text>
+        </svg>
+        <img src="logo-mark.png" alt="" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:30px;height:30px;">
       </div>
       <div data-intro="text" style="max-width:1280px;margin:0 auto;width:100%;display:flex;align-items:flex-end;justify-content:space-between;gap:30px;flex-wrap:wrap;opacity:0;transform:translateY(18px);transition:opacity .8s ease,transform .9s cubic-bezier(.16,1,.3,1);">
         <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.14em;color:#565C64;text-transform:uppercase;line-height:1.7;">Цифровая архитектура продаж<br><span style="color:#969CA4;">CRM · код · ИИ · SaaS</span></div>
@@ -270,15 +290,15 @@
       </p>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);margin-top:clamp(54px,9vh,96px);border-top:1px solid rgba(34,42,52,0.18);">
         <div data-slide="up" data-delay="0" style="padding:32px 30px 4px 0;border-right:1px solid rgba(34,42,52,0.12);">
-          <div style="font-size:clamp(42px,6.2vw,92px);font-weight:600;letter-spacing:-0.03em;line-height:0.95;"><span data-count="120" data-suffix="+">0</span></div>
+          <div style="font-size:clamp(42px,6.2vw,92px);font-weight:600;letter-spacing:-0.03em;line-height:0.95;" data-prlx="0.08"><span data-count="120" data-suffix="+">0</span></div>
           <div style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#7B828B;text-transform:uppercase;letter-spacing:0.12em;margin-top:14px;">внедрений и сборок</div>
         </div>
         <div data-slide="up" data-delay="110" style="padding:32px 30px 4px 30px;border-right:1px solid rgba(34,42,52,0.12);">
-          <div style="font-size:clamp(42px,6.2vw,92px);font-weight:600;letter-spacing:-0.03em;line-height:0.95;"><span data-count="14" data-suffix=" дн">0</span></div>
+          <div style="font-size:clamp(42px,6.2vw,92px);font-weight:600;letter-spacing:-0.03em;line-height:0.95;" data-prlx="0.11"><span data-count="14" data-suffix=" дн">0</span></div>
           <div style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#7B828B;text-transform:uppercase;letter-spacing:0.12em;margin-top:14px;">средний срок MVP</div>
         </div>
         <div data-slide="up" data-delay="220" style="padding:32px 0 4px 30px;">
-          <div style="font-size:clamp(42px,6.2vw,92px);font-weight:600;letter-spacing:-0.03em;line-height:0.95;color:#5e7a00;"><span data-count="2" data-prefix="×">0</span></div>
+          <div style="font-size:clamp(42px,6.2vw,92px);font-weight:600;letter-spacing:-0.03em;line-height:0.95;color:#5e7a00;" data-prlx="0.07"><span data-count="2" data-prefix="×">0</span></div>
           <div style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#7B828B;text-transform:uppercase;letter-spacing:0.12em;margin-top:14px;">рост конверсии в продажу</div>
         </div>
       </div>
@@ -289,7 +309,7 @@
       <div style="display:grid;grid-template-columns:minmax(220px,0.82fr) 2fr;gap:clamp(28px,5vw,80px);align-items:start;">
         <div data-slide="up" style="position:sticky;top:118px;">
           <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.18em;color:#5e7a00;margin-bottom:22px;">(02) — ЧТО ДЕЛАЕМ</div>
-          <h2 data-lines style="margin:0 0 22px;font-weight:600;letter-spacing:-0.012em;line-height:1.02;font-size:clamp(30px,4vw,60px);">Два цеха,<br><span style="font-family:'Manrope',sans-serif;font-weight:300;">один результат</span></h2>
+          <h2 data-lines data-prlx="0.05" style="margin:0 0 22px;font-weight:600;letter-spacing:-0.012em;line-height:1.02;font-size:clamp(30px,4vw,60px);">Два цеха,<br><span style="font-family:'Manrope',sans-serif;font-weight:300;">один результат</span></h2>
           <p style="margin:0;max-width:300px;font-size:15px;line-height:1.55;color:#565C64;">Сначала наводим порядок на готовых CRM. Потом докручиваем кодом и ИИ то, чего в коробке не бывает.</p>
         </div>
         <div style="border-top:1px solid rgba(34,42,52,0.2);">
@@ -326,28 +346,28 @@
       <div style="display:grid;grid-template-columns:minmax(220px,0.82fr) 2fr;gap:clamp(28px,5vw,80px);align-items:start;">
         <div data-slide="up" style="position:sticky;top:118px;">
           <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.18em;color:#5e7a00;margin-bottom:22px;">(03) — КАК РАБОТАЕМ</div>
-          <h2 data-lines style="margin:0 0 22px;font-weight:600;letter-spacing:-0.012em;line-height:1.02;font-size:clamp(30px,4vw,60px);">От хаоса —<br><span style="font-family:'Manrope',sans-serif;font-weight:300;">к механизму</span></h2>
+          <h2 data-lines data-prlx="0.05" style="margin:0 0 22px;font-weight:600;letter-spacing:-0.012em;line-height:1.02;font-size:clamp(30px,4vw,60px);">От хаоса —<br><span style="font-family:'Manrope',sans-serif;font-weight:300;">к механизму</span></h2>
           <p style="margin:0;max-width:300px;font-size:15px;line-height:1.55;color:#565C64;">Пять шагов от первой встречи до системы, которая растит выручку сама.</p>
         </div>
         <div style="border-top:1px solid rgba(34,42,52,0.2);">
           <div data-slide="right" data-delay="0" class="lime-row" style="display:grid;grid-template-columns:1fr;gap:14px;padding:34px 0;border-bottom:1px solid rgba(34,42,52,0.18);">
-            <div style="display:flex;align-items:baseline;gap:22px;"><span style="font-size:clamp(40px,6vw,76px);font-weight:600;letter-spacing:-0.04em;line-height:0.9;color:rgba(34,42,52,0.16);">01</span><h3 style="margin:0;font-size:clamp(22px,2.8vw,36px);font-weight:600;letter-spacing:-0.015em;">Аудит</h3></div>
+            <div style="display:flex;align-items:baseline;gap:22px;"><span style="font-size:clamp(40px,6vw,76px);font-weight:600;letter-spacing:-0.04em;line-height:0.9;color:transparent;-webkit-text-stroke:1.4px rgba(34,42,52,0.36);">01</span><h3 style="margin:0;font-size:clamp(22px,2.8vw,36px);font-weight:600;letter-spacing:-0.015em;">Аудит</h3></div>
             <p style="margin:0;font-size:15.5px;line-height:1.55;color:#565C64;max-width:560px;">Разбираем процесс продаж и текущие инструменты, находим, где утекают лиды и деньги.</p>
           </div>
           <div data-slide="right" data-delay="60" class="lime-row" style="display:grid;grid-template-columns:1fr;gap:14px;padding:34px 0;border-bottom:1px solid rgba(34,42,52,0.18);">
-            <div style="display:flex;align-items:baseline;gap:22px;"><span style="font-size:clamp(40px,6vw,76px);font-weight:600;letter-spacing:-0.04em;line-height:0.9;color:rgba(34,42,52,0.16);">02</span><h3 style="margin:0;font-size:clamp(22px,2.8vw,36px);font-weight:600;letter-spacing:-0.015em;">Архитектура</h3></div>
+            <div style="display:flex;align-items:baseline;gap:22px;"><span style="font-size:clamp(40px,6vw,76px);font-weight:600;letter-spacing:-0.04em;line-height:0.9;color:transparent;-webkit-text-stroke:1.4px rgba(34,42,52,0.36);">02</span><h3 style="margin:0;font-size:clamp(22px,2.8vw,36px);font-weight:600;letter-spacing:-0.015em;">Архитектура</h3></div>
             <p style="margin:0;font-size:15.5px;line-height:1.55;color:#565C64;max-width:560px;">Проектируем воронки, поля и логику. Решаем, что закроет коробка, а что — код.</p>
           </div>
           <div data-slide="right" data-delay="120" class="lime-row" style="display:grid;grid-template-columns:1fr;gap:14px;padding:34px 0;border-bottom:1px solid rgba(34,42,52,0.18);">
-            <div style="display:flex;align-items:baseline;gap:22px;"><span style="font-size:clamp(40px,6vw,76px);font-weight:600;letter-spacing:-0.04em;line-height:0.9;color:rgba(34,42,52,0.16);">03</span><h3 style="margin:0;font-size:clamp(22px,2.8vw,36px);font-weight:600;letter-spacing:-0.015em;">Внедрение</h3></div>
+            <div style="display:flex;align-items:baseline;gap:22px;"><span style="font-size:clamp(40px,6vw,76px);font-weight:600;letter-spacing:-0.04em;line-height:0.9;color:transparent;-webkit-text-stroke:1.4px rgba(34,42,52,0.36);">03</span><h3 style="margin:0;font-size:clamp(22px,2.8vw,36px);font-weight:600;letter-spacing:-0.015em;">Внедрение</h3></div>
             <p style="margin:0;font-size:15.5px;line-height:1.55;color:#565C64;max-width:560px;">Настраиваем CRM, подключаем интеграции, переносим данные и обучаем команду.</p>
           </div>
           <div data-slide="right" data-delay="180" class="lime-row" style="display:grid;grid-template-columns:1fr;gap:14px;padding:34px 0;border-bottom:1px solid rgba(34,42,52,0.18);">
-            <div style="display:flex;align-items:baseline;gap:22px;"><span style="font-size:clamp(40px,6vw,76px);font-weight:600;letter-spacing:-0.04em;line-height:0.9;color:rgba(34,42,52,0.16);">04</span><h3 style="margin:0;font-size:clamp(22px,2.8vw,36px);font-weight:600;letter-spacing:-0.015em;">Автоматизация</h3></div>
+            <div style="display:flex;align-items:baseline;gap:22px;"><span style="font-size:clamp(40px,6vw,76px);font-weight:600;letter-spacing:-0.04em;line-height:0.9;color:transparent;-webkit-text-stroke:1.4px rgba(34,42,52,0.36);">04</span><h3 style="margin:0;font-size:clamp(22px,2.8vw,36px);font-weight:600;letter-spacing:-0.015em;">Автоматизация</h3></div>
             <p style="margin:0;font-size:15.5px;line-height:1.55;color:#565C64;max-width:560px;">Подключаем ИИ-агентов и кастомный код, убираем ручные действия из воронки.</p>
           </div>
           <div data-slide="right" data-delay="240" class="lime-row" style="display:grid;grid-template-columns:1fr;gap:14px;padding:34px 0;border-bottom:1px solid rgba(34,42,52,0.18);">
-            <div style="display:flex;align-items:baseline;gap:22px;"><span style="font-size:clamp(40px,6vw,76px);font-weight:600;letter-spacing:-0.04em;line-height:0.9;color:#5e7a00;">05</span><h3 style="margin:0;font-size:clamp(22px,2.8vw,36px);font-weight:600;letter-spacing:-0.015em;">Рост</h3></div>
+            <div style="display:flex;align-items:baseline;gap:22px;"><span style="font-size:clamp(40px,6vw,76px);font-weight:600;letter-spacing:-0.04em;line-height:0.9;color:transparent;-webkit-text-stroke:1.4px rgba(94,122,0,0.8);">05</span><h3 style="margin:0;font-size:clamp(22px,2.8vw,36px);font-weight:600;letter-spacing:-0.015em;">Рост</h3></div>
             <p style="margin:0;font-size:15.5px;line-height:1.55;color:#565C64;max-width:560px;">Следим за метриками, дорабатываем и масштабируем. Механизм работает — вы растёте.</p>
           </div>
         </div>
@@ -359,14 +379,14 @@
       <div data-slide="up" style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:clamp(40px,6vh,72px);padding-bottom:24px;border-bottom:1px solid rgba(34,42,52,0.2);">
         <div>
           <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.18em;color:#5e7a00;margin-bottom:20px;">(04) — КЕЙСЫ</div>
-          <h2 data-lines style="margin:0;font-weight:600;letter-spacing:-0.012em;line-height:1.0;font-size:clamp(34px,5.4vw,80px);">Что построили <span style="font-family:'Manrope',sans-serif;font-weight:300;">другим</span></h2>
+          <h2 data-lines data-prlx="0.05" style="margin:0;font-weight:600;letter-spacing:-0.012em;line-height:1.0;font-size:clamp(34px,5.4vw,80px);">Что построили <span style="font-family:'Manrope',sans-serif;font-weight:300;">другим</span></h2>
         </div>
         <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.14em;color:#969CA4;">003 / ВЫБРАННЫЕ</span>
       </div>
 
       <div data-slide="right" data-delay="0" style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,64px);align-items:center;padding:clamp(30px,5vh,56px) 0;border-bottom:1px solid rgba(34,42,52,0.16);">
         <div>
-          <div style="display:flex;align-items:baseline;gap:18px;margin-bottom:18px;"><span style="font-size:clamp(34px,4vw,58px);font-weight:600;letter-spacing:-0.04em;line-height:0.9;color:rgba(34,42,52,0.18);">01</span><span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:0.12em;color:#5e7a00;">amoCRM · ИНТЕГРАЦИИ</span></div>
+          <div style="display:flex;align-items:baseline;gap:18px;margin-bottom:18px;"><span style="font-size:clamp(34px,4vw,58px);font-weight:600;letter-spacing:-0.04em;line-height:0.9;color:transparent;-webkit-text-stroke:1.3px rgba(34,42,52,0.38);">01</span><span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:0.12em;color:#5e7a00;">amoCRM · ИНТЕГРАЦИИ</span></div>
           <h3 style="margin:0 0 14px;font-size:clamp(26px,3.4vw,46px);font-weight:600;letter-spacing:-0.02em;line-height:1.02;">Опт без потерь лидов</h3>
           <p style="margin:0;font-size:16px;line-height:1.55;color:#565C64;max-width:460px;">Свели сайт, телефонию и MAX в одну воронку amoCRM. Лиды не теряются, а менеджер видит всю историю касаний.</p>
         </div>
@@ -376,7 +396,7 @@
       <div data-slide="left" data-delay="0" style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,64px);align-items:center;padding:clamp(30px,5vh,56px) 0;border-bottom:1px solid rgba(34,42,52,0.16);">
         <image-slot id="lime-case-2" shape="rect" class="lime-case-img" placeholder="Интерфейс ИИ-бота" style="width:100%;height:clamp(240px,32vw,380px);display:block;border:1px solid rgba(34,42,52,0.14);clip-path:polygon(0 0, 100% 0, 100% 100%, 26px 100%, 0 calc(100% - 26px));order:-1;"></image-slot>
         <div>
-          <div style="display:flex;align-items:baseline;gap:18px;margin-bottom:18px;"><span style="font-size:clamp(34px,4vw,58px);font-weight:600;letter-spacing:-0.04em;line-height:0.9;color:rgba(34,42,52,0.18);">02</span><span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:0.12em;color:#5e7a00;">ИИ-АГЕНТ · БИТРИКС24</span></div>
+          <div style="display:flex;align-items:baseline;gap:18px;margin-bottom:18px;"><span style="font-size:clamp(34px,4vw,58px);font-weight:600;letter-spacing:-0.04em;line-height:0.9;color:transparent;-webkit-text-stroke:1.3px rgba(34,42,52,0.38);">02</span><span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:0.12em;color:#5e7a00;">ИИ-АГЕНТ · БИТРИКС24</span></div>
           <h3 style="margin:0 0 14px;font-size:clamp(26px,3.4vw,46px);font-weight:600;letter-spacing:-0.02em;line-height:1.02;">Квалификация на боте</h3>
           <p style="margin:0;font-size:16px;line-height:1.55;color:#565C64;max-width:460px;">ИИ разбирает входящие, ставит теги и греет лида до звонка менеджера — отдел продаж берёт уже тёплых.</p>
         </div>
@@ -384,7 +404,7 @@
 
       <div data-slide="right" data-delay="0" style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,64px);align-items:center;padding:clamp(30px,5vh,56px) 0;border-bottom:1px solid rgba(34,42,52,0.16);">
         <div>
-          <div style="display:flex;align-items:baseline;gap:18px;margin-bottom:18px;"><span style="font-size:clamp(34px,4vw,58px);font-weight:600;letter-spacing:-0.04em;line-height:0.9;color:rgba(34,42,52,0.18);">03</span><span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:0.12em;color:#5e7a00;">SAAS · MVP</span></div>
+          <div style="display:flex;align-items:baseline;gap:18px;margin-bottom:18px;"><span style="font-size:clamp(34px,4vw,58px);font-weight:600;letter-spacing:-0.04em;line-height:0.9;color:transparent;-webkit-text-stroke:1.3px rgba(34,42,52,0.38);">03</span><span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:0.12em;color:#5e7a00;">SAAS · MVP</span></div>
           <h3 style="margin:0 0 14px;font-size:clamp(26px,3.4vw,46px);font-weight:600;letter-spacing:-0.02em;line-height:1.02;">MVP за две недели</h3>
           <p style="margin:0;font-size:16px;line-height:1.55;color:#565C64;max-width:460px;">Собрали на вайбкодинге работающий продукт с подпиской и личным кабинетом — от прототипа до первых платящих.</p>
         </div>
@@ -408,7 +428,7 @@
       <div style="display:grid;grid-template-columns:minmax(220px,0.82fr) 2fr;gap:clamp(28px,5vw,80px);align-items:start;">
         <div data-slide="up" style="position:sticky;top:118px;">
           <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.18em;color:#5e7a00;margin-bottom:22px;">(06) — ВОПРОСЫ</div>
-          <h2 data-lines style="margin:0;font-weight:600;letter-spacing:-0.012em;line-height:1.02;font-size:clamp(30px,4vw,60px);">Коротко <span style="font-family:'Manrope',sans-serif;font-weight:300;">о деле</span></h2>
+          <h2 data-lines data-prlx="0.05" style="margin:0;font-weight:600;letter-spacing:-0.012em;line-height:1.02;font-size:clamp(30px,4vw,60px);">Коротко <span style="font-family:'Manrope',sans-serif;font-weight:300;">о деле</span></h2>
         </div>
         <div style="border-top:1px solid rgba(34,42,52,0.2);">
         <details data-slide="left" data-delay="0" style="border-bottom:1px solid rgba(34,42,52,0.16);">
@@ -436,7 +456,7 @@
       <div style="display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(32px,5vw,72px);align-items:start;">
         <div data-slide="left">
           <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.18em;color:#5e7a00;">(07) — ЗАЯВКА</div>
-          <h2 data-lines style="margin:18px 0 30px;font-weight:600;letter-spacing:-0.022em;line-height:0.98;font-size:clamp(38px,5vw,78px);">Соберём ваш<br><span style="font-family:'Manrope',sans-serif;font-weight:300;">механизм</span></h2>
+          <h2 data-lines data-prlx="0.05" style="margin:18px 0 30px;font-weight:600;letter-spacing:-0.022em;line-height:0.98;font-size:clamp(38px,5vw,78px);">Соберём ваш<br><span style="font-family:'Manrope',sans-serif;font-weight:300;">механизм</span></h2>
           <p style="margin:0 0 28px;font-size:17px;line-height:1.55;color:#565C64;max-width:380px;">Расскажите про бизнес и задачу — вернёмся с планом внедрения и оценкой в течение дня.</p>
           <div style="display:flex;flex-direction:column;gap:10px;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:0.04em;color:#15181C;">
             <span>hello@laym.studio</span>
@@ -545,7 +565,7 @@ class Component {
     cards.forEach((c, i) => { c._p = i / N; });
     const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     // drag-to-scroll with inertia (pointer events cover mouse & touch)
-    let dragging = false, dragX = 0, dragVel = 0, resumeAt = 0;
+    let dragging = false, dragX = 0, dragVel = 0, resumeAt = 0, grabK = 1;
     stage.style.touchAction = 'pan-y';
     stage.addEventListener('pointerdown', (e) => {
       dragging = true; dragX = e.clientX; dragVel = 0;
@@ -569,6 +589,7 @@ class Component {
       const travel = N * span;
       const midY = (H - ch) / 2;            // windows sit on one baseline
       if (!dragging) { dragVel = Math.abs(dragVel) > 0.00004 ? dragVel * 0.94 : 0; }
+      grabK += ((dragging ? 0.965 : 1) - grabK) * 0.16;
       for (const c of cards) {
         if (!reduce && !dragging) {
           if (dragVel) c._p += dragVel;
@@ -585,7 +606,7 @@ class Component {
         if (u < 0.1) edge = u / 0.1; else if (u > 0.9) edge = (1 - u) / 0.1;
         edge = Math.max(0, Math.min(1, edge));
         const op = (0.4 + 0.6 * focus) * edge; // side windows dimmed for focus
-        c.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) scale(' + scale.toFixed(3) + ')';
+        c.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) scale(' + (scale * grabK).toFixed(3) + ')';
         c.style.opacity = op.toFixed(3);
         c.style.zIndex = String(100 + Math.round(focus * 100));
       }
@@ -1327,22 +1348,30 @@ class Component {
       });
     }
 
-    // 5) kinetic hero letters: variable weight follows cursor proximity
+    // 5) hero letters: gently yield to the cursor (no size change) + staggered scroll exit
     if (fine && !noMotion) {
       var lts = Array.prototype.slice.call(document.querySelectorAll('.lime-letters > span'));
       if (lts.length) {
-        var ws = lts.map(function(){ return 300; });
+        var lx = lts.map(function(){ return 0; }), ly = lts.map(function(){ return 0; });
+        var exitK = [0.1, 0.2, 0.06, 0.16];
         var kx = -1e4, ky = -1e4;
         addEventListener('mousemove', function(e){ kx = e.clientX; ky = e.clientY; }, { passive: true });
         (function kin(){
+          var sy = window.pageYOffset || 0;
           for (var i = 0; i < lts.length; i++) {
-            var r = lts[i].getBoundingClientRect();
-            if (r.bottom < -40 || r.top > innerHeight + 40) continue;
-            var d = Math.hypot(kx - (r.left + r.width / 2), ky - (r.top + r.height / 2));
-            var t = 300 + Math.max(0, 1 - d / 360) * 380;
-            ws[i] += (t - ws[i]) * 0.1;
-            var w = Math.round(ws[i]);
-            if (lts[i].__w !== w) { lts[i].__w = w; lts[i].style.fontWeight = w; }
+            var el = lts[i];
+            if (!el.__ready) { if (el.style.opacity === '1') el.__ready = true; else continue; }
+            var r = el.getBoundingClientRect();
+            if (r.bottom < -60 || r.top > innerHeight + 60) continue;
+            var oy = -sy * exitK[i % exitK.length];
+            var cx = r.left + r.width / 2 - lx[i], cy = r.top + r.height / 2 - (ly[i] + oy);
+            var dx = cx - kx, dy = cy - ky;
+            var d = Math.hypot(dx, dy) || 1;
+            var f = Math.max(0, 1 - d / 320);
+            var tx = dx / d * f * 18, ty = dy / d * f * 14;
+            lx[i] += (tx - lx[i]) * 0.1; ly[i] += (ty - ly[i]) * 0.1;
+            el.style.transform = 'translate(' + lx[i].toFixed(1) + 'px,' + (ly[i] + oy).toFixed(1) + 'px)';
+            el.style.opacity = Math.max(0, Math.min(1, 1 - (sy - innerHeight * 0.12) / (innerHeight * 0.7))).toFixed(2);
           }
           requestAnimationFrame(kin);
         })();
@@ -1362,6 +1391,77 @@ class Component {
         if (anim) anim.playbackRate = rate;
         requestAnimationFrame(mv);
       })();
+    })();
+
+    // 7) scrub parallax: marked layers drift at their own speed while scrolling
+    if (fine && !noMotion) {
+      var pes = Array.prototype.slice.call(document.querySelectorAll('[data-prlx]'));
+      if (pes.length) {
+        var pap = pes.map(function(){ return 0; });
+        (function prl(){
+          for (var i = 0; i < pes.length; i++) {
+            var el = pes[i], r = el.getBoundingClientRect();
+            if (r.bottom < -100 || r.top > innerHeight + 100) continue;
+            var k = parseFloat(el.getAttribute('data-prlx')) || 0.05;
+            var base = r.top + r.height / 2 - pap[i];
+            var v = (innerHeight / 2 - base) * k;
+            pap[i] += (v - pap[i]) * 0.12;
+            el.style.transform = 'translateY(' + pap[i].toFixed(2) + 'px)';
+          }
+          requestAnimationFrame(prl);
+        })();
+      }
+    }
+
+    // 8) footer curtain: content settles out from under the page edge
+    if (fine && !noMotion) {
+      var ftr = document.querySelector('footer');
+      var fin = ftr ? ftr.querySelector(':scope > div') : null;
+      if (fin) (function fc(){
+        var r = ftr.getBoundingClientRect();
+        if (r.top < innerHeight + 80 && r.bottom > -80) {
+          var p = Math.max(0, Math.min(1, (innerHeight - r.top) / Math.min(r.height, innerHeight * 0.8)));
+          fin.style.transform = 'translateY(' + ((1 - p) * -56).toFixed(1) + 'px)';
+        }
+        requestAnimationFrame(fc);
+      })();
+    }
+
+    // 9) scrollspy: lime underline slides between nav items
+    (function(){
+      var nav = document.querySelector('#lime-nav nav');
+      if (!nav) return;
+      var spy = document.createElement('span'); spy.id = 'lime-spy'; nav.appendChild(spy);
+      var map = ['services', 'process', 'cases'].map(function(id){
+        return { sec: document.getElementById(id), link: nav.querySelector('a[href="#' + id + '"]') };
+      }).filter(function(m){ return m.sec && m.link; });
+      var curL = null;
+      (function sp(){
+        var act = null;
+        for (var i = 0; i < map.length; i++) {
+          var r = map[i].sec.getBoundingClientRect();
+          if (r.top <= innerHeight * 0.45 && r.bottom > innerHeight * 0.3) act = map[i];
+        }
+        var link = act && act.link;
+        if (link !== curL) {
+          curL = link;
+          if (link) {
+            spy.style.left = (link.offsetLeft + 14) + 'px';
+            spy.style.width = (link.offsetWidth - 28) + 'px';
+            spy.style.opacity = '1';
+          } else spy.style.opacity = '0';
+        }
+        requestAnimationFrame(sp);
+      })();
+    })();
+
+    // 10) live HUD clock (Ижевск, UTC+4)
+    (function(){
+      var c = document.getElementById('lime-clock'); if (!c) return;
+      var fmt = null;
+      try { fmt = new Intl.DateTimeFormat('ru-RU', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Samara' }); } catch (e) {}
+      function tick(){ try { c.textContent = 'Ижевск ' + (fmt ? fmt.format(new Date()) : ''); } catch (e) {} }
+      tick(); setInterval(tick, 20000);
     })();
   })();
   // mobile slide-in menu: split each link into chars for a cascading stagger reveal
