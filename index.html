@@ -149,6 +149,7 @@
   <canvas id="lime-city" style="position:fixed;inset:0;width:100vw;height:100vh;z-index:1;pointer-events:none;opacity:0.92;"></canvas>
   <div style="position:fixed;inset:0;z-index:2;pointer-events:none;opacity:0.6;background:radial-gradient(55% 45% at 84% 16%, rgba(86,150,255,0.13), transparent 62%), radial-gradient(52% 52% at 10% 88%, rgba(184,224,32,0.13), transparent 60%), radial-gradient(45% 40% at 62% 104%, rgba(255,140,80,0.08), transparent 60%);"></div>
   <div style="position:fixed;inset:0;z-index:2;pointer-events:none;background:linear-gradient(90deg, rgba(243,245,247,0.9) 0%, rgba(243,245,247,0.45) 30%, rgba(243,245,247,0) 58%), linear-gradient(0deg, rgba(243,245,247,0.6) 0%, rgba(243,245,247,0) 22%), radial-gradient(120% 70% at 40% 0%, rgba(243,245,247,0.5), rgba(243,245,247,0) 42%);"></div>
+  <div id="lime-vignette" style="position:fixed;inset:0;z-index:2;pointer-events:none;background:linear-gradient(270deg, rgba(243,245,247,0.66) 0%, rgba(243,245,247,0.22) 13%, rgba(243,245,247,0) 32%);"></div>
 
   <!-- HUD CHAPTER RAIL -->
   <div id="lime-rail" style="position:fixed;left:26px;bottom:26px;z-index:200;display:flex;flex-direction:column;gap:8px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.16em;color:#565C64;pointer-events:none;text-transform:uppercase;">
@@ -772,6 +773,20 @@ class Component {
       conns.push({ a: foci[i], b: foci[i + 1], at: Math.min(0.96, 0.04 + i * 0.16), phase: rng() });
     }
 
+    // ground micro-details: service plates & hatches scattered near stations (static)
+    const plates = [];
+    sceneHeroes.forEach((_, i) => {
+      const n = 3 + Math.floor(rng() * 3);
+      for (let k = 0; k < n; k++) {
+        plates.push({
+          gx: foci[i][0] + (rng() * 22 - 11), gy: foci[i][1] + (rng() * 22 - 11),
+          w: 0.8 + rng() * 1.6, d: 0.8 + rng() * 1.6,
+          at: Math.min(0.97, (i === 0 ? 0 : i / sceneHeroes.length - 0.05) + 0.015),
+          hatch: rng() < 0.3
+        });
+      }
+    });
+
     let camX = 0, camY = 0, W = 0, H = 0, cfx = 0, cfy = 0;
     function depthFade(gx, gy) {
       const d = Math.hypot(gx - cfx, gy - cfy);
@@ -800,12 +815,17 @@ class Component {
       if (fill) { ctx.fillStyle = fill; ctx.fill(); }
       if (stroke) { ctx.lineWidth = sw || 1; ctx.strokeStyle = stroke; ctx.stroke(); }
     }
-    function shadow(center, rx) {
-      const cx = center[0] + camX, cy = center[1] + camY + 2;
-      const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(6, rx * 1.25));
-      g.addColorStop(0, 'rgba(18,26,36,0.2)'); g.addColorStop(0.55, 'rgba(18,26,36,0.09)'); g.addColorStop(1, 'rgba(18,26,36,0)');
-      ctx.save(); ctx.globalAlpha *= 0.9;
-      ctx.beginPath(); ctx.ellipse(cx, cy, rx * 1.25, rx * 0.6, 0, 0, 7); ctx.fillStyle = g; ctx.fill(); ctx.restore();
+    function castShadow(gx, gy, w, d, h) {
+      // directional iso shadow: footprint stretched along +gy (light from NE), fading with distance
+      const s = Math.min(3.4, 0.5 + h * 0.013);
+      const A = iso(gx, gy, 0), B = iso(gx + w, gy, 0);
+      const C2 = iso(gx + w, gy + d + s, 0), D2 = iso(gx, gy + d + s, 0);
+      const m0 = iso(gx + w / 2, gy + d, 0), m1 = iso(gx + w / 2, gy + d + s, 0);
+      const g = ctx.createLinearGradient(m0[0] + camX, m0[1] + camY, m1[0] + camX, m1[1] + camY);
+      g.addColorStop(0, 'rgba(18,26,36,0.15)');
+      g.addColorStop(0.5, 'rgba(18,26,36,0.06)');
+      g.addColorStop(1, 'rgba(18,26,36,0)');
+      poly([A, B, C2, D2], g, null, 0);
     }
     const STROKE = 'rgba(34,42,52,0.1)';
     const SOFT = 'rgba(34,42,52,0.035)';
@@ -879,7 +899,7 @@ class Component {
     function drawBox(s, a, time) {
       const h = s.h * a, gx = s.gx, gy = s.gy, w = s.w, d = s.d, sub = s.sub || 0;
       const A = iso(gx, gy, 0), C = iso(gx + w, gy + d, 0);
-      shadow([(A[0] + C[0]) / 2, (A[1] + C[1]) / 2 + 5], (w + d) * TW * 0.6);
+      castShadow(gx, gy, w, d, h);
       const cL0 = '#CDD4DC', cL1 = '#B4BCC7', cR0 = '#E4E9EE', cR1 = '#C9D0D8';
       if (sub === 1 && h > 56) {
         const h1 = h * 0.58;
@@ -920,7 +940,7 @@ class Component {
     function drawServer(s, a, time) {
       const h = s.h * a, gx = s.gx, gy = s.gy, w = s.w, d = s.d;
       const A = iso(gx, gy, 0), C = iso(gx + w, gy + d, 0), B = iso(gx + w, gy, 0), D = iso(gx, gy + d, 0);
-      shadow([(A[0] + C[0]) / 2, (A[1] + C[1]) / 2 + 5], (w + d) * TW * 0.55);
+      castShadow(gx, gy, w, d, h);
       wall(D, C, h, '#C7CED6', '#AEB6C0');
       wall(B, C, h, '#DBE1E6', '#C2C9D1');
       const At = iso(gx, gy, h), Bt = iso(gx + w, gy, h), Ct = iso(gx + w, gy + d, h), Dt = iso(gx, gy + d, h);
@@ -942,7 +962,7 @@ class Component {
       ctx.beginPath(); ctx.moveTo(Dt[0] + camX, Dt[1] + camY); ctx.lineTo(At[0] + camX, At[1] + camY); ctx.lineTo(Bt[0] + camX, Bt[1] + camY); ctx.stroke();
     }
     function drawDatatower(s, a, time) {
-      const H = s.h * a; shadow(iso(s.gx, s.gy, 0), (s.w + 1) * TW * 0.6);
+      const H = s.h * a; castShadow(s.gx, s.gy, s.w + 1, s.d + 1, H);
       const tiers = 3, th = H / tiers; let z0 = 0;
       let ow = s.w + 1, od = s.d + 1, ox = s.gx, oy = s.gy;
       for (let t = 0; t < tiers; t++) {
@@ -960,7 +980,7 @@ class Component {
     }
     function drawScreen(s, a, time) {
       const gx = s.gx, gy = s.gy, cols = s.cols || 2, h = s.h * a;
-      shadow(iso(gx + cols / 2, gy + 0.5, 0), cols * TW * 0.5);
+      castShadow(gx, gy + 0.1, cols, 0.4, h * 0.75);
       const standH = Math.min(14, h * 0.4);
       tierBox(gx + cols / 2 - 0.35, gy + 0.25, 0.7, 0.5, 0, standH);
       const z0 = standH, sh = h;
@@ -985,7 +1005,7 @@ class Component {
     function drawChip(s, a, time) {
       const R = s.r, gx = s.gx - R, gy = s.gy - R, w = R * 2, d = R * 2, h = 10 * a;
       const A = iso(gx, gy, 0), C = iso(gx + w, gy + d, 0), B = iso(gx + w, gy, 0), D = iso(gx, gy + d, 0);
-      shadow([(A[0] + C[0]) / 2, (A[1] + C[1]) / 2 + 4], R * TW * 1.2);
+      castShadow(gx, gy, w, d, h);
       wall(D, C, h, '#C5CCD4', '#AEB6C0');
       wall(B, C, h, '#D7DDE3', '#BEC6CE');
       const At = iso(gx, gy, h), Bt = iso(gx + w, gy, h), Ct = iso(gx + w, gy + d, h), Dt = iso(gx, gy + d, h);
@@ -1005,7 +1025,7 @@ class Component {
     }
     function drawAntenna(s, a, time) {
       const h = s.h * a, c = iso(s.gx, s.gy, 0), bx = c[0] + camX, by = c[1] + camY, tx = bx, ty = by - h;
-      shadow(iso(s.gx, s.gy, 0), 9);
+      castShadow(s.gx - 0.12, s.gy - 0.12, 0.24, 0.24, h * 0.55);
       ctx.beginPath(); ctx.ellipse(bx, by, 6, 3, 0, 0, 7); ctx.fillStyle = '#CCD3DA'; ctx.fill(); ctx.lineWidth = 1; ctx.strokeStyle = STROKE; ctx.stroke();
       const g = ctx.createLinearGradient(bx - 2.5, 0, bx + 2.5, 0);
       g.addColorStop(0, '#CDD4DB'); g.addColorStop(0.5, '#EEF1F4'); g.addColorStop(1, '#D5DCE2');
@@ -1024,7 +1044,7 @@ class Component {
     function drawNode(s, a, time) {
       const h = s.h * a, gx = s.gx, gy = s.gy, w = s.w, d = s.d;
       const A = iso(gx, gy, 0), C = iso(gx + w, gy + d, 0), B = iso(gx + w, gy, 0), D = iso(gx, gy + d, 0);
-      shadow([(A[0] + C[0]) / 2, (A[1] + C[1]) / 2 + 4], (w + d) * TW * 0.5);
+      castShadow(gx, gy, w, d, h);
       wall(D, C, h, '#CDD4DB', '#B7BFC8');
       wall(B, C, h, '#DEE3E8', '#C6CDD4');
       const At = iso(gx, gy, h), Bt = iso(gx + w, gy, h), Ct = iso(gx + w, gy + d, h), Dt = iso(gx, gy + d, h);
@@ -1077,7 +1097,37 @@ class Component {
       camY = H * 0.58 - ic[1];
       cfx = this._cf[0]; cfy = this._cf[1];
       ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      // dot-grid parallax: backdrop drifts slower than the city → extra depth layer
+      if (!this._gridEl) this._gridEl = document.getElementById('lime-grid');
+      if (this._gridEl) this._gridEl.style.transform = 'translateY(' + (-p * 70).toFixed(1) + 'px)';
+      // ground plates & hatches (static, under everything)
+      for (const pl of plates) {
+        const ta = clamp((p - pl.at) / 0.06, 0, 1);
+        if (ta <= 0) continue;
+        ctx.globalAlpha = ta * depthFade(pl.gx, pl.gy);
+        const P0 = iso(pl.gx, pl.gy, 0), P1 = iso(pl.gx + pl.w, pl.gy, 0), P2 = iso(pl.gx + pl.w, pl.gy + pl.d, 0), P3 = iso(pl.gx, pl.gy + pl.d, 0);
+        poly([P0, P1, P2, P3], 'rgba(34,42,52,0.028)', 'rgba(34,42,52,0.07)', 1);
+        if (pl.hatch) {
+          const hc = iso(pl.gx + pl.w / 2, pl.gy + pl.d / 2, 0);
+          ctx.beginPath(); ctx.ellipse(hc[0] + camX, hc[1] + camY, 5.5, 2.8, 0, 0, 7);
+          ctx.strokeStyle = 'rgba(34,42,52,0.14)'; ctx.lineWidth = 1; ctx.stroke();
+        }
+      }
+      ctx.globalAlpha = 1;
       conns.forEach(cn => drawConn(cn, p, time));
+      // cloud shadows: huge soft blobs drifting for minutes — depth & life, no flicker
+      for (let ci = 0; ci < 3; ci++) {
+        const cu = (time * 0.0000115 * (1 + ci * 0.35) + ci * 0.37) % 1;
+        const cgx = -8 + cu * 140, cgy = 4 + ((ci * 23) % 40) + Math.sin(time * 0.00002 + ci * 2.1) * 3;
+        const cc = iso(cgx, cgy, 0), cxs = cc[0] + camX, cys = cc[1] + camY;
+        if (cxs < -420 || cxs > W + 420 || cys < -260 || cys > H + 260) continue;
+        const rw = 300 + ci * 70;
+        const cg = ctx.createRadialGradient(cxs, cys, 0, cxs, cys, rw);
+        cg.addColorStop(0, 'rgba(18,26,36,0.045)');
+        cg.addColorStop(0.7, 'rgba(18,26,36,0.02)');
+        cg.addColorStop(1, 'rgba(18,26,36,0)');
+        ctx.beginPath(); ctx.ellipse(cxs, cys, rw, rw * 0.44, 0, 0, 7); ctx.fillStyle = cg; ctx.fill();
+      }
       for (const s of order) {
         const tt = clamp((p - s.at) / 0.07, 0, 1);
         if (tt <= 0) continue;
