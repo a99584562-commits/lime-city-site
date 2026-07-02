@@ -816,16 +816,26 @@ class Component {
       if (stroke) { ctx.lineWidth = sw || 1; ctx.strokeStyle = stroke; ctx.stroke(); }
     }
     function castShadow(gx, gy, w, d, h) {
-      // directional iso shadow: footprint stretched along +gy (light from NE), fading with distance
-      const s = Math.min(3.4, 0.5 + h * 0.013);
-      const A = iso(gx, gy, 0), B = iso(gx + w, gy, 0);
-      const C2 = iso(gx + w, gy + d + s, 0), D2 = iso(gx, gy + d + s, 0);
-      const m0 = iso(gx + w / 2, gy + d, 0), m1 = iso(gx + w / 2, gy + d + s, 0);
-      const g = ctx.createLinearGradient(m0[0] + camX, m0[1] + camY, m1[0] + camX, m1[1] + camY);
-      g.addColorStop(0, 'rgba(18,26,36,0.15)');
-      g.addColorStop(0.5, 'rgba(18,26,36,0.06)');
-      g.addColorStop(1, 'rgba(18,26,36,0)');
-      poly([A, B, C2, D2], g, null, 0);
+      // soft layered shadow: feathered directional falloff (light from NE) + contact pool
+      const s = Math.min(3, 0.35 + h * 0.011);
+      for (let i = 0; i < 3; i++) {
+        const e = [0, 0.3, 0.66][i];
+        const al = [0.07, 0.038, 0.018][i];
+        const x0 = gx - e * 0.5, y0 = gy - e * 0.25;
+        const ww = w + e, dd = d + e * 0.5 + s;
+        const A = iso(x0, y0, 0), B = iso(x0 + ww, y0, 0);
+        const C2 = iso(x0 + ww, y0 + dd, 0), D2 = iso(x0, y0 + dd, 0);
+        const m0 = iso(x0 + ww / 2, y0 + d * 0.55, 0), m1 = iso(x0 + ww / 2, y0 + dd, 0);
+        const g = ctx.createLinearGradient(m0[0] + camX, m0[1] + camY, m1[0] + camX, m1[1] + camY);
+        g.addColorStop(0, 'rgba(18,26,36,' + al + ')');
+        g.addColorStop(1, 'rgba(18,26,36,0)');
+        poly([A, B, C2, D2], g, null, 0);
+      }
+      const cc = iso(gx + w / 2, gy + d / 2, 0), ccx = cc[0] + camX, ccy = cc[1] + camY + 2;
+      const rx = Math.max(14, (w + d) * TW * 0.4);
+      const rg = ctx.createRadialGradient(ccx, ccy, 0, ccx, ccy, rx);
+      rg.addColorStop(0, 'rgba(18,26,36,0.09)'); rg.addColorStop(1, 'rgba(18,26,36,0)');
+      ctx.beginPath(); ctx.ellipse(ccx, ccy, rx, rx * 0.48, 0, 0, 7); ctx.fillStyle = rg; ctx.fill();
     }
     const STROKE = 'rgba(34,42,52,0.1)';
     const SOFT = 'rgba(34,42,52,0.035)';
