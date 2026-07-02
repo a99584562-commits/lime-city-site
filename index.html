@@ -119,6 +119,9 @@
   #lime-cookie .yes{background:var(--lime,#B8E020);border:1px solid var(--lime,#B8E020);color:#15181C;font-weight:600;}
   #lime-cookie .yes:hover{filter:brightness(1.05);}
   /* ---- awwwards pack 2: signatures ---- */
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} }
+  section[id],footer{scroll-margin-top:92px;}
   ::selection{background:var(--lime,#B8E020);color:#15181C;}
   html{scrollbar-width:thin;scrollbar-color:rgba(34,42,52,0.35) transparent;}
   ::-webkit-scrollbar{width:10px;}
@@ -1264,32 +1267,13 @@ class Component {
 </script>
 <div id="lime-cur-dot" aria-hidden="true"></div>
 <div id="lime-cur-ring" aria-hidden="true"><span id="lime-cur-lab"></span></div>
-<script src="lenis.min.js"></script>
 <script>
-  // ---- awwwards pack: inertia scroll, line reveals, cursor, magnetics, kinetic type ----
+  // ---- awwwards pack: line reveals, cursor, magnetics, kinetic type ----
+  // (инерционный Lenis-скролл удалён по фидбеку — нативный скролл контролируется лучше;
+  //  мягкий доезд по якорям делает браузерный scroll-behavior в CSS)
   (function(){
     var fine = window.matchMedia && matchMedia('(hover:hover) and (pointer:fine)').matches;
     var noMotion = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    // 1) inertia smooth scroll (Lenis, self-hosted); native on touch
-    if (window.Lenis && !noMotion && fine) {
-      var lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
-      window.__lenis = lenis;
-      (function raf(t){ lenis.raf(t); requestAnimationFrame(raf); })(0);
-      document.querySelectorAll('a[href^="#"]').forEach(function(a){
-        a.addEventListener('click', function(e){
-          var id = a.getAttribute('href'); if (!id || id.length < 2) return;
-          var t = document.querySelector(id); if (!t) return;
-          e.preventDefault(); lenis.scrollTo(t, { offset: -84, duration: 1.3 });
-        });
-      });
-      var mt = window.limeMenuToggle;
-      if (mt) window.limeMenuToggle = function(open){
-        mt(open);
-        var m = document.getElementById('lime-menu');
-        if (m && m.classList.contains('open')) lenis.stop(); else lenis.start();
-      };
-    }
 
     // 2) masked line reveals for section headings
     document.querySelectorAll('[data-lines]').forEach(function(h){
