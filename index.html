@@ -208,7 +208,7 @@
     <nav data-intro="nav" style="display:flex;align-items:center;gap:6px;opacity:0;transform:translateY(-14px);transition:opacity .7s ease,transform .9s cubic-bezier(.16,1,.3,1);">
       <a href="#services" style="padding:11px 18px;border-radius:100px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.02em;color:#565C64;background:transparent;transition:color .25s,background .25s;" onmouseover="this.style.color='#15181C';this.style.background='rgba(34,42,52,0.06)'" onmouseout="this.style.color='#565C64';this.style.background='transparent'">Услуги</a>
       <a href="#process" style="padding:11px 18px;border-radius:100px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.02em;color:#565C64;background:transparent;transition:color .25s,background .25s;" onmouseover="this.style.color='#15181C';this.style.background='rgba(34,42,52,0.06)'" onmouseout="this.style.color='#565C64';this.style.background='transparent'">Процесс</a>
-      <a href="#cases" style="padding:11px 18px;border-radius:100px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.02em;color:#565C64;background:transparent;transition:color .25s,background .25s;" onmouseover="this.style.color='#15181C';this.style.background='rgba(34,42,52,0.06)'" onmouseout="this.style.color='#565C64';this.style.background='transparent'">Кейсы</a>
+      <a href="cases.html" style="padding:11px 18px;border-radius:100px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.02em;color:#565C64;background:transparent;transition:color .25s,background .25s;" onmouseover="this.style.color='#15181C';this.style.background='rgba(34,42,52,0.06)'" onmouseout="this.style.color='#565C64';this.style.background='transparent'">Кейсы</a>
       <a href="#contact" class="lime-mag" style="padding:11px 20px;border-radius:100px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.02em;color:#15181C;background:var(--lime,#B8E020);transition:filter .25s,box-shadow .25s,transform .45s cubic-bezier(.16,1,.3,1);" onmouseover="this.style.filter='brightness(1.05)';this.style.boxShadow='0 6px 18px rgba(184,224,32,0.45)'" onmouseout="this.style.filter='';this.style.boxShadow=''"><span class="lime-swap"><span>Заявка →</span><span>Заявка →</span></span></a>
     </nav>
     <button id="lime-menu-btn" type="button" aria-label="Открыть меню" onclick="limeMenuToggle()">
@@ -222,7 +222,7 @@
       <nav class="lime-menu-links">
         <a href="#services" onclick="limeMenuToggle(false)">Услуги</a>
         <a href="#process" onclick="limeMenuToggle(false)">Процесс</a>
-        <a href="#cases" onclick="limeMenuToggle(false)">Кейсы</a>
+        <a href="cases.html" onclick="limeMenuToggle(false)">Кейсы</a>
         <a href="#contact" class="lime-menu-cta" onclick="limeMenuToggle(false)">Заявка →</a>
       </nav>
       <div class="lime-menu-foot">ЛАЙМ · CRM-внедрение × вайбкодинг</div>
@@ -378,46 +378,9 @@
     </section>
 
     <!-- CASES -->
-    <section id="cases" data-chapter="04" data-chname="КЕЙСЫ" style="max-width:1280px;margin:0 auto;padding:clamp(70px,11vh,140px) 40px;">
-      <div data-slide="up" style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:clamp(40px,6vh,72px);padding-bottom:24px;border-bottom:1px solid rgba(34,42,52,0.2);">
-        <div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.18em;color:#5e7a00;margin-bottom:20px;">(04) — КЕЙСЫ</div>
-          <h2 data-lines data-prlx="0.05" style="margin:0;font-weight:600;letter-spacing:-0.012em;line-height:1.0;font-size:clamp(34px,5.4vw,80px);">Что построили <span style="font-family:'Manrope',sans-serif;font-weight:300;">другим</span></h2>
-        </div>
-        <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.14em;color:#969CA4;">003 / ВЫБРАННЫЕ</span>
-      </div>
-
-      <div data-slide="right" data-delay="0" style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,64px);align-items:center;padding:clamp(30px,5vh,56px) 0;border-bottom:1px solid rgba(34,42,52,0.16);">
-        <div>
-          <div style="display:flex;align-items:baseline;gap:18px;margin-bottom:18px;"><span style="font-size:clamp(34px,4vw,58px);font-weight:600;letter-spacing:-0.04em;line-height:0.9;color:transparent;-webkit-text-stroke:1.3px rgba(34,42,52,0.38);">01</span><span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:0.12em;color:#5e7a00;">amoCRM · ИНТЕГРАЦИИ</span></div>
-          <h3 style="margin:0 0 14px;font-size:clamp(26px,3.4vw,46px);font-weight:600;letter-spacing:-0.02em;line-height:1.02;">Опт без потерь лидов</h3>
-          <p style="margin:0;font-size:16px;line-height:1.55;color:#565C64;max-width:460px;">Свели сайт, телефонию и MAX в одну воронку amoCRM. Лиды не теряются, а менеджер видит всю историю касаний.</p>
-        </div>
-        <image-slot id="lime-case-1" shape="rect" class="lime-case-img" placeholder="Дашборд воронки" style="width:100%;height:clamp(240px,32vw,380px);display:block;border:1px solid rgba(34,42,52,0.14);clip-path:polygon(26px 0, 100% 0, 100% 100%, 0 100%, 0 26px);"></image-slot>
-      </div>
-
-      <div data-slide="left" data-delay="0" style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,64px);align-items:center;padding:clamp(30px,5vh,56px) 0;border-bottom:1px solid rgba(34,42,52,0.16);">
-        <image-slot id="lime-case-2" shape="rect" class="lime-case-img" placeholder="Интерфейс ИИ-бота" style="width:100%;height:clamp(240px,32vw,380px);display:block;border:1px solid rgba(34,42,52,0.14);clip-path:polygon(0 0, 100% 0, 100% 100%, 26px 100%, 0 calc(100% - 26px));order:-1;"></image-slot>
-        <div>
-          <div style="display:flex;align-items:baseline;gap:18px;margin-bottom:18px;"><span style="font-size:clamp(34px,4vw,58px);font-weight:600;letter-spacing:-0.04em;line-height:0.9;color:transparent;-webkit-text-stroke:1.3px rgba(34,42,52,0.38);">02</span><span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:0.12em;color:#5e7a00;">ИИ-АГЕНТ · БИТРИКС24</span></div>
-          <h3 style="margin:0 0 14px;font-size:clamp(26px,3.4vw,46px);font-weight:600;letter-spacing:-0.02em;line-height:1.02;">Квалификация на боте</h3>
-          <p style="margin:0;font-size:16px;line-height:1.55;color:#565C64;max-width:460px;">ИИ разбирает входящие, ставит теги и греет лида до звонка менеджера — отдел продаж берёт уже тёплых.</p>
-        </div>
-      </div>
-
-      <div data-slide="right" data-delay="0" style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,64px);align-items:center;padding:clamp(30px,5vh,56px) 0;border-bottom:1px solid rgba(34,42,52,0.16);">
-        <div>
-          <div style="display:flex;align-items:baseline;gap:18px;margin-bottom:18px;"><span style="font-size:clamp(34px,4vw,58px);font-weight:600;letter-spacing:-0.04em;line-height:0.9;color:transparent;-webkit-text-stroke:1.3px rgba(34,42,52,0.38);">03</span><span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:0.12em;color:#5e7a00;">SAAS · MVP</span></div>
-          <h3 style="margin:0 0 14px;font-size:clamp(26px,3.4vw,46px);font-weight:600;letter-spacing:-0.02em;line-height:1.02;">MVP за две недели</h3>
-          <p style="margin:0;font-size:16px;line-height:1.55;color:#565C64;max-width:460px;">Собрали на вайбкодинге работающий продукт с подпиской и личным кабинетом — от прототипа до первых платящих.</p>
-        </div>
-        <image-slot id="lime-case-3" shape="rect" class="lime-case-img" placeholder="Экран SaaS-продукта" style="width:100%;height:clamp(240px,32vw,380px);display:block;border:1px solid rgba(34,42,52,0.14);clip-path:polygon(26px 0, 100% 0, 100% 100%, 0 100%, 0 26px);"></image-slot>
-      </div>
-    </section>
-
     <!-- STACK TICKER -->
-    <section data-chapter="05" data-chname="СТЕК" style="padding:clamp(56px,9vh,104px) 0;overflow:hidden;border-top:1px solid rgba(34,42,52,0.14);border-bottom:1px solid rgba(34,42,52,0.14);">
-      <div style="max-width:1280px;margin:0 auto 30px;padding:0 40px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.18em;color:#5e7a00;">(05) — НА ЧЁМ СОБИРАЕМ</div>
+    <section data-chapter="04" data-chname="СТЕК" style="padding:clamp(56px,9vh,104px) 0;overflow:hidden;border-top:1px solid rgba(34,42,52,0.14);border-bottom:1px solid rgba(34,42,52,0.14);">
+      <div style="max-width:1280px;margin:0 auto 30px;padding:0 40px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.18em;color:#5e7a00;">(04) — НА ЧЁМ СОБИРАЕМ</div>
       <div class="lime-mq-wrap" style="-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);">
         <div class="lime-mq" style="display:flex;width:max-content;gap:18px;animation:lime-marquee 42s linear infinite;">
           <div style="display:flex;gap:18px;padding-right:18px;"><span class="lime-stk"><span class="lime-stk-ic lime-stk-mono">a</span><span class="lime-stk-nm">amoCRM</span></span><span class="lime-stk"><span class="lime-stk-ic lime-stk-mono">B</span><span class="lime-stk-nm">Битрикс24</span></span><span class="lime-stk"><span class="lime-stk-ic lime-stk-mono">1С</span><span class="lime-stk-nm">1С</span></span><span class="lime-stk"><span class="lime-stk-ic lime-stk-mono">M</span><span class="lime-stk-nm">MAX</span></span><span class="lime-stk"><span class="lime-stk-ic"><svg viewBox='0 0 24 24'><path d='M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z'/></svg></span><span class="lime-stk-nm">OpenAI</span></span><span class="lime-stk"><span class="lime-stk-ic"><svg viewBox='0 0 24 24'><path d='M21.4737 5.6842c-1.1772 0-2.1663.8051-2.4468 1.8947h-2.8955c-1.235 0-2.289.893-2.492 2.111l-.1038.623a1.263 1.263 0 0 1-1.246 1.0555H11.289c-.2805-1.0896-1.2696-1.8947-2.4468-1.8947s-2.1663.8051-2.4467 1.8947H4.973c-.2805-1.0896-1.2696-1.8947-2.4468-1.8947C1.1311 9.4737 0 10.6047 0 12s1.131 2.5263 2.5263 2.5263c1.1772 0 2.1663-.8051 2.4468-1.8947h1.4223c.2804 1.0896 1.2696 1.8947 2.4467 1.8947 1.1772 0 2.1663-.8051 2.4468-1.8947h1.0008a1.263 1.263 0 0 1 1.2459 1.0555l.1038.623c.203 1.218 1.257 2.111 2.492 2.111h.3692c.2804 1.0895 1.2696 1.8947 2.4468 1.8947 1.3952 0 2.5263-1.131 2.5263-2.5263s-1.131-2.5263-2.5263-2.5263c-1.1772 0-2.1664.805-2.4468 1.8947h-.3692a1.263 1.263 0 0 1-1.246-1.0555l-.1037-.623A2.52 2.52 0 0 0 13.9607 12a2.52 2.52 0 0 0 .821-1.4794l.1038-.623a1.263 1.263 0 0 1 1.2459-1.0555h2.8955c.2805 1.0896 1.2696 1.8947 2.4468 1.8947 1.3952 0 2.5263-1.131 2.5263-2.5263s-1.131-2.5263-2.5263-2.5263m0 1.2632a1.263 1.263 0 0 1 1.2631 1.2631 1.263 1.263 0 0 1-1.2631 1.2632 1.263 1.263 0 0 1-1.2632-1.2632 1.263 1.263 0 0 1 1.2632-1.2631M2.5263 10.7368A1.263 1.263 0 0 1 3.7895 12a1.263 1.263 0 0 1-1.2632 1.2632A1.263 1.263 0 0 1 1.2632 12a1.263 1.263 0 0 1 1.2631-1.2632m6.3158 0A1.263 1.263 0 0 1 10.1053 12a1.263 1.263 0 0 1-1.2632 1.2632A1.263 1.263 0 0 1 7.579 12a1.263 1.263 0 0 1 1.2632-1.2632m10.1053 3.7895a1.263 1.263 0 0 1 1.2631 1.2632 1.263 1.263 0 0 1-1.2631 1.2631 1.263 1.263 0 0 1-1.2632-1.2631 1.263 1.263 0 0 1 1.2632-1.2632'/></svg></span><span class="lime-stk-nm">n8n</span></span><span class="lime-stk"><span class="lime-stk-ic"><svg viewBox='0 0 24 24'><path d='M13.38 3.498c-.27 0-.511.19-.566.465L9.85 18.986a.578.578 0 0 0 .453.678l4.095.826a.58.58 0 0 0 .682-.455l2.963-15.021a.578.578 0 0 0-.453-.678l-4.096-.826a.589.589 0 0 0-.113-.012zm-5.876.098a.576.576 0 0 0-.516.318L.062 17.697a.575.575 0 0 0 .256.774l3.733 1.877a.578.578 0 0 0 .775-.258l6.926-13.781a.577.577 0 0 0-.256-.776L7.762 3.658a.571.571 0 0 0-.258-.062zm11.74.115a.576.576 0 0 0-.576.576v15.426c0 .318.258.578.576.578h4.178a.58.58 0 0 0 .578-.578V4.287a.578.578 0 0 0-.578-.576Z'/></svg></span><span class="lime-stk-nm">Make</span></span><span class="lime-stk"><span class="lime-stk-ic"><svg viewBox='0 0 24 24'><path d='M11.9 1.036c-.015-.986-1.26-1.41-1.874-.637L.764 12.05C-.33 13.427.65 15.455 2.409 15.455h9.579l.113 7.51c.014.985 1.259 1.408 1.873.636l9.262-11.653c1.093-1.375.113-3.403-1.645-3.403h-9.642z'/></svg></span><span class="lime-stk-nm">Supabase</span></span><span class="lime-stk"><span class="lime-stk-ic"><svg viewBox='0 0 24 24'><path d='M18.665 21.978C16.758 23.255 14.465 24 12 24 5.377 24 0 18.623 0 12S5.377 0 12 0s12 5.377 12 12c0 3.583-1.574 6.801-4.067 9.001L9.219 7.2H7.2v9.596h1.615V9.251l9.85 12.727Zm-3.332-8.533 1.6 2.061V7.2h-1.6v6.245Z'/></svg></span><span class="lime-stk-nm">Next.js</span></span><span class="lime-stk"><span class="lime-stk-ic"><svg viewBox='0 0 24 24'><rect x='3' y='13' width='4' height='8' rx='1'/><rect x='10' y='8' width='4' height='13' rx='1'/><rect x='17' y='4' width='4' height='17' rx='1'/></svg></span><span class="lime-stk-nm">Сквозная аналитика</span></span></div>
@@ -427,10 +390,10 @@
     </section>
 
     <!-- FAQ -->
-    <section id="faq" data-chapter="06" data-chname="FAQ" style="max-width:1280px;margin:0 auto;padding:clamp(70px,11vh,140px) 40px;">
+    <section id="faq" data-chapter="05" data-chname="FAQ" style="max-width:1280px;margin:0 auto;padding:clamp(70px,11vh,140px) 40px;">
       <div style="display:grid;grid-template-columns:minmax(220px,0.82fr) 2fr;gap:clamp(28px,5vw,80px);align-items:start;">
         <div data-slide="up" style="position:sticky;top:118px;">
-          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.18em;color:#5e7a00;margin-bottom:22px;">(06) — ВОПРОСЫ</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.18em;color:#5e7a00;margin-bottom:22px;">(05) — ВОПРОСЫ</div>
           <h2 data-lines data-prlx="0.05" style="margin:0;font-weight:600;letter-spacing:-0.012em;line-height:1.02;font-size:clamp(30px,4vw,60px);">Коротко <span style="font-family:'Manrope',sans-serif;font-weight:300;">о деле</span></h2>
         </div>
         <div style="border-top:1px solid rgba(34,42,52,0.2);">
@@ -455,10 +418,10 @@
     </section>
 
     <!-- CONTACT -->
-    <section id="contact" data-chapter="07" data-chname="КОНТАКТ" style="max-width:1280px;margin:0 auto;padding:clamp(80px,13vh,170px) 40px clamp(50px,8vh,90px);">
+    <section id="contact" data-chapter="06" data-chname="КОНТАКТ" style="max-width:1280px;margin:0 auto;padding:clamp(80px,13vh,170px) 40px clamp(50px,8vh,90px);">
       <div style="display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(32px,5vw,72px);align-items:start;">
         <div data-slide="left">
-          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.18em;color:#5e7a00;">(07) — ЗАЯВКА</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.18em;color:#5e7a00;">(06) — ЗАЯВКА</div>
           <h2 data-lines data-prlx="0.05" style="margin:18px 0 30px;font-weight:600;letter-spacing:-0.022em;line-height:0.98;font-size:clamp(38px,5vw,78px);">Соберём ваш<br><span style="font-family:'Manrope',sans-serif;font-weight:300;">механизм</span></h2>
           <p style="margin:0 0 28px;font-size:17px;line-height:1.55;color:#565C64;max-width:380px;">Расскажите про бизнес и задачу — вернёмся с планом внедрения и оценкой в течение дня.</p>
           <div style="display:flex;flex-direction:column;gap:10px;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:0.04em;color:#15181C;">
@@ -486,14 +449,14 @@
           <img src="logo-mark-white.png" alt="ЛАЙМ" width="90" height="90" style="width:clamp(42px,7vw,90px);height:auto;flex:none;">
           <div style="font-family:'Manrope',sans-serif;font-weight:300;letter-spacing:0.04em;line-height:1;font-size:clamp(40px,9vw,116px);color:#F4F6F7;">ЛА<span aria-label="Й" style="position:relative;">И<span aria-hidden="true" style="position:absolute;left:50%;top:-0.2em;transform:translateX(-46%);width:0.32em;height:0.32em;pointer-events:none;"><svg viewBox="0 0 100 100" style="width:100%;height:100%;display:block;overflow:visible;"><path d="M86 14 C 50 18, 20 46, 16 84 C 54 80, 84 50, 86 14 Z" fill="var(--lime,#B8E020)"></path></svg></span></span>М<span style="display:inline-block;width:0.14em;height:0.14em;border-radius:50%;background:var(--lime,#B8E020);margin-left:0.05em;"></span></div>
         </div>
-        <div style="display:flex;flex-wrap:wrap;gap:10px 26px;align-items:center;margin-top:clamp(28px,4vh,44px);font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:0.04em;color:#8A9098;">
-          <a href="policy.html" style="color:#dfe3d6;text-decoration:none;border-bottom:1px solid rgba(184,224,32,0.45);padding-bottom:1px;">Политика обработки ПДн</a>
+        <div style="display:flex;flex-wrap:wrap;gap:10px 26px;align-items:center;margin-top:clamp(28px,4vh,44px);font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:0.04em;color:#AEB4BC;">
+          <a href="policy.html" style="color:#E7EBEF;text-decoration:none;border-bottom:1px solid rgba(184,224,32,0.45);padding-bottom:1px;">Политика обработки ПДн</a>
           <span>[ООО «ЛАЙМ» / ИП ...]</span>
           <span>ИНН [__________]</span>
           <span>ОГРН [__________]</span>
           <span>[email для обращений]</span>
         </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-top:24px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.14);font-family:'JetBrains Mono',monospace;font-size:12px;color:#8A9098;letter-spacing:0.04em;">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-top:24px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.14);font-family:'JetBrains Mono',monospace;font-size:12px;color:#AEB4BC;letter-spacing:0.04em;">
           <span>Внедрение CRM · Вайбкодинг · ИИ · SaaS</span>
           <span>© 2026 ЛАЙМ · собрано на вайбкодинге</span>
         </div>

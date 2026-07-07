@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Кейсы — ЛАЙМ</title>
+<meta name="description" content="Кейсы ЛАЙМ: внедрение CRM, интеграции, ИИ-агенты и собственные приложения на Битрикс24 и amoCRM.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Кейсы — ЛАЙМ">
+<meta property="og:description" content="Что построили другим: приложения и автоматизации на Битрикс24 и amoCRM.">
+<meta property="og:url" content="https://a99584562-commits.github.io/lime-city-site/cases.html">
+<link rel="icon" type="image/png" href="logo-mark.png">
+<link rel="apple-touch-icon" href="logo-mark.png">
+<link rel="stylesheet" href="fonts.css">
+<style>
+  *{box-sizing:border-box;}
+  :root{
+    --bg:#F3F5F6; --card:#FFFFFF; --ink:#15181C; --ink-2:#565C64; --muted:#969CA4;
+    --line:rgba(34,42,52,0.14); --lime:#B8E020; --lime-deep:#5e7a00; --lime-ink:#15181C;
+  }
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto;} }
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'Manrope',sans-serif;font-weight:400;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:clip;}
+  ::selection{background:var(--lime);color:var(--ink);}
+  a{color:inherit;}
+  .mono{font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:0.12em;font-size:11.5px;color:var(--muted);}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 clamp(20px,5vw,44px);}
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--lime);display:inline-block;}
+  #cx-grid{position:fixed;inset:-8%;z-index:0;background-image:radial-gradient(rgba(34,42,52,0.09) 1px,transparent 1px);background-size:32px 32px;pointer-events:none;}
+  #cx-grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:0.13;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='1.8' intercept='-0.4'/%3E%3CfeFuncG type='linear' slope='1.8' intercept='-0.4'/%3E%3CfeFuncB type='linear' slope='1.8' intercept='-0.4'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+  main,header{position:relative;z-index:5;}
+  .nav{position:sticky;top:0;z-index:200;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px clamp(20px,5vw,44px);background:rgba(243,245,247,0.72);backdrop-filter:blur(14px);border-bottom:1px solid rgba(34,42,52,0.08);}
+  .nav a.logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink);}
+  .nav .logo img{width:32px;height:32px;display:block;}
+  .nav .logo b{font-weight:700;letter-spacing:0.16em;font-size:18px;}
+  .nav-r{display:flex;align-items:center;gap:clamp(12px,2.4vw,26px);}
+  .nav-back{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.06em;color:var(--ink-2);text-decoration:none;transition:color .25s;}
+  .nav-back:hover{color:var(--ink);}
+  .cta{display:inline-flex;align-items:center;gap:7px;background:var(--lime);color:var(--lime-ink);font-family:'JetBrains Mono',monospace;font-weight:600;font-size:12px;letter-spacing:0.02em;padding:11px 20px;border-radius:999px;text-decoration:none;transition:filter .25s,box-shadow .25s,transform .25s;}
+  .cta:hover{filter:brightness(1.05);box-shadow:0 8px 20px rgba(184,224,32,0.4);transform:translateY(-1px);}
+  /* header */
+  .head{padding:clamp(40px,8vh,96px) 0 clamp(30px,5vh,54px);}
+  .head .num{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.18em;color:var(--lime-deep);margin-bottom:20px;}
+  h1{font-weight:600;letter-spacing:-0.015em;line-height:1.0;font-size:clamp(38px,7vw,96px);margin:0 0 20px;}
+  h1 .thin{font-weight:300;}
+  .head p{font-size:clamp(15px,1.5vw,17px);color:var(--ink-2);max-width:52ch;margin:0;}
+  /* featured case */
+  .feat{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,64px);align-items:center;padding:clamp(30px,5vh,56px) 0;border-top:1px solid var(--line);text-decoration:none;color:inherit;}
+  .feat .cat{display:flex;align-items:baseline;gap:18px;margin-bottom:18px;}
+  .feat .n{font-size:clamp(34px,4vw,58px);font-weight:600;letter-spacing:-0.04em;line-height:0.9;color:transparent;-webkit-text-stroke:1.3px rgba(34,42,52,0.38);}
+  .feat .tag{font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:0.12em;color:var(--lime-deep);}
+  .feat h2{margin:0 0 14px;font-size:clamp(26px,3.4vw,46px);font-weight:600;letter-spacing:-0.02em;line-height:1.02;}
+  .feat p{margin:0 0 22px;font-size:16px;line-height:1.55;color:var(--ink-2);max-width:460px;}
+  .go{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:12.5px;letter-spacing:0.06em;color:var(--lime-deep);transition:gap .3s cubic-bezier(.16,1,.3,1);}
+  .feat:hover .go{gap:13px;}
+  .vis{width:100%;height:clamp(240px,32vw,380px);background:var(--card);border:1px solid var(--line);clip-path:polygon(26px 0,100% 0,100% 100%,0 100%,0 26px);padding:clamp(16px,2vw,26px);display:flex;flex-direction:column;justify-content:center;gap:clamp(12px,1.6vh,18px);transition:transform .5s cubic-bezier(.16,1,.3,1),border-color .5s,box-shadow .5s;}
+  .feat:hover .vis{transform:translateY(-6px);border-color:rgba(94,122,0,0.45);box-shadow:0 30px 60px -30px rgba(34,42,52,0.32);}
+  .vhead{display:flex;align-items:center;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase;}
+  .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;}
+  .cal span{aspect-ratio:1;border-radius:6px;background:#F0F2F4;position:relative;}
+  .cal .b::after{content:"";position:absolute;left:4px;right:4px;bottom:4px;height:3px;border-radius:2px;background:#CDD1D5;}
+  .cal .a{outline:1.5px solid var(--lime);}
+  .cal .a::after{content:"";position:absolute;left:4px;right:4px;bottom:4px;height:3px;border-radius:2px;background:var(--lime);}
+  .vflow{display:flex;align-items:center;gap:9px;}
+  .ava{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex:none;}
+  .vflow small{font-size:11.5px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:0.02em;}
+  /* more grid */
+  .more-h{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.16em;color:var(--muted);text-transform:uppercase;margin:clamp(40px,7vh,80px) 0 22px;padding-top:26px;border-top:1px solid var(--line);}
+  .more{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;padding-bottom:clamp(30px,6vh,60px);}
+  .mc{background:var(--card);border:1px solid var(--line);clip-path:polygon(16px 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%,0 16px);padding:26px 26px 24px;}
+  .mc .tag{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;color:var(--lime-deep);}
+  .mc h3{margin:12px 0 10px;font-size:22px;font-weight:600;letter-spacing:-0.015em;}
+  .mc p{margin:0 0 18px;font-size:14.5px;line-height:1.5;color:var(--ink-2);}
+  .mc .soon{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);display:inline-flex;align-items:center;gap:7px;}
+  .mc .soon::before{content:"";width:6px;height:6px;border-radius:50%;background:#C7CCD2;}
+  /* CTA band */
+  .band{text-align:center;background:var(--card);border:1px solid var(--line);clip-path:polygon(24px 0,100% 0,100% 100%,24px 100%,0 calc(100% - 24px),0 24px);padding:clamp(44px,7vh,80px) 24px;margin-bottom:8px;}
+  .band h2{margin:0 auto 24px;max-width:18ch;font-weight:300;letter-spacing:-0.015em;line-height:1.05;font-size:clamp(24px,3.6vw,42px);}
+  .cta.big{font-size:14px;padding:15px 28px;}
+  .reveal{opacity:0;transform:translateY(40px);transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1);}
+  .reveal.on{opacity:1;transform:none;}
+  @media (prefers-reduced-motion:reduce){ .reveal{opacity:1;transform:none;transition:none;} }
+  /* footer */
+  footer{background:#13171B;color:#E8EBEE;margin:clamp(40px,7vh,90px) clamp(12px,2vw,28px) clamp(12px,2vw,28px);clip-path:polygon(clamp(20px,2.6vw,34px) 0,100% 0,100% calc(100% - clamp(20px,2.6vw,34px)),calc(100% - clamp(20px,2.6vw,34px)) 100%,0 100%,0 clamp(20px,2.6vw,34px));overflow:hidden;position:relative;z-index:5;}
+  footer .fin{max-width:1180px;margin:0 auto;padding:clamp(36px,6vh,60px) clamp(24px,5vw,44px) 32px;}
+  footer .lock{display:flex;align-items:center;gap:clamp(14px,2.2vw,28px);}
+  footer .lock img{width:clamp(40px,7vw,78px);height:auto;flex:none;}
+  footer .wm{font-family:'Manrope',sans-serif;font-weight:300;letter-spacing:0.04em;line-height:1;font-size:clamp(36px,8vw,92px);color:#F4F6F7;}
+  footer .wm .lf{position:relative;}
+  footer .wm .lf svg{position:absolute;left:50%;top:-0.2em;transform:translateX(-46%);width:0.32em;height:0.32em;}
+  footer .dotm{display:inline-block;width:0.14em;height:0.14em;border-radius:50%;background:var(--lime);margin-left:0.05em;vertical-align:baseline;}
+  footer .strip{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:clamp(26px,4vh,42px);padding-top:22px;border-top:1px solid rgba(255,255,255,0.14);font-family:'JetBrains Mono',monospace;font-size:12px;color:#AEB4BC;letter-spacing:0.04em;}
+  footer .strip a{color:#E7EBEF;text-decoration:none;border-bottom:1px solid rgba(184,224,32,0.5);padding-bottom:1px;}
+  @media (max-width:860px){ .feat{grid-template-columns:1fr;} }
+  @media (max-width:520px){ .nav-back{display:none;} }
+</style>
+</head>
+<body>
+<div id="cx-grid" aria-hidden="true"></div>
+<div id="cx-grain" aria-hidden="true"></div>
+
+<header class="nav">
+  <a class="logo" href="index.html"><img src="logo-mark.png" alt="ЛАЙМ"><b>ЛАЙМ</b></a>
+  <div class="nav-r">
+    <a class="nav-back" href="index.html">← на главную</a>
+    <a class="cta" href="index.html#contact">Заявка →</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="head">
+    <div class="num">(04) — КЕЙСЫ</div>
+    <h1>Что построили <span class="thin">другим</span></h1>
+    <p>Приложения и автоматизации на Битрикс24 и amoCRM — от интеграций и ИИ-агентов до собственных сервисов на вайбкодинге. Один кейс с подробным разбором, остальные готовим.</p>
+  </section>
+
+  <!-- FEATURED CASE -->
+  <a class="feat reveal" href="case.html">
+    <div>
+      <div class="cat"><span class="n">01</span><span class="tag">Битрикс24 · Автоматизация</span></div>
+      <h2>График отсутствий и автозамена</h2>
+      <p>Приложение для Битрикс24: на время отпуска задачи и согласования сами уходят заместителю — вместе с доступом к нужным сделкам.</p>
+      <span class="go">Смотреть кейс →</span>
+    </div>
+    <div class="vis">
+      <div class="vhead"><span>Календарь отсутствий</span><span style="display:flex;align-items:center;gap:6px;"><span class="dot"></span>июнь</span></div>
+      <div class="cal">
+        <span></span><span class="b"></span><span class="b"></span><span></span><span></span><span></span><span></span>
+        <span class="a"></span><span class="a"></span><span class="a"></span><span></span><span class="b"></span><span></span><span></span>
+      </div>
+      <div class="vflow">
+        <span class="ava" style="background:#EDEEEF;color:#7A8087;">ОК</span>
+        <svg width="30" height="12" viewBox="0 0 30 12" fill="none" stroke="#5e7a00" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="flex:none;"><path d="M1 6h25M22 2l5 4-5 4"/></svg>
+        <span class="ava" style="background:#B8E020;color:#15181C;">ИП</span>
+        <small>задача → заместитель</small>
+      </div>
+    </div>
+  </a>
+
+  <!-- MORE (в работе) -->
+  <div class="more-h reveal">Ещё в работе</div>
+  <div class="more">
+    <div class="mc reveal">
+      <span class="tag">amoCRM · Интеграции</span>
+      <h3>Опт без потерь лидов</h3>
+      <p>Свели сайт, телефонию и MAX в одну воронку amoCRM. Лиды не теряются, а менеджер видит всю историю касаний.</p>
+      <span class="soon">разбор готовится</span>
+    </div>
+    <div class="mc reveal">
+      <span class="tag">SaaS · MVP</span>
+      <h3>MVP за две недели</h3>
+      <p>Собрали на вайбкодинге работающий продукт с подпиской и личным кабинетом — от прототипа до первых платящих.</p>
+      <span class="soon">разбор готовится</span>
+    </div>
+    <div class="mc reveal">
+      <span class="tag">ИИ-агент · Битрикс24</span>
+      <h3>Квалификация на боте</h3>
+      <p>ИИ разбирает входящие, ставит теги и греет лида до звонка менеджера — отдел продаж берёт уже тёплых.</p>
+      <span class="soon">разбор готовится</span>
+    </div>
+  </div>
+
+  <section class="band reveal">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.16em;color:var(--lime-deep);text-transform:uppercase;margin-bottom:18px;">Ваш проект</div>
+    <h2>Нужна такая же автоматизация<br>или своё приложение?</h2>
+    <a class="cta big" href="index.html#contact">Оставить заявку →</a>
+  </section>
+</main>
+
+<footer>
+  <div class="fin">
+    <div class="lock">
+      <img src="logo-mark-white.png" alt="ЛАЙМ">
+      <div class="wm">ЛА<span class="lf">И<svg viewBox="0 0 100 100"><path d="M86 14 C 50 18, 20 46, 16 84 C 54 80, 84 50, 86 14 Z" fill="var(--lime)"></path></svg></span>М<span class="dotm"></span></div>
+    </div>
+    <div class="strip">
+      <span><a href="index.html">На главную</a> · <a href="policy.html">Политика обработки ПДн</a></span>
+      <span>© 2026 ЛАЙМ · собрано на вайбкодинге</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var rv = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window && !reduce) {
+      var io = new IntersectionObserver(function(es){
+        es.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target); } });
+      }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+      rv.forEach(function(e){ io.observe(e); });
+    } else { rv.forEach(function(e){ e.classList.add('on'); }); }
+  })();
+</script>
+</body>
+</html>
