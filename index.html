@@ -143,18 +143,7 @@
   .lime-swap>span:last-child{position:absolute;inset:0;transform:translateY(108%);}
   .lime-mag:hover .lime-swap>span:first-child{transform:translateY(-108%);}
   .lime-mag:hover .lime-swap>span:last-child{transform:translateY(0);}
-  #lime-cur-dot,#lime-cur-ring{display:none;}
-  @media (hover:hover) and (pointer:fine){
-    html.lime-cur, html.lime-cur *{cursor:none!important;}
-    html.lime-cur #lime-cur-dot{display:block;}
-    html.lime-cur #lime-cur-ring{display:flex;}
-    #lime-cur-dot{position:fixed;left:0;top:0;z-index:9700;width:6px;height:6px;border-radius:50%;background:#15181C;pointer-events:none;will-change:transform;}
-    #lime-cur-ring{position:fixed;left:0;top:0;z-index:9699;width:36px;height:36px;border-radius:100px;border:1.2px solid rgba(21,24,28,0.35);background:rgba(255,255,255,0);pointer-events:none;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:0.08em;text-transform:uppercase;color:#15181C;white-space:nowrap;will-change:transform;transition:width .35s cubic-bezier(.16,1,.3,1),height .35s cubic-bezier(.16,1,.3,1),background .3s,border-color .3s;}
-    #lime-cur-ring span{opacity:0;transition:opacity .25s;}
-    #lime-cur-ring.hov{width:54px;height:54px;border-color:rgba(94,122,0,0.6);}
-    #lime-cur-ring.lab{width:78px;height:78px;background:rgba(255,255,255,0.92);border-color:rgba(94,122,0,0.5);}
-    #lime-cur-ring.lab span{opacity:1;}
-  }
+  /* кастомный курсор вынесен в lime-cursor.js (единый на всех страницах) */
   /* ---- mobile slide-in menu (glyphslabs-style letter reveal) ---- */
   #lime-menu-btn{display:none;flex-direction:column;align-items:center;justify-content:center;gap:5px;width:38px;height:38px;flex:none;border-radius:100px;border:1px solid rgba(34,42,52,0.18);background:transparent;cursor:pointer;padding:0;}
   #lime-menu-btn span{display:block;width:15px;height:1.4px;background:#15181C;border-radius:2px;transition:transform .3s cubic-bezier(.16,1,.3,1),opacity .3s;}
@@ -443,7 +432,7 @@
     </section>
 
     <!-- FOOTER -->
-    <footer style="background:#13171B;color:#E8EBEE;margin:clamp(40px,7vh,90px) clamp(12px,2vw,28px) clamp(12px,2vw,28px);clip-path:polygon(clamp(20px,2.6vw,34px) 0, 100% 0, 100% calc(100% - clamp(20px,2.6vw,34px)), calc(100% - clamp(20px,2.6vw,34px)) 100%, 0 100%, 0 clamp(20px,2.6vw,34px));overflow:hidden;">
+    <footer data-cursor-dark style="background:#13171B;color:#E8EBEE;margin:clamp(40px,7vh,90px) clamp(12px,2vw,28px) clamp(12px,2vw,28px);clip-path:polygon(clamp(20px,2.6vw,34px) 0, 100% 0, 100% calc(100% - clamp(20px,2.6vw,34px)), calc(100% - clamp(20px,2.6vw,34px)) 100%, 0 100%, 0 clamp(20px,2.6vw,34px));overflow:hidden;">
       <div style="max-width:1280px;margin:0 auto;padding:clamp(40px,7vh,72px) 40px 36px;">
         <div data-slide="up" style="display:flex;align-items:center;gap:clamp(14px,2.2vw,30px);">
           <img src="logo-mark-white.png" alt="ЛАЙМ" width="90" height="90" style="width:clamp(42px,7vw,90px);height:auto;flex:none;">
@@ -1228,8 +1217,6 @@ class Component {
     if(!saved){ var b=document.getElementById('lime-cookie'); if(b) setTimeout(function(){b.classList.add('show');}, 1600); }
   })();
 </script>
-<div id="lime-cur-dot" aria-hidden="true"></div>
-<div id="lime-cur-ring" aria-hidden="true"><span id="lime-cur-lab"></span></div>
 <script>
   // ---- awwwards pack: line reveals, cursor, magnetics, kinetic type ----
   // (инерционный Lenis-скролл удалён по фидбеку — нативный скролл контролируется лучше;
@@ -1261,27 +1248,7 @@ class Component {
       document.querySelectorAll('[data-lines]').forEach(function(h){ h.classList.add('on'); });
     }
 
-    // 3) custom cursor: dot + trailing ring, grows on interactive, label over carousel
-    if (fine) {
-      document.documentElement.classList.add('lime-cur');
-      var dot = document.getElementById('lime-cur-dot'), ring = document.getElementById('lime-cur-ring'), lab = document.getElementById('lime-cur-lab');
-      var mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my;
-      addEventListener('mousemove', function(e){
-        mx = e.clientX; my = e.clientY;
-        var tc = e.target && e.target.closest ? e.target.closest('a,button,.lime-win,[data-cursor],input,textarea,label') : null;
-        var dc = e.target && e.target.closest ? e.target.closest('[data-cursor]') : null;
-        var l = dc ? dc.getAttribute('data-cursor') : '';
-        ring.classList.toggle('lab', !!l);
-        ring.classList.toggle('hov', !!tc && !l);
-        if (lab.textContent !== (l || '')) lab.textContent = l || '';
-      }, { passive: true });
-      (function cur(){
-        rx += (mx - rx) * 0.16; ry += (my - ry) * 0.16;
-        dot.style.transform = 'translate(' + mx + 'px,' + my + 'px) translate(-50%,-50%)';
-        ring.style.transform = 'translate(' + rx.toFixed(1) + 'px,' + ry.toFixed(1) + 'px) translate(-50%,-50%)';
-        requestAnimationFrame(cur);
-      })();
-    }
+    // 3) кастомный курсор вынесен в lime-cursor.js (подключён отдельным <script>)
 
     // 4) magnetic CTAs
     if (fine) {
@@ -1441,5 +1408,6 @@ class Component {
     document.body.style.overflow = open ? 'hidden' : '';
   }
 </script>
+<script src="lime-cursor.js" defer></script>
 </body>
 </html>
