@@ -1141,19 +1141,6 @@ class Component {
       }
       ctx.globalAlpha = 1;
       conns.forEach(cn => drawConn(cn, p, time));
-      // cloud shadows: huge soft blobs drifting for minutes — depth & life, no flicker
-      for (let ci = 0; ci < 3; ci++) {
-        const cu = (time * 0.0000115 * (1 + ci * 0.35) + ci * 0.37) % 1;
-        const cgx = -8 + cu * 140, cgy = 4 + ((ci * 23) % 40) + Math.sin(time * 0.00002 + ci * 2.1) * 3;
-        const cc = iso(cgx, cgy, 0), cxs = cc[0] + camX, cys = cc[1] + camY;
-        if (cxs < -420 || cxs > W + 420 || cys < -260 || cys > H + 260) continue;
-        const rw = 300 + ci * 70;
-        const cg = ctx.createRadialGradient(cxs, cys, 0, cxs, cys, rw);
-        cg.addColorStop(0, 'rgba(18,26,36,0.045)');
-        cg.addColorStop(0.7, 'rgba(18,26,36,0.02)');
-        cg.addColorStop(1, 'rgba(18,26,36,0)');
-        ctx.beginPath(); ctx.ellipse(cxs, cys, rw, rw * 0.44, 0, 0, 7); ctx.fillStyle = cg; ctx.fill();
-      }
       for (const s of order) {
         const tt = clamp((p - s.at) / 0.07, 0, 1);
         if (tt <= 0) continue;
