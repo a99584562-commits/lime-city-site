@@ -2,3 +2,10 @@
 node_modules/
 *.log
 .image-slots.state.json
+
+# экспериментальные исходники скраб-механики (не для прода)
+future/orbit.mp4
+future/head-scrub.mp4
+future/head.mp4
+future/head-poster.jpg
+future/head-start-frame.jpg

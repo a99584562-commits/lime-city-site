@@ -42,8 +42,8 @@
     #lime-nav>a span:last-child{font-size:15px!important;letter-spacing:0.08em!important;}
     #top{padding:100px 18px 40px!important;}
     #momentum,#services,#process,#cases,#contact,#faq{padding-left:18px!important;padding-right:18px!important;}
-    /* hero wordmark: keep presence, stop the wide spread */
-    .lime-letters{max-width:none!important;font-size:clamp(56px,17vw,120px)!important;}
+    /* hero wordmark: картинка сама скейлится, только убираем боковые поля */
+    .lime-letters{max-width:none!important;padding:0!important;}
     /* split headline: smaller, no edge overhang */
     #momentum h2{font-size:clamp(27px,8vw,44px)!important;}
     #momentum h2 span{align-self:stretch!important;text-align:left!important;}
@@ -229,11 +229,8 @@
           <span style="display:flex;align-items:center;gap:20px;"><span style="display:flex;align-items:center;gap:7px;"><span style="width:7px;height:7px;border-radius:50%;background:var(--lime,#B8E020);"></span>система активна</span><span style="color:#969CA4;">v2026</span><span id="lime-clock" style="color:#969CA4;"></span></span>
         </div>
       </div>
-      <div class="lime-letters" style="width:100%;max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:clamp(16px,7vw,107px);font-family:'Manrope',sans-serif;font-weight:300;letter-spacing:0.04em;line-height:0.9;font-size:clamp(64px,14vw,260px);text-shadow:0 0 26px rgba(243,245,246,0.92);">
-        <span data-intro="letter" style="opacity:0;transform:translateX(-160px);transition:opacity .7s ease,transform 1s cubic-bezier(.16,1,.3,1);">Л</span>
-        <span data-intro="letter" style="opacity:0;transform:translateX(-160px);transition:opacity .7s ease,transform 1s cubic-bezier(.16,1,.3,1);">А</span>
-        <span data-intro="letter" aria-label="Й" style="position:relative;opacity:0;transform:translateX(-160px);transition:opacity .7s ease,transform 1s cubic-bezier(.16,1,.3,1);">И<span aria-hidden="true" style="position:absolute;left:50%;top:-0.2em;transform:translateX(-46%);width:0.32em;height:0.32em;pointer-events:none;"><svg viewBox="0 0 100 100" style="width:100%;height:100%;display:block;overflow:visible;"><path d="M86 14 C 50 18, 20 46, 16 84 C 54 80, 84 50, 86 14 Z" fill="var(--lime,#B8E020)"></path></svg></span></span>
-        <span data-intro="letter" style="opacity:0;transform:translateX(-160px);transition:opacity .7s ease,transform 1s cubic-bezier(.16,1,.3,1);">М<span style="display:inline-block;width:0.14em;height:0.14em;border-radius:50%;background:var(--lime,#B8E020);margin-left:0.05em;"></span></span>
+      <div class="lime-letters" style="width:100%;max-width:1720px;margin:0 auto;padding:0 clamp(8px,2vw,40px);">
+        <img id="lime-wordmark" src="reveal/wordmark-black.png" alt="ЛАЙМ" data-intro="text" style="display:block;width:100%;height:auto;opacity:0;transform:translateY(18px);transition:opacity .8s ease,transform .9s cubic-bezier(.16,1,.3,1);">
       </div>
       <div id="lime-stamp" data-intro="text" aria-hidden="true" style="position:absolute;right:clamp(28px,5vw,96px);bottom:138px;width:116px;height:116px;opacity:0;transform:translateY(18px);transition:opacity .8s ease,transform .9s cubic-bezier(.16,1,.3,1);pointer-events:none;">
         <svg class="lime-stamp-rot" viewBox="0 0 120 120" style="position:absolute;inset:0;width:100%;height:100%;overflow:visible;">
@@ -874,9 +871,35 @@ class Component {
       if (bh <= 3) return;
       poly([g0, g1, [g1[0], g1[1] - bh], [g0[0], g0[1] - bh]], 'rgba(18,26,36,' + alpha + ')', null, 0);
     }
+    function cornice(g0, g1, h, alpha) {
+      // тень под кромкой крыши: темнее у роофлайна, растворяется вниз
+      const ch = Math.min(h * 0.14, 8);
+      if (ch <= 2) return;
+      const t0 = [g0[0], g0[1] - h], t1 = [g1[0], g1[1] - h];
+      poly([t0, t1, [t1[0], t1[1] + ch], [t0[0], t0[1] + ch]], vgrad(g0[0], t0[1], t0[1] + ch, 'rgba(18,26,36,' + alpha + ')', 'rgba(18,26,36,0)'), null, 0);
+    }
+    function roofShine(At, Bt, Ct, Dt) {
+      // свет с СВ (как у castShadow): крыша светлее к дальнему правому углу, чуть темнее к левому
+      const g = ctx.createLinearGradient(Bt[0] + camX, Bt[1] + camY, Dt[0] + camX, Dt[1] + camY);
+      g.addColorStop(0, 'rgba(255,255,255,0.3)');
+      g.addColorStop(0.55, 'rgba(255,255,255,0)');
+      g.addColorStop(1, 'rgba(18,26,36,0.045)');
+      poly([At, Bt, Ct, Dt], g, null, 0);
+    }
+    function roofShadow(ox, oy, ow, od, z) {
+      // контактная тень-посадка под верхним ярусом/надстройкой на крыше
+      const c = iso(ox + ow / 2, oy + od / 2, z), cx = c[0] + camX, cy = c[1] + camY + 1;
+      const rx = Math.max(10, (ow + od) * TW * 0.36);
+      const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, rx);
+      g.addColorStop(0, 'rgba(18,26,36,0.1)'); g.addColorStop(1, 'rgba(18,26,36,0)');
+      ctx.beginPath(); ctx.ellipse(cx, cy, rx, rx * 0.48, 0, 0, 7); ctx.fillStyle = g; ctx.fill();
+    }
     function wall(g0, g1, h, c0, c1) {
       const t0 = [g0[0], g0[1] - h], t1 = [g1[0], g1[1] - h];
       poly([g0, g1, t1, t0], vgrad(g0[0], t0[1], g0[1], c0, c1), STROKE, 1);
+      const shn = ctx.createLinearGradient(g0[0] + camX, 0, g1[0] + camX, 0);
+      shn.addColorStop(0, 'rgba(255,255,255,0)'); shn.addColorStop(0.55, 'rgba(255,255,255,0)'); shn.addColorStop(1, 'rgba(255,255,255,0.1)');
+      poly([g0, g1, t1, t0], shn, null, 0);
       baseBand(g0, g1, h, 0.1);
       ctx.strokeStyle = SOFT; ctx.lineWidth = 1;
       const n = Math.max(1, Math.round(h / 14));
@@ -888,6 +911,7 @@ class Component {
         const a0 = lp(g0, g1, fr);
         ctx.beginPath(); ctx.moveTo(a0[0] + camX, a0[1] + camY); ctx.lineTo(a0[0] + camX, a0[1] - h + camY); ctx.stroke();
       }
+      cornice(g0, g1, h, 0.09);
       edgeHi(g1, h, 1);
     }
     function winWall(g0, g1, h, c0, c1, phase) {
@@ -904,6 +928,7 @@ class Component {
         if ((r * 3 + c * 5 + Math.floor(phase * 6)) % 8 === 0) { ctx.save(); ctx.shadowColor = accent; ctx.shadowBlur = 5; poly(q, accent, 'rgba(255,255,255,0.4)', 0.6); ctx.restore(); }
         else poly(q, 'rgba(74,90,108,0.13)', 'rgba(255,255,255,0.26)', 0.6);
       }
+      cornice(g0, g1, h, 0.07);
       baseBand(g0, g1, h, 0.08);
       edgeHi(g1, h, 0.85);
     }
@@ -911,6 +936,7 @@ class Component {
       const At = iso(gx, gy, h), Bt = iso(gx + w, gy, h), Ct = iso(gx + w, gy + d, h), Dt = iso(gx, gy + d, h);
       poly([At, Bt, Ct, Dt], '#F4F7FA', STROKE, 1);
       poly([lp(At, Ct, 0.2), lp(Bt, Dt, 0.2), lp(Ct, At, 0.2), lp(Dt, Bt, 0.2)], '#DCE2E8', 'rgba(34,42,52,0.14)', 1);
+      roofShine(At, Bt, Ct, Dt);
       ctx.strokeStyle = 'rgba(255,255,255,0.7)'; ctx.lineWidth = 1.2;
       ctx.beginPath(); ctx.moveTo(Dt[0] + camX, Dt[1] + camY); ctx.lineTo(At[0] + camX, At[1] + camY); ctx.lineTo(Bt[0] + camX, Bt[1] + camY); ctx.stroke();
     }
@@ -933,6 +959,7 @@ class Component {
         winWall(iso(gx + w, gy, 0), iso(gx + w, gy + d, 0), h1, cR0, cR1, s.phase + 2);
         capParapet(gx, gy, w, d, h1);
         const iw = w * 0.6, id = d * 0.6, ox = gx + (w - iw) / 2, oy = gy + (d - id) / 2;
+        roofShadow(ox, oy, iw, id, h1);
         winWall(iso(ox, oy + id, h1), iso(ox + iw, oy + id, h1), h - h1, cL0, cL1, s.phase + 1);
         winWall(iso(ox + iw, oy, h1), iso(ox + iw, oy + id, h1), h - h1, cR0, cR1, s.phase + 3);
         capParapet(ox, oy, iw, id, h);
@@ -944,6 +971,7 @@ class Component {
         if (sub === 2 && h > 58) roofMast(gx, gy, w, d, h, time, s.phase);
         else if (h > 64) {
           const ux = gx + w * 0.3, uy = gy + d * 0.3, uw = w * 0.4, ud = d * 0.4, uh = 12 * a;
+          roofShadow(ux, uy, uw, ud, h);
           winWall(iso(ux, uy + ud, h), iso(ux + uw, uy + ud, h), uh, cL0, cL1, s.phase);
           winWall(iso(ux + uw, uy, h), iso(ux + uw, uy + ud, h), uh, cR0, cR1, s.phase);
           capParapet(ux, uy, uw, ud, h + uh);
@@ -961,6 +989,9 @@ class Component {
       wall(B, C, h, '#E0E5EA', '#C6CDD4');
       const At = iso(ox, oy, z0 + h), Bt = iso(ox + ow, oy, z0 + h), Ct = iso(ox + ow, oy + od, z0 + h), Dt = iso(ox, oy + od, z0 + h);
       poly([At, Bt, Ct, Dt], '#EFF2F5', STROKE, 1);
+      roofShine(At, Bt, Ct, Dt);
+      ctx.strokeStyle = 'rgba(255,255,255,0.5)'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(Dt[0] + camX, Dt[1] + camY); ctx.lineTo(At[0] + camX, At[1] + camY); ctx.lineTo(Bt[0] + camX, Bt[1] + camY); ctx.stroke();
       return z0 + h;
     }
     function drawServer(s, a, time) {
@@ -971,6 +1002,7 @@ class Component {
       wall(B, C, h, '#DBE1E6', '#C2C9D1');
       const At = iso(gx, gy, h), Bt = iso(gx + w, gy, h), Ct = iso(gx + w, gy + d, h), Dt = iso(gx, gy + d, h);
       poly([At, Bt, Ct, Dt], '#EEF1F4', STROKE, 1);
+      roofShine(At, Bt, Ct, Dt);
       ctx.strokeStyle = 'rgba(34,42,52,0.16)'; ctx.lineWidth = 1;
       const slots = Math.max(3, Math.round(h / 6));
       for (let i = 1; i < slots; i++) { const z = h * i / slots; ctx.beginPath(); ctx.moveTo(B[0] + camX, B[1] - z + camY); ctx.lineTo(C[0] + camX, C[1] - z + camY); ctx.stroke(); }
@@ -992,6 +1024,7 @@ class Component {
       const tiers = 3, th = H / tiers; let z0 = 0;
       let ow = s.w + 1, od = s.d + 1, ox = s.gx, oy = s.gy;
       for (let t = 0; t < tiers; t++) {
+        if (t) roofShadow(ox, oy, ow, od, z0);
         z0 = tierBox(ox, oy, ow, od, z0, th);
         const nw = ow * 0.64, nd = od * 0.64; ox += (ow - nw) / 2; oy += (od - nd) / 2; ow = nw; od = nd;
       }
@@ -1036,6 +1069,7 @@ class Component {
       wall(B, C, h, '#D7DDE3', '#BEC6CE');
       const At = iso(gx, gy, h), Bt = iso(gx + w, gy, h), Ct = iso(gx + w, gy + d, h), Dt = iso(gx, gy + d, h);
       poly([At, Bt, Ct, Dt], '#E7EBEF', STROKE, 1);
+      roofShine(At, Bt, Ct, Dt);
       const cen = [(At[0] + Ct[0]) / 2, (At[1] + Ct[1]) / 2];
       const sc = (pt, k) => [cen[0] + (pt[0] - cen[0]) * k, cen[1] + (pt[1] - cen[1]) * k];
       poly([sc(At, 0.7), sc(Bt, 0.7), sc(Ct, 0.7), sc(Dt, 0.7)], null, accent, 1);
@@ -1075,6 +1109,7 @@ class Component {
       wall(B, C, h, '#DEE3E8', '#C6CDD4');
       const At = iso(gx, gy, h), Bt = iso(gx + w, gy, h), Ct = iso(gx + w, gy + d, h), Dt = iso(gx, gy + d, h);
       poly([At, Bt, Ct, Dt], '#EEF1F4', STROKE, 1);
+      roofShine(At, Bt, Ct, Dt);
       const cen = [(At[0] + Ct[0]) / 2 + camX, (At[1] + Ct[1]) / 2 + camY];
       const pulse = 0.5 + 0.5 * Math.sin(time * 0.005 + s.phase);
       ctx.save(); ctx.globalAlpha *= 0.4 + 0.5 * pulse; ctx.fillStyle = accent; ctx.shadowColor = accent; ctx.shadowBlur = 16;
@@ -1249,35 +1284,8 @@ class Component {
       });
     }
 
-    // 5) hero letters: gently yield to the cursor (no size change) + staggered scroll exit
-    if (fine && !noMotion) {
-      var lts = Array.prototype.slice.call(document.querySelectorAll('.lime-letters > span'));
-      if (lts.length) {
-        var lx = lts.map(function(){ return 0; }), ly = lts.map(function(){ return 0; });
-        var exitK = [0.1, 0.2, 0.06, 0.16];
-        var kx = -1e4, ky = -1e4;
-        addEventListener('mousemove', function(e){ kx = e.clientX; ky = e.clientY; }, { passive: true });
-        (function kin(){
-          var sy = window.pageYOffset || 0;
-          for (var i = 0; i < lts.length; i++) {
-            var el = lts[i];
-            if (!el.__ready) { if (el.style.opacity === '1') el.__ready = true; else continue; }
-            var r = el.getBoundingClientRect();
-            if (r.bottom < -60 || r.top > innerHeight + 60) continue;
-            var oy = -sy * exitK[i % exitK.length];
-            var cx = r.left + r.width / 2 - lx[i], cy = r.top + r.height / 2 - (ly[i] + oy);
-            var dx = cx - kx, dy = cy - ky;
-            var d = Math.hypot(dx, dy) || 1;
-            var f = Math.max(0, 1 - d / 320);
-            var tx = dx / d * f * 18, ty = dy / d * f * 14;
-            lx[i] += (tx - lx[i]) * 0.1; ly[i] += (ty - ly[i]) * 0.1;
-            el.style.transform = 'translate(' + lx[i].toFixed(1) + 'px,' + (ly[i] + oy).toFixed(1) + 'px)';
-            el.style.opacity = Math.max(0, Math.min(1, 1 - (sy - innerHeight * 0.12) / (innerHeight * 0.7))).toFixed(2);
-          }
-          requestAnimationFrame(kin);
-        })();
-      }
-    }
+    // 5) кинетика букв удалена: hero-вордмарк теперь картинка (reveal/wordmark-black.png),
+    //    поверх него работает ink-reveal (lime-ink.js)
 
     // 6) stack marquee speeds up with scroll velocity
     (function(){
@@ -1396,5 +1404,6 @@ class Component {
   }
 </script>
 <script src="lime-cursor.js" defer></script>
+<script src="lime-ink.js" defer></script>
 </body>
 </html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ЛАЙМ — прототип ink-reveal (не прод)</title>
+<link rel="stylesheet" href="fonts.css">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{height:100%;}
+  body{background:#FAFBFC;font-family:'Manrope',sans-serif;overflow:hidden;}
+  /* точечная сетка как на сайте */
+  #grid{position:fixed;inset:0;background-image:radial-gradient(rgba(34,42,52,0.13) 1px, transparent 1px);background-size:26px 26px;pointer-events:none;}
+  .hero{position:relative;height:100%;display:flex;align-items:center;justify-content:center;}
+  .word{position:relative;font-weight:300;letter-spacing:0.02em;line-height:1;font-size:clamp(120px,24vw,420px);color:#15181C;user-select:none;}
+  .word .dot{display:inline-block;width:0.13em;height:0.13em;border-radius:50%;background:#B8E020;margin-left:0.04em;}
+  /* канвас-оверлей эффекта: поверх букв, мышь не ловит */
+  #ink{position:fixed;inset:0;pointer-events:none;z-index:5;}
+  .hint{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.08em;color:#8A929C;text-transform:uppercase;}
+  .lab{position:fixed;top:20px;left:24px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.08em;color:#8A929C;text-transform:uppercase;}
+</style>
+</head>
+<body>
+<div id="grid"></div>
+<div class="hero"><div class="word" id="word">ЛАЙМ<span class="dot"></span></div></div>
+<canvas id="ink"></canvas>
+<div class="lab">PROTO · INK REVEAL</div>
+<div class="hint">Води мышкой по надписи</div>
+
+<script>
+(function(){
+  var cv = document.getElementById('ink'), ctx = cv.getContext('2d');
+  var W = 0, H = 0, DPR = 1;
+  // маска в низком разрешении: аккумулятор следа (мягкие пятна) + пороговая «чернильная» версия
+  var MS = 3; // масштаб даунсемпла маски
+  var acc = document.createElement('canvas'), accx = acc.getContext('2d', { willReadFrequently: true });
+  var msk = document.createElement('canvas'), mskx = msk.getContext('2d');
+  var noise = null; // статичный шум для рваного порога
+
+  // слой-«фактура»: пока видео нет — рисуем сочную лайм-заглушку той же надписью
+  var tex = document.createElement('canvas'), texx = tex.getContext('2d');
+  var video = null; // сюда позже встанет <video>; заглушка ниже
+
+  function resize(){
+    DPR = Math.min(2, window.devicePixelRatio || 1);
+    W = window.innerWidth; H = window.innerHeight;
+    cv.width = W * DPR; cv.height = H * DPR; ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    acc.width = Math.ceil(W / MS); acc.height = Math.ceil(H / MS);
+    msk.width = acc.width; msk.height = acc.height;
+    // шум порога: один раз на размер
+    noise = new Uint8Array(acc.width * acc.height);
+    for (var i = 0; i < noise.length; i++) noise[i] = (Math.random() * 46) | 0;
+    paintTexture();
+  }
+
+  // заглушка фактуры: лаймовый градиент + та же надпись «объёмными» буквами
+  function paintTexture(){
+    tex.width = W; tex.height = H;
+    var g = texx.createLinearGradient(0, 0, W, H);
+    g.addColorStop(0, '#F2F8E2'); g.addColorStop(0.5, '#EAF6C8'); g.addColorStop(1, '#F5FAE8');
+    texx.fillStyle = g; texx.fillRect(0, 0, W, H);
+    var fs = Math.min(W * 0.24, 420);
+    texx.font = '300 ' + fs + 'px Manrope, sans-serif';
+    texx.textAlign = 'center'; texx.textBaseline = 'middle';
+    var cx = W / 2, cy = H / 2;
+    // «сочные» буквы: тень-объём + градиентная заливка + блик
+    texx.fillStyle = 'rgba(94,122,0,0.28)';
+    texx.fillText('ЛАЙМ', cx + fs * 0.012, cy + fs * 0.02);
+    var lg = texx.createLinearGradient(0, cy - fs / 2, 0, cy + fs / 2);
+    lg.addColorStop(0, '#CDEB56'); lg.addColorStop(0.55, '#B8E020'); lg.addColorStop(1, '#8FBC10');
+    texx.fillStyle = lg;
+    texx.fillText('ЛАЙМ', cx, cy);
+    texx.fillStyle = 'rgba(255,255,255,0.5)';
+    texx.font = '300 ' + (fs * 0.995) + 'px Manrope, sans-serif';
+    texx.fillText('ЛАЙМ', cx - fs * 0.006, cy - fs * 0.012);
+  }
+
+  // след мыши: пятна в аккумулятор (мягкие, они же потом порогуются в кляксу)
+  var px = -1, py = -1;
+  function blob(x, y, dx, dy){
+    var mx = x / MS, my = y / MS;
+    var base = (36 + Math.random() * 26) / MS * (window.devicePixelRatio >= 2 ? 1 : 1);
+    accx.globalCompositeOperation = 'lighter';
+    for (var i = 0; i < 5; i++) {
+      var t = i / 5;
+      var ox = mx - dx * t * 0.9 / MS + (Math.random() - 0.5) * 30 / MS;
+      var oy = my - dy * t * 0.9 / MS + (Math.random() - 0.5) * 30 / MS;
+      var r = base * (1 - t * 0.45) * (0.7 + Math.random() * 0.6);
+      var rg = accx.createRadialGradient(ox, oy, 0, ox, oy, r);
+      rg.addColorStop(0, 'rgba(255,255,255,0.5)');
+      rg.addColorStop(0.7, 'rgba(255,255,255,0.22)');
+      rg.addColorStop(1, 'rgba(255,255,255,0)');
+      accx.fillStyle = rg;
+      accx.beginPath(); accx.arc(ox, oy, r, 0, 7); accx.fill();
+    }
+  }
+  addEventListener('mousemove', function(e){
+    var dx = px < 0 ? 0 : e.clientX - px, dy = py < 0 ? 0 : e.clientY - py;
+    blob(e.clientX, e.clientY, dx, dy);
+    px = e.clientX; py = e.clientY;
+  }, { passive: true });
+
+  // кадр: затухание следа → порог с шумом (рваные края) → композит фактуры сквозь маску
+  function step(){
+    // затухание
+    accx.globalCompositeOperation = 'destination-out';
+    accx.fillStyle = 'rgba(0,0,0,0.028)';
+    accx.fillRect(0, 0, acc.width, acc.height);
+    accx.globalCompositeOperation = 'source-over';
+    // порог по альфе с шумом
+    var id = accx.getImageData(0, 0, acc.width, acc.height);
+    var d = id.data;
+    var out = mskx.createImageData(acc.width, acc.height);
+    var o = out.data;
+    for (var i = 0, n = acc.width * acc.height; i < n; i++) {
+      var a = d[i * 4 + 3];
+      var th = 84 + noise[i]; // рваный порог
+      if (a > th) {
+        var edge = a - th;
+        o[i * 4 + 3] = edge < 26 ? (edge * 9) : 255; // тонкое смягчение у самой кромки
+        o[i * 4] = 255; o[i * 4 + 1] = 255; o[i * 4 + 2] = 255;
+      }
+    }
+    mskx.putImageData(out, 0, 0);
+  }
+
+  function paint(){
+    ctx.clearRect(0, 0, W, H);
+    // фактура (видео или заглушка) сквозь маску
+    if (video && video.readyState >= 2) {
+      var vw = video.videoWidth, vh = video.videoHeight;
+      var s = Math.max(W / vw, H / vh), dw = vw * s, dh = vh * s;
+      ctx.drawImage(video, (W - dw) / 2, (H - dh) / 2, dw, dh);
+    } else {
+      ctx.drawImage(tex, 0, 0, W, H);
+    }
+    ctx.globalCompositeOperation = 'destination-in';
+    ctx.imageSmoothingEnabled = true;
+    ctx.drawImage(msk, 0, 0, W, H);
+    ctx.globalCompositeOperation = 'source-over';
+  }
+
+  function frame(){ step(); paint(); requestAnimationFrame(frame); }
+
+  // хуки для headless-теста (rAF там заморожен)
+  window.__ink = { step: step, paint: paint, blob: blob, setVideo: function(v){ video = v; } };
+
+  resize();
+  addEventListener('resize', resize);
+  var noMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
+  if (!noMotion && fine) requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
