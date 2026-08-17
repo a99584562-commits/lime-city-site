@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ЛАЙМ — прототип v2 «кино» (не прод)</title>
+<link rel="stylesheet" href="fonts.css">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#0E1114;color:#F2F4F1;font-family:'Manrope',sans-serif;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:#B8E020;color:#101418;}
+
+  /* ---- 00 · hero: плёночное видео + распадающийся текст ---- */
+  #cinema{height:230vh;position:relative;}
+  #cinema .stick{position:sticky;top:0;height:100vh;overflow:hidden;background:#0E1114;}
+  #frame{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:100vw;aspect-ratio:16/9;min-height:100vh;
+    background:#000;overflow:hidden;}
+  #frame video{width:100%;height:100%;object-fit:cover;display:block;}
+  #frame .cap{position:absolute;left:22px;bottom:16px;font-family:'JetBrains Mono',monospace;font-size:11px;
+    letter-spacing:0.14em;color:rgba(242,244,241,0.85);text-transform:uppercase;opacity:0;transition:opacity .4s;}
+  .brand{position:fixed;top:24px;left:28px;display:flex;align-items:center;gap:11px;z-index:20;}
+  .brand img{width:28px;height:28px;}
+  .brand span{font-family:'Unbounded',sans-serif;font-weight:800;font-size:15px;letter-spacing:0.14em;color:#101418;transition:color .4s;}
+  body.dark .brand span{color:#F2F4F1;}
+  .menu{position:fixed;top:26px;right:30px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;color:#101418;z-index:20;text-transform:uppercase;transition:color .4s;}
+  body.dark .menu{color:#F2F4F1;}
+  #bar{position:fixed;left:0;top:0;height:2px;background:#B8E020;width:0;z-index:30;}
+
+  /* ---- медиа-слот: сюда встают будущие видео ---- */
+  section.media{padding:clamp(50px,9vh,110px) 0;}
+  .media .wrap{width:min(88vw,1560px);margin:0 auto;position:relative;}
+  .media video{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;border-radius:18px;background:#000;}
+  .media .cap{display:flex;justify-content:space-between;align-items:baseline;margin:16px 6px 0;
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;color:#8B949B;text-transform:uppercase;}
+
+  /* ---- типографские прослойки ---- */
+  section.blk{padding:clamp(70px,13vh,150px) clamp(22px,6vw,90px);max-width:1500px;margin:0 auto;}
+  .idx{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.16em;color:#8B949B;text-transform:uppercase;margin-bottom:26px;}
+  #manifest h2{font-weight:300;font-size:clamp(30px,4.6vw,72px);line-height:1.12;max-width:20ch;}
+  #manifest h2 em{font-style:normal;color:#B8E020;}
+  #manifest p{margin-top:30px;max-width:52ch;color:#AEB6BC;font-size:clamp(15px,1.2vw,18px);line-height:1.75;}
+
+  .mq{overflow:hidden;border-top:1px solid rgba(242,244,241,0.12);border-bottom:1px solid rgba(242,244,241,0.12);padding:18px 0;}
+  .mq .in{display:flex;gap:54px;white-space:nowrap;width:max-content;animation:mq 26s linear infinite;
+    font-family:'Unbounded',sans-serif;font-weight:300;font-size:clamp(18px,2.2vw,34px);letter-spacing:0.06em;color:#5A636B;}
+  .mq .in em{font-style:normal;color:#B8E020;}
+  @keyframes mq{to{transform:translateX(-50%);}}
+
+  .svc{border-top:1px solid rgba(242,244,241,0.14);}
+  .svc a{display:flex;align-items:baseline;gap:26px;padding:clamp(22px,3.4vh,38px) 6px;border-bottom:1px solid rgba(242,244,241,0.14);
+    transition:padding-left .35s cubic-bezier(.16,1,.3,1), background .35s;}
+  .svc a:hover{padding-left:26px;background:rgba(184,224,32,0.05);}
+  .svc .n{font-family:'JetBrains Mono',monospace;font-size:12px;color:#8B949B;}
+  .svc .t{font-weight:300;font-size:clamp(22px,3vw,46px);}
+  .svc .d{margin-left:auto;font-size:13px;color:#8B949B;max-width:34ch;text-align:right;display:none;}
+  @media(min-width:900px){.svc .d{display:block;}}
+  .svc a:hover .t{color:#B8E020;}
+
+  .case-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px;}
+  .case-row a{border:1px solid rgba(242,244,241,0.16);border-radius:100px;padding:12px 22px;font-size:14px;transition:all .3s;}
+  .case-row a:hover{border-color:#B8E020;color:#B8E020;}
+
+  #cta{text-align:center;padding-bottom:12vh;}
+  #cta h2{font-weight:300;font-size:clamp(30px,5vw,78px);}
+  #cta a.big{display:inline-block;margin-top:38px;background:#B8E020;color:#101418;font-weight:600;border-radius:100px;
+    padding:18px 44px;font-size:16px;transition:transform .3s;}
+  #cta a.big:hover{transform:translateY(-3px);}
+  footer{padding:26px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;color:#6E767D;letter-spacing:0.08em;}
+
+  /* ---- reveal при скролле ---- */
+  [data-rv]{opacity:0;transform:translateY(26px);transition:opacity .8s ease, transform .9s cubic-bezier(.16,1,.3,1);}
+  [data-rv].on{opacity:1;transform:none;}
+</style>
+</head>
+<body data-cursor-dark>
+<div id="bar"></div>
+<div class="brand"><img src="logo-mark-white.png" alt="" id="brandmark"><span>ЛАЙМ</span></div>
+<div class="menu">Меню ::</div>
+
+<!-- 00 · hero -->
+<section id="cinema">
+  <div class="stick">
+    <div id="frame">
+      <video id="hv" src="future/film.mp4" poster="future/film-poster.jpg" muted loop playsinline autoplay></video>
+      <div class="cap" id="heroCap">/01 · шоурил · плёнка 8с</div>
+    </div>
+  </div>
+</section>
+
+<!-- 01 · манифест -->
+<section class="blk" id="manifest">
+  <div class="idx" data-rv>(01) — манифест</div>
+  <h2 data-rv>Снаружи — порядок.<br>Внутри — <em>машина</em>, которая продаёт.</h2>
+  <p data-rv>ЛАЙМ собирает цифровую архитектуру продаж: CRM, интеграции, ИИ-агенты и собственные сервисы. Меньше хаоса — больше выручки.</p>
+</section>
+
+<!-- 02 · marquee -->
+<div class="mq" aria-hidden="true"><div class="in">
+  <span>CRM-внедрение</span><em>×</em><span>Вайбкодинг</span><em>×</em><span>ИИ-агенты</span><em>×</em><span>SaaS &amp; MVP</span><em>×</em>
+  <span>CRM-внедрение</span><em>×</em><span>Вайбкодинг</span><em>×</em><span>ИИ-агенты</span><em>×</em><span>SaaS &amp; MVP</span><em>×</em>
+</div></div>
+
+<!-- 03 · медиа-слот (замени src на своё видео) -->
+<section class="media" data-rv>
+  <div class="wrap">
+    <video data-src="reveal/reveal-jelly.mp4" poster="" muted loop playsinline preload="none"></video>
+    <div class="cap"><span>/02 · материя · слот под видео</span><span>veo 3</span></div>
+  </div>
+</section>
+
+<!-- 04 · услуги -->
+<section class="blk" id="services">
+  <div class="idx" data-rv>(02) — что делаем</div>
+  <div class="svc" data-rv>
+    <a href="index.html#services"><span class="n">/01</span><span class="t">CRM-внедрение</span><span class="d">Битрикс24 и amoCRM под ключ: воронки, права, регламенты, обучение</span></a>
+    <a href="index.html#services"><span class="n">/02</span><span class="t">Вайбкодинг</span><span class="d">Кастомные сервисы и интеграции, которых нет в коробке</span></a>
+    <a href="index.html#services"><span class="n">/03</span><span class="t">ИИ-агенты</span><span class="d">Боты квалификации, разбор звонков, скоринг лидов прямо в CRM</span></a>
+    <a href="index.html#services"><span class="n">/04</span><span class="t">SaaS &amp; MVP</span><span class="d">От кликабельного прототипа до работающей подписки</span></a>
+  </div>
+</section>
+
+<!-- 05 · медиа-слот 2 -->
+<section class="media" data-rv>
+  <div class="wrap">
+    <video data-src="reveal/reveal-foil.mp4" poster="" muted loop playsinline preload="none"></video>
+    <div class="cap"><span>/03 · материя · слот под видео</span><span>veo 3</span></div>
+  </div>
+</section>
+
+<!-- 06 · кейсы -->
+<section class="blk" id="cases">
+  <div class="idx" data-rv>(03) — кейсы</div>
+  <h2 style="font-weight:300;font-size:clamp(24px,3.4vw,52px);" data-rv>Живые проекты, не картинки в портфолио</h2>
+  <div class="case-row" data-rv>
+    <a href="case.html">График отсутствий и автозамена — Битрикс24 + Node.js</a>
+    <a href="cases.html">Все кейсы →</a>
+  </div>
+</section>
+
+<!-- 07 · CTA -->
+<section class="blk" id="cta">
+  <h2 data-rv>Соберём вашу<br>машину продаж</h2>
+  <a class="big" href="index.html#contact" data-rv>Оставить заявку</a>
+</section>
+<footer>© 2026 ЛАЙМ · прототип v2 · не прод</footer>
+
+<script>
+(function(){
+  var video = document.getElementById('hv');
+  // канвас-типографика поверх hero удалена по решению 2026-08-14 (механика в git-истории)
+  var frame = document.getElementById('frame');
+  var heroCap = document.getElementById('heroCap');
+  var W = 0, H = 0;
+  function resize(){ W = innerWidth; H = innerHeight; }
+
+  /* скролл: видео сжимается в карточку-шоурил на чистом тёмном */
+  function tickScroll(){
+    var el = document.getElementById('cinema');
+    var rect = el.getBoundingClientRect();
+    var total = rect.height - H;
+    var p = Math.max(0, Math.min(1, -rect.top / Math.max(1, total)));
+    var ease = p < 0.22 ? 0 : Math.min(1, (p - 0.22) / 0.6);
+    var e = ease * ease * (3 - 2 * ease);
+    frame.style.width = (100 - e * 14) + 'vw';
+    frame.style.minHeight = (1 - e) * 100 + 'vh';
+    frame.style.borderRadius = (e * 18) + 'px';
+    frame.style.boxShadow = e > 0.02 ? '0 ' + (26 * e) + 'px ' + (70 * e) + 'px rgba(0,0,0,' + (0.5 * e) + ')' : 'none';
+    heroCap.style.opacity = e > 0.6 ? 1 : 0;
+    // тёмная шапка после выезда из hero
+    document.body.classList.toggle('dark', p > 0.5);
+    // прогресс-бар
+    var doc = document.documentElement;
+    var sp = (window.pageYOffset) / (doc.scrollHeight - H);
+    document.getElementById('bar').style.width = (sp * 100) + '%';
+  }
+
+  function loop(){
+    tickScroll();
+    requestAnimationFrame(loop);
+  }
+  resize();
+  addEventListener('resize', resize);
+  requestAnimationFrame(loop);
+
+  /* reveal-анимации + автоплей медиа-слотов при входе в вьюпорт */
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(en){ if (en.isIntersecting) { en.target.classList.add('on'); io.unobserve(en.target); } });
+    }, { threshold: 0.2 });
+    document.querySelectorAll('[data-rv]').forEach(function(el){ io.observe(el); });
+
+    var vio = new IntersectionObserver(function(es){
+      es.forEach(function(en){
+        var v = en.target;
+        if (en.isIntersecting) {
+          if (!v.src && v.dataset.src) v.src = v.dataset.src;
+          var pr = v.play(); if (pr && pr.catch) pr.catch(function(){});
+        } else if (!v.paused) v.pause();
+      });
+    }, { threshold: 0.25 });
+    document.querySelectorAll('section.media video').forEach(function(v){ vio.observe(v); });
+  }
+
+  window.__future = { mode: 'film-v4' };
+})();
+</script>
+<script src="lime-cursor.js" defer></script>
+</body>
+</html>
